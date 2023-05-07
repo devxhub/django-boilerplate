@@ -54,6 +54,22 @@ DATABASES = {
 }
 {%- endif %}
 {%- endif %}
+DATABASES["default"]["ATOMIC_REQUESTS"] = True
+
+{% if cookiecutter.database_engine == 'postgresql' -%}
+{% if cookiecutter.use_tenants == 'y' -%}
+# django_tenants
+# https://django-tenants.readthedocs.io/en/latest/install.html#settings
+
+DATABASES["default"]["ENGINE"] = "django_tenants.postgresql_backend"
+DATABASE_ROUTERS = (
+        'django_tenants.routers.TenantSyncRouter',
+    )
+{%- endif %}
+{%- endif %}
+
+
+
 # https://docs.djangoproject.com/en/stable/ref/settings/#std:setting-DEFAULT_AUTO_FIELD
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
@@ -61,11 +77,116 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#root-urlconf
 ROOT_URLCONF = "config.urls"
+{% if cookiecutter.database_engine == 'postgresql' -%}
+{%- if cookiecutter.use_tenants == 'y' %}
+PUBLIC_SCHEMA_URLCONF = "config.urls_public"
+{%- endif %}
+{%- endif %}
 # https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
 WSGI_APPLICATION = "config.wsgi.application"
 
 # APPS
 # ------------------------------------------------------------------------------
+{% if cookiecutter.use_tenants == 'y' %}
+SHARED_APPS = [
+    "django_tenants",  # mandatory
+    "{{ cookiecutter.project_slug }}.client",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.sites",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    # "django.contrib.humanize", # Handy template tags
+    "django.contrib.admin",
+    "django.forms",
+    "crispy_forms",
+    "crispy_bootstrap5",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.facebook",
+    "allauth.socialaccount.providers.google",
+    {%- if cookiecutter.use_celery == 'y' %}
+    "django_celery_beat",
+    {%- endif %}
+    {%- if cookiecutter.use_drf == "y" %}
+    "rest_framework",
+    "rest_framework.authtoken",
+    "dj_rest_auth",
+    "dj_rest_auth.registration",
+    "drf_spectacular",
+    {%- endif %}
+    {%- if cookiecutter.frontend_pipeline == 'Webpack' %}
+    "webpack_loader",
+    {%- endif %}
+    {%- if cookiecutter.use_graphene == 'y' %}
+    "graphene_django",
+    "graphql_jwt.refresh_token.apps.RefreshTokenConfig",
+    {%- endif %}
+    "corsheaders",
+    "django_filters",
+    "{{ cookiecutter.project_slug }}.users",
+]
+
+
+TENANT_APPS = [
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.sites",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    # "django.contrib.humanize", # Handy template tags
+    "django.contrib.admin",
+    "django.forms",
+    "crispy_forms",
+    "crispy_bootstrap5",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.facebook",
+    "allauth.socialaccount.providers.google",
+    {%- if cookiecutter.use_celery == 'y' %}
+    "django_celery_beat",
+    {%- endif %}
+    {%- if cookiecutter.use_drf == "y" %}
+    "rest_framework",
+    "rest_framework.authtoken",
+    "dj_rest_auth",
+    "dj_rest_auth.registration",
+    "drf_spectacular",
+    {%- endif %}
+    {%- if cookiecutter.frontend_pipeline == 'Webpack' %}
+    "webpack_loader",
+    {%- endif %}
+    {%- if cookiecutter.use_graphene == 'y' %}
+    "graphene_django",
+    "graphql_jwt.refresh_token.apps.RefreshTokenConfig",
+    {%- endif %}
+    "corsheaders",
+    "django_filters",
+    "{{ cookiecutter.project_slug }}.users",
+    # Your stuff: custom apps go here
+]
+
+
+INSTALLED_APPS = list(SHARED_APPS) + [app for app in TENANT_APPS if app not in SHARED_APPS]
+
+
+# django_tenants
+TENANT_MODEL = "client.Client"  # app.Model
+
+TENANT_DOMAIN_MODEL = "client.Domain"  # app.Model
+
+SHOW_PUBLIC_IF_NO_TENANT_FOUND = True
+
+TENANT_COLOR_ADMIN_APPS = False
+
+PUBLIC_SCHEMA_NAME = "public"
+
+{%- else %}
+
 DJANGO_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -112,6 +233,8 @@ LOCAL_APPS = [
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+
+{%- endif %}
 
 # MIGRATIONS
 # ------------------------------------------------------------------------------
