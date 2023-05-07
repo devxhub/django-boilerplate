@@ -78,7 +78,7 @@ First, get Cookiecutter. Trust me, it's awesome:
 
 Now run it against this repo:
 
-    $ cookiecutter https://github.com/git-foysal-1/cookiecutter-devxhub
+    $ cookiecutter https://github.com/devxhubcom/cookiecutter-devxhub
 
 You'll be prompted for some values. Provide them, then a Django project will be created for you.
 
@@ -127,7 +127,7 @@ Answer the prompts with your own desired [options](http://cookiecutter-django.re
     3 - postgresql@12
     4 - postgresql@11
     5 - postgresql@10
-    6 - mysql@8.0.29
+    6 - mysql@8.0.30
     7 - mysql@8.0
     8 - mysql@5.7
     Choose from 1, 2, 3, 4, 5, 6, 7, 8 [1]: 1
