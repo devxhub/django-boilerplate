@@ -59,4 +59,7 @@ django-cors-headers==3.14.0  # https://github.com/adamchainz/django-cors-headers
 dj-rest-auth==3.0.0
 djangorestframework-simplejwt==5.2.2
 {%- endif %}
+{%- if cookiecutter.use_tenants == "y" %}
+django-tenants==3.4.8
+{%- endif %}
 

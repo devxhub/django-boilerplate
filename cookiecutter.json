@@ -29,6 +29,7 @@
     "mysql@8.0",
     "mysql@5.7"
   ],
+  "use_tenants": "n",
   "cloud_provider": ["AWS", "GCP", "Azure", "None"],
   "mail_service": [
     "Mailgun",

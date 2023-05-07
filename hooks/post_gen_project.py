@@ -512,6 +512,12 @@ def remove_graphene_starter_files():
     os.remove(os.path.join("{{cookiecutter.project_slug}}", "users", "api", "inputs.py"))
     
 
+
+
+def remove_tenant_files():
+    shutil.rmtree(os.path.join("{{cookiecutter.project_slug}}", "client"))
+
+
 def remove_storages_module():
     os.remove(os.path.join("{{cookiecutter.project_slug}}", "utils", "storages.py"))
 
@@ -618,6 +624,9 @@ def main():
 
     if "{{ cookiecutter.use_async }}".lower() == "n":
         remove_async_files()
+        
+    if "{{ cookiecutter.use_tenants }}".lower() == "n":
+        remove_tenant_files()
 
     print(SUCCESS + "Project initialized, keep up the good work!" + TERMINATOR)
 
