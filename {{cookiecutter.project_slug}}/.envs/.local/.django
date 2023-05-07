@@ -1,0 +1,39 @@
+# General
+# ------------------------------------------------------------------------------
+USE_DOCKER=yes
+IPYTHONDIR=/app/.ipython
+
+{%- if cookiecutter.use_celery == 'y' %}
+# Redis
+# ------------------------------------------------------------------------------
+REDIS_URL=redis://redis:6379/0
+
+# Celery
+# ------------------------------------------------------------------------------
+
+# Flower
+CELERY_FLOWER_USER=!!!SET CELERY_FLOWER_USER!!!
+CELERY_FLOWER_PASSWORD=!!!SET CELERY_FLOWER_PASSWORD!!!
+{%- endif %}
+
+
+# Email
+# ------------------------------------------------------------------------------
+DEFAULT_FROM_EMAIL={{cookiecutter.project_slug}}<noreply@{{cookiecutter.project_slug}}.com>
+EMAIL_HOST='sandbox.smtp.mailtrap.io'
+EMAIL_HOST_USER="a1e6903e4a929f"  
+EMAIL_HOST_PASSWORD="cabcf313e6c7f8"  
+EMAIL_PORT="2525"
+FRONTEND_URL="http://localhost:3000"
+EMAIL_USE_TLS=True
+
+
+{%- if cookiecutter.use_drf == 'y' %}
+
+# Social Auth
+# ------------------------------------------------------------------------------
+
+FACEBOOK_CALLBACK_URL = http://localhost:3000/auth/social/facebook
+GOOGLE_CALLBACK_URL = http://localhost:3000/auth/social/google
+
+{%- endif %}
