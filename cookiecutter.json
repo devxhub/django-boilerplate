@@ -16,7 +16,7 @@
   "username_type": ["username", "email"],
   "timezone": "UTC",
   "windows": "n",
-  "ide": ["vscode", "pycharm"],
+  "editor": ["None", "PyCharm", "VS Code"],
   "use_docker": "n",
   "database_engine": ["postgresql", "mysql"],
   "database_version": [

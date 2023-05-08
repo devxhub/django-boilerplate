@@ -152,7 +152,7 @@ typings/
 # .nfs files are created when an open file is removed but is still being accessed
 .nfs*
 
-{% if cookiecutter.ide == 'vscode' -%}
+{% if cookiecutter.editor == "VS Code" -%}
 ### VisualStudioCode template
 .vscode/*
 !.vscode/settings.json
@@ -168,8 +168,7 @@ typings/
 .history/
 
 
-
-{% if cookiecutter.ide == 'pycharm' -%}
+{% if cookiecutter.editor == "PyCharm" -%}
 # Provided default Pycharm Run/Debug Configurations should be tracked by git
 # In case of local modifications made by Pycharm, use update-index command
 # for each changed file, like this:
