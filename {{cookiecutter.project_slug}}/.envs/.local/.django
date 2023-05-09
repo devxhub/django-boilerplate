@@ -17,6 +17,9 @@ CELERY_FLOWER_PASSWORD=!!!SET CELERY_FLOWER_PASSWORD!!!
 {%- endif %}
 
 
+# CORS
+TRUSTED_CORS_ORIGINS="http://localhost,capacitor://localhost,http://localhost:3000,http://localhost:8000"
+
 # Email
 # ------------------------------------------------------------------------------
 DEFAULT_FROM_EMAIL={{cookiecutter.project_slug}}<noreply@{{cookiecutter.project_slug}}.com>

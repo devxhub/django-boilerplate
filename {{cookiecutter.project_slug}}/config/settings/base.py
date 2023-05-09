@@ -547,5 +547,13 @@ GRAPHQL_JWT = {
 {%- endif %}
 
 
+# django-cors-headers - https://github.com/adamchainz/django-cors-headers#setup
+CORS_ALLOW_ALL_ORIGINS = True
+TRUSTED_CORS_ORIGINS = env("TRUSTED_CORS_ORIGINS").split(',')
+CSRF_TRUSTED_ORIGINS = TRUSTED_CORS_ORIGINS
+CORS_ORIGIN_WHITELIST = TRUSTED_CORS_ORIGINS
+CORS_ALLOW_CREDENTIALS = True
+
+
 # Your stuff...
 # ------------------------------------------------------------------------------
