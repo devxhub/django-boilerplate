@@ -13,7 +13,7 @@
     "Apache Software License 2.0",
     "Not open source"
   ],
-  "username_type": ["username", "email"],
+  "username_type": ["email", "username"],
   "timezone": "UTC",
   "windows": "n",
   "editor": ["None", "PyCharm", "VS Code"],

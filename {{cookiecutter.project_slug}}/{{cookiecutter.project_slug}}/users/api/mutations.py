@@ -7,47 +7,154 @@ from graphql import GraphQLError
 from django.core.mail import send_mail
 from django.contrib.auth import get_user_model
 from graphql_jwt.shortcuts import create_refresh_token, get_token
-from {{ cookiecutter.project_slug }}.users.api.inputs import CreateOrUpdateUserInput
+from {{ cookiecutter.project_slug }}.users.api.inputs import *
 from {{ cookiecutter.project_slug }}.users.api.schema import UserObjectType
 {%- if cookiecutter.use_celery == 'y' %}
-from {{ cookiecutter.project_slug }}.users.tasks import send_password_reset_email, send_password_reset_otp
+from {{ cookiecutter.project_slug }}.users.tasks import *
 {%- endif %}
 {%- if cookiecutter.use_celery == 'n' %}
 from django.template.loader import render_to_string
 {%- endif %}
 
-
 env = environ.Env()
 User = get_user_model()
 
 
-class CreateOrUpdateUser(graphene.Mutation):
+
+class TokenAuthMutation(graphql_jwt.ObtainJSONWebToken):
+    user = graphene.Field(UserObjectType)
+    token = graphene.String()
+    refresh_token = graphene.String()
+
+    @classmethod
+    def resolve(cls, root, info, **kwargs):
+        user = info.context.user
+        token = get_token(user)
+        refresh_token = create_refresh_token(user)
+        return cls(user=user, token=token, refresh_token=refresh_token)
+
+class CreateUserMutation(graphene.Mutation):
+    class Arguments:
+        input = CreateUserInput(required=True)
+
+    user = graphene.Field(UserObjectType)
+    token = graphene.String()
+    refresh_token = graphene.String()
+    verify_token = graphene.String()
+
+    def mutate(self, info, input):
+        user = User.objects.create_user(
+            email=input.email,
+            password=input.password,
+            username=input.username,
+            is_active=False,
+        )
+        token = get_token(user)
+        refresh_token = create_refresh_token(user)
+        verify_token = ''.join(random.choices(string.ascii_letters + string.digits, k=64))
+        user.verify_token = verify_token
+        user.save()
+        {%- if cookiecutter.use_celery == 'y' %}
+        send_account_confirmation_email.delay(input.email, verify_token)
+        {%- else %}
+        token_url = f'{env("FRONTEND_URL")}/verify-email/{verify_token}'
+        subject = 'Confirm your email'
+        from_email = env('DEFAULT_FROM_EMAIL')
+        message = f"Please confirm your email {token_url}"
+        to_email = [input.email]
+        send_mail(subject, message, from_email, to_email, fail_silently=False)
+        {%- endif %}
+        return CreateUserMutation(user=user, token=token, refresh_token=refresh_token)
+
+
+
+class UpdateUserMutation(graphene.Mutation):
     user = graphene.Field(UserObjectType)
     token = graphene.String()
     refresh_token = graphene.String()
 
     class Arguments:
-        input = CreateOrUpdateUserInput(required=True)
+        input = UpdateUserInput()
+    success = graphene.Boolean()
 
+    @staticmethod
     def mutate(self, info, input):
-        user = User.objects.filter(email=input.email).first()
-        if user:
-            if input.password:
-                user.set_password(input.password)
-            if input.username:
-                user.username = input.username
-            user.save()
-        else:
-            user = User.objects.create_user(
-                email=input.email,
-                password=input.password,
-                username=input.username,
-            )
+        try:
+            user = User.objects.get(id=input.id)
+        except User.DoesNotExist:
+            raise GraphQLError('User does not exist')
+        if input.email:
+            user.email = input.email
+        if input.username:
+            user.username = input.username
+        if input.name:
+            user.name = input.name
+        if input.password:
+            user.set_password(input.password)
+        user.save()
         token = get_token(user)
         refresh_token = create_refresh_token(user)
-        return CreateOrUpdateUser(user=user, token=token, refresh_token=refresh_token)
+        return UpdateUserMutation(user=user, token=token, refresh_token=refresh_token, success=True)
 
 
+class DeleteUserMutation(graphene.Mutation):
+    class Arguments:
+        id = graphene.ID(required=True)
+
+    success = graphene.Boolean()
+
+    def mutate(self, info, id):
+        try:
+            user = User.objects.get(id=id)
+        except User.DoesNotExist:
+            raise GraphQLError('User does not exist')
+        user.delete()
+        return DeleteUserMutation(success=True)
+
+
+class SendConfirmationEmailMutation(graphene.Mutation):
+    class Arguments:
+        email = graphene.String(required=True)
+
+    success = graphene.Boolean()
+
+    def mutate(self, info, email):
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            raise GraphQLError('User does not exist')
+        verify_token = ''.join(random.choices(string.ascii_letters + string.digits, k=64))
+        {%- if cookiecutter.use_celery == 'y' %}
+        send_account_confirmation_email.delay(input.email, verify_token)
+        {%- else %}
+        token_url = f'{env("FRONTEND_URL")}/verify-email/{verify_token}'
+        subject = 'Confirm your email'
+        from_email = env('DEFAULT_FROM_EMAIL')
+        message = f"Please confirm your email {token_url}"
+        to_email = [input.email]
+        send_mail(subject, message, from_email, to_email, fail_silently=False)
+        {%- endif %}
+        user.verify_token = verify_token
+        user.save()
+        return SendConfirmationEmailMutation(success=True)
+
+
+class VerifyAccountMutation(graphene.Mutation):
+    class Arguments:
+        token = graphene.String(required=True)
+
+    success = graphene.Boolean()
+
+    def mutate(self, info, token):
+        try:
+            user = User.objects.get(verify_token=token)
+        except User.DoesNotExist:
+            return VerifyAccountMutation(success=False)
+        user.is_active = True
+        user.verify_token = None
+        user.save()
+
+        return VerifyAccountMutation(success=True)
 class SendPasswordResetEmailMutation(graphene.Mutation):
     class Arguments:
         email = graphene.String(required=True)
@@ -147,14 +254,18 @@ class VerifyPasswordResetOTP(graphene.Mutation):
 
 
 class AuthMutation(graphene.ObjectType):
-    create_or_update_user = CreateOrUpdateUser.Field()
-    token_auth = graphql_jwt.ObtainJSONWebToken.Field()
+    create_user = CreateUserMutation.Field()
+    update_user = UpdateUserMutation.Field()
+    delete_user = DeleteUserMutation.Field()
+    token_auth = TokenAuthMutation.Field()
     verify_token = graphql_jwt.Verify.Field()
     refresh_token = graphql_jwt.Refresh.Field()
     delete_token_cookie = graphql_jwt.DeleteJSONWebTokenCookie.Field()
     delete_refresh_token_cookie = graphql_jwt.DeleteRefreshTokenCookie.Field()
     send_password_reset_email = SendPasswordResetEmailMutation.Field()
     reset_password = ResetPasswordMutation.Field()
+    verify_account = VerifyAccountMutation.Field()
+    send_confirmation_email = SendConfirmationEmailMutation.Field()
     send_password_reset_otp = SendPasswordResetOTP.Field()
     verify_password_reset_otp = VerifyPasswordResetOTP.Field()
 

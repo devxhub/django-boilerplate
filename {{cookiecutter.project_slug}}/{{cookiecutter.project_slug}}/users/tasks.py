@@ -29,6 +29,15 @@ def send_password_reset_email(email, token):
     send_mail(subject, message, from_email, to_email)
 
 
+@shared_task
+def send_account_confirmation_email(email, verify_token):
+    token_url = f'{env("FRONTEND_URL")}/verify-email/{verify_token}'
+    subject = 'Confirm your email'
+    from_email = env('DEFAULT_FROM_EMAIL')
+    message = f"Please confirm your email {token_url}"
+    send_mail(subject, message, from_email, [email], fail_silently=False)
+    return True
+
 
 @shared_task
 def send_password_reset_otp(email, otp):

@@ -22,7 +22,7 @@ class User(AbstractUser):
     last_name = None  # type: ignore
     reset_password_token = models.CharField(max_length=255, blank=True, null=True)
     reset_otp= models.CharField(max_length=6, blank=True, null=True)
-
+    verify_token = models.CharField(max_length=255, blank=True, null=True)
     {%- if cookiecutter.username_type == "email" %}
     email = EmailField(_("email address"), unique=True)
     username = None  # type: ignore
