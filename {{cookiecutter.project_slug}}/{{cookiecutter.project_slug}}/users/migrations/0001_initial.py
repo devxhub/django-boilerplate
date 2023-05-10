@@ -110,6 +110,10 @@ class Migration(migrations.Migration):
 
                 ),
                 (
+                    "verify_token",
+                    models.CharField(blank=True, max_length=255, null=True),
+                ),
+                (
                     "groups",
                     models.ManyToManyField(
                         blank=True,

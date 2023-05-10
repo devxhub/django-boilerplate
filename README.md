@@ -107,15 +107,16 @@ Answer the prompts with your own desired [options](http://cookiecutter-django.re
     5 - Not open source
     Choose from 1, 2, 3, 4, 5 [1]: 1
     Select username_type:
-    1 - username
-    2 - email
+    1 - email
+    2 - username
     Choose from 1, 2 [1]: 1
     timezone [UTC]: America/Los_Angeles
     windows [n]: n
-    Select ide:
-    1 - vscode
+    Select an editor to use. The choices are:
+    1 - none
     2 - pycharm
-    Choose from 1, 2 [1]: 1
+    3 - vscode
+    Choose from 1, 2, 3 [1]: 1
     use_docker [n]: y
     Select database_engine:
     1 - postgresql

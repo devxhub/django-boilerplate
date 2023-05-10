@@ -10,6 +10,6 @@ class UserObjectType(DjangoObjectType):
 
     class Meta:
         model = User
-        fields = "__all__"
+        fields = ['id', 'name', 'email', 'username', 'is_active', 'is_staff', 'is_superuser']
         filterset_class = UserFilter
         interfaces = (graphene.relay.Node,)

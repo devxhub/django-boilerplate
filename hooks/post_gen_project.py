@@ -79,7 +79,7 @@ def remove_docker_files():
     file_names = ["local.yml", "production.yml", ".dockerignore"]
     for file_name in file_names:
         os.remove(file_name)
-    if "{{ cookiecutter.ide }}".lower() == "pycharm":
+    if "{{ cookiecutter.editor }}".lower() == "pycharm":
         file_names = ["docker_compose_up_django.xml", "docker_compose_up_docs.xml"]
         for file_name in file_names:
             os.remove(os.path.join(".idea", "runConfigurations", file_name))
@@ -540,7 +540,7 @@ def main():
     if "{{ cookiecutter.username_type }}" == "username":
         remove_custom_user_manager_files()
 
-    if "{{ cookiecutter.ide }}".lower() == "vscode":
+    if "{{ cookiecutter.editor }}".lower() != "pycharm":
         remove_pycharm_files()
 
     if "{{ cookiecutter.use_docker }}".lower() == "y":

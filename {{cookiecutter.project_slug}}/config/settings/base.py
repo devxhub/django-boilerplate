@@ -511,7 +511,7 @@ SPECTACULAR_SETTINGS = {
 {%- endif %}
 
 # django-cors-headers - https://github.com/adamchainz/django-cors-headers#setup
-CORS_URLS_REGEX = r"^/api/.*$"
+# CORS_URLS_REGEX = r"^/api/.*$"
 
 {%- if cookiecutter.frontend_pipeline == 'Webpack' %}
 # django-webpack-loader
@@ -545,6 +545,14 @@ GRAPHQL_JWT = {
     "JWT_REFRESH_EXPIRATION_DELTA": timedelta(days=90),
 }
 {%- endif %}
+
+
+# django-cors-headers - https://github.com/adamchainz/django-cors-headers#setup
+CORS_ALLOW_ALL_ORIGINS = True
+TRUSTED_CORS_ORIGINS = env("TRUSTED_CORS_ORIGINS").split(',')
+CSRF_TRUSTED_ORIGINS = TRUSTED_CORS_ORIGINS
+CORS_ORIGIN_WHITELIST = TRUSTED_CORS_ORIGINS
+CORS_ALLOW_CREDENTIALS = True
 
 
 # Your stuff...

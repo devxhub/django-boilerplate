@@ -8,4 +8,5 @@ class UserFilter(FilterSet):
         fields = {
             'id': ['exact'],
             'email': ['exact'],
+            'username': ['exact'],
         }
