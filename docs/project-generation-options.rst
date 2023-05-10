@@ -57,9 +57,9 @@ windows:
 editor:
     Select an editor to use. The choices are:
 
-    1. None
-    2. PyCharm_
-    3. `VS Code`_
+    1. none
+    2. pytharm_
+    3. vscode_
 
 
 use_docker:
@@ -167,8 +167,8 @@ debug:
 .. _GPLv3: https://www.gnu.org/licenses/gpl.html
 .. _Apache Software License 2.0: http://www.apache.org/licenses/LICENSE-2.0
 
-.. _PyCharm: https://www.jetbrains.com/pycharm/
-.. _VS Code: https://github.com/microsoft/vscode
+.. _pycharm: https://www.jetbrains.com/pycharm/
+.. _vscode: https://github.com/microsoft/vscode
 
 .. _Docker: https://github.com/docker/docker
 .. _Docker Compose: https://docs.docker.com/compose/

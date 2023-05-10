@@ -52,9 +52,9 @@ SUPPORTED_COMBINATIONS = [
     {"open_source_license": "Not open source"},
     {"windows": "y"},
     {"windows": "n"},
-    {"editor": "None"},
-    {"editor": "PyCharm"},
-    {"editor": "VS Code"},
+    {"editor": "none"},
+    {"editor": "pycharm"},
+    {"editor": "vscode"},
     {"use_docker": "y"},
     {"use_docker": "n"},
     {"database_engine": "postgresql", "database_version": "postgresql@14"},
@@ -357,8 +357,8 @@ def test_error_if_incompatible(cookies, context, invalid_context):
     ["editor", "pycharm_docs_exist"],
     [
         ("None", False),
-        ("PyCharm", True),
-        ("VS Code", False),
+        ("pycharm", True)
+        ("vscode", False),
     ],
 )
 def test_pycharm_docs_removed(cookies, context, editor, pycharm_docs_exist):

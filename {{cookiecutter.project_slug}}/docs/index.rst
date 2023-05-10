@@ -10,7 +10,7 @@ Welcome to {{ cookiecutter.project_name }}'s documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   howto{% if cookiecutter.editor == 'PyCharm' %}
+   howto{% if cookiecutter.editor == 'pycharm' %}
    pycharm/configuration{% endif %}
    users
 
