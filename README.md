@@ -113,9 +113,9 @@ Answer the prompts with your own desired [options](http://cookiecutter-django.re
     timezone [UTC]: America/Los_Angeles
     windows [n]: n
     Select an editor to use. The choices are:
-    1 - None
-    2 - PyCharm
-    3 - VS Code
+    1 - none
+    2 - pycharm
+    3 - vscode
     Choose from 1, 2, 3 [1]: 1
     use_docker [n]: y
     Select database_engine:
