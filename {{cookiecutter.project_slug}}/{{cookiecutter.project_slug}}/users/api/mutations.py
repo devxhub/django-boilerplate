@@ -44,9 +44,12 @@ class CreateUserMutation(graphene.Mutation):
 
     def mutate(self, info, input):
         user = User.objects.create_user(
+            {%- if cookiecutter.username_type == "email" %}
             email=input.email,
-            password=input.password,
+            {%- else %}
             username=input.username,
+            {%- endif %}
+            password=input.password,
             is_active=False,
         )
         token = get_token(user)
@@ -83,10 +86,13 @@ class UpdateUserMutation(graphene.Mutation):
             user = User.objects.get(id=input.id)
         except User.DoesNotExist:
             raise GraphQLError('User does not exist')
+        {%- if cookiecutter.username_type == "email" %}
         if input.email:
             user.email = input.email
+        {%- else %}
         if input.username:
             user.username = input.username
+        {%- endif %}
         if input.name:
             user.name = input.name
         if input.password:

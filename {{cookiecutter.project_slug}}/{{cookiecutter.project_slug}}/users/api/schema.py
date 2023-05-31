@@ -10,6 +10,6 @@ class UserObjectType(DjangoObjectType):
 
     class Meta:
         model = User
-        fields = ['id', 'name', 'email', 'username', 'is_active', 'is_staff', 'is_superuser']
+        fields = ['id', 'name', '{{cookiecutter.username_type}}', 'is_active', 'is_staff', 'is_superuser']
         filterset_class = UserFilter
         interfaces = (graphene.relay.Node,)

@@ -2,13 +2,18 @@ import graphene
 
 
 class CreateUserInput(graphene.InputObjectType):
-    username = graphene.String()
+    {%- if cookiecutter.username_type == "email" %}
     email = graphene.String()
+     {%- else %}
+    username = graphene.String()
+    {%- endif %}
     password = graphene.String()
 
 class UpdateUserInput(graphene.InputObjectType):
     id = graphene.ID(required=True)
     name= graphene.String()
-    username = graphene.String()
+    {%- if cookiecutter.username_type == "email" %}
     email = graphene.String()
-    password = graphene.String()
+    {%- else %}
+    username = graphene.String()
+    {%- endif %}
