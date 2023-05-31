@@ -516,7 +516,6 @@ def remove_graphene_starter_files():
 
 def remove_tenant_files():
     shutil.rmtree(os.path.join("{{cookiecutter.project_slug}}", "client"))
-    os.remove(os.path.join("{{cookiecutter.project_slug}}", "config", "urls_public.py"))
 
 
 def remove_storages_module():
