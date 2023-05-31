@@ -86,8 +86,25 @@ services:
     
   {%- endif %}
 
+ traefik:
+    build:
+      context: .
+      dockerfile: ./compose/production/traefik/Dockerfile
+    image: {{ cookiecutter.project_slug }}_production_traefik
+    depends_on:
+      - django
+    volumes:
+      - production_traefik:/etc/traefik/acme
+    ports:
+      - '0.0.0.0:80:80'
+      - '0.0.0.0:443:443'
+      {%- if cookiecutter.use_celery == 'y' %}
+      - '0.0.0.0:5555:5555'
+      {%- endif %}
+
   redis:
     image: redis:6
+
   {%- if cookiecutter.use_celery == 'y' %}
 
   celeryworker:
