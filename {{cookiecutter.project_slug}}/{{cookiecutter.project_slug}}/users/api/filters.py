@@ -7,6 +7,9 @@ class UserFilter(FilterSet):
         model = User
         fields = {
             'id': ['exact'],
+             {%- if cookiecutter.username_type == "email" %}
             'email': ['exact'],
+            {%- else %}
             'username': ['exact'],
+            {%- endif %}
         }
