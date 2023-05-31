@@ -34,7 +34,7 @@ class UserAdmin(auth_admin.UserAdmin):
         ),
         (_("Important dates"), {"fields": ("last_login", "date_joined")}),
     )
-    list_display = ["{{cookiecutter.username_type}}", "name", "is_superuser", "is_staff"]
+    list_display = ["{{cookiecutter.username_type}}", "name", "is_superuser", "is_active"]
     search_fields = ["name"]
     {%- if cookiecutter.username_type == "email" %}
     ordering = ["id"]
