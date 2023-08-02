@@ -152,6 +152,7 @@ Answer the prompts with your own desired [options](http://cookiecutter-django.re
     use_selenium [n]:y
     use_drf [n]: n
     use_graphene[y]: y
+    use_twillio[n]:y
     Select frontend_pipeline:
     1 - None
     2 - Django Compressor
