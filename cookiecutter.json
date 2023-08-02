@@ -46,6 +46,7 @@
   "use_selenium": "n",
   "use_drf": "n",
   "use_graphene": "y",
+  "use_twillio": "n",
   "frontend_pipeline": ["None", "Django Compressor", "Gulp", "Webpack"],
   "use_celery": "n",
   "use_mailhog": "n",
