@@ -23,6 +23,8 @@ class User(AbstractUser):
     reset_password_token = models.CharField(max_length=255, blank=True, null=True)
     reset_otp= models.CharField(max_length=6, blank=True, null=True)
     verify_token = models.CharField(max_length=255, blank=True, null=True)
+    phone_number = models.CharField(max_length=255, blank=True, null=True)
+    phone_verified = models.BooleanField(default=False)
     {%- if cookiecutter.username_type == "email" %}
     email = EmailField(_("email address"), unique=True)
     username = None  # type: ignore
@@ -45,3 +47,12 @@ class User(AbstractUser):
         {%- else %}
         return reverse("users:detail", kwargs={"username": self.username})
         {%- endif %}
+
+class PhoneVerification(models.Model):
+    phone_number = models.CharField(max_length=255, blank=True, null=True)
+    otp = models.CharField(max_length=4, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    expires_at = models.DateTimeField(blank=True, null=True)
+
+    def __str__(self) -> str:
+        return self.phone_number

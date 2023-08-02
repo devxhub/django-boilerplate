@@ -2,9 +2,8 @@ from django.contrib import admin
 from django.contrib.auth import admin as auth_admin
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
-
 from {{ cookiecutter.project_slug }}.users.forms import UserAdminChangeForm, UserAdminCreationForm
-
+from {{ cookiecutter.project_slug }}.users.models import PhoneVerification
 User = get_user_model()
 
 
@@ -34,7 +33,7 @@ class UserAdmin(auth_admin.UserAdmin):
         ),
         (_("Important dates"), {"fields": ("last_login", "date_joined")}),
     )
-    list_display = ["{{cookiecutter.username_type}}", "name", "is_superuser", "is_active"]
+    list_display = ["{{cookiecutter.username_type}}", "name", "is_superuser", "is_active","phone_verified"]
     search_fields = ["name"]
     {%- if cookiecutter.username_type == "email" %}
     ordering = ["id"]
@@ -48,3 +47,11 @@ class UserAdmin(auth_admin.UserAdmin):
         ),
     )
     {%- endif %}
+
+
+class PhoneVerificationAdmin(admin.ModelAdmin):
+    list_display = ['id','phone_number', 'otp','expires_at']
+    search_fields = ['phone_number', 'otp']
+   
+
+admin.site.register(PhoneVerification, PhoneVerificationAdmin)

@@ -34,6 +34,11 @@ services:
       {%- if cookiecutter.use_mailhog == 'y' %}
       - mailhog
       {%- endif %}
+      {%- if cookiecutter.use_selenium == 'y' %}
+      - selenium
+      {%- endif %}
+
+
     volumes:
       - .:/app:z
     env_file:
@@ -55,6 +60,8 @@ services:
       dockerfile: ./compose/production/postgres/Dockerfile
     image: {{ cookiecutter.project_slug }}_production_postgres
     container_name: {{ cookiecutter.project_slug }}_local_postgres
+    ports:
+      - '5432:5432'
     volumes:
       - {{ cookiecutter.project_slug }}_local_postgres_data:/var/lib/postgresql/data
       - {{ cookiecutter.project_slug }}_local_postgres_data_backups:/backups
@@ -74,7 +81,7 @@ services:
     env_file:
       - ./.envs/.local/.mysql
     ports:
-      - "3406:3306"
+      - '3406:3306'
   {%- endif %}
 
   docs:
@@ -122,6 +129,9 @@ services:
       {%- if cookiecutter.use_mailhog == 'y' %}
       - mailhog
       {%- endif %}
+      {%- if cookiecutter.use_selenium == 'y' %}
+      - selenium
+      {%- endif %}
     ports: []
     command: /start-celeryworker
 
@@ -139,6 +149,9 @@ services:
       {%- endif %}
       {%- if cookiecutter.use_mailhog == 'y' %}
       - mailhog
+      {%- endif %}
+      {%- if cookiecutter.use_selenium == 'y' %}
+      - selenium
       {%- endif %}
     ports: []
     command: /start-celerybeat
@@ -174,4 +187,11 @@ services:
       - '3001:3001'
       {%- endif %}
 
+  {%- endif %}
+  {%- if cookiecutter.use_selenium == 'y' %}
+  selenium:
+    image: seleniarm/standalone-chromium
+    container_name: {{ cookiecutter.project_slug }}_local_selenium
+    ports:
+      - '4444:4444'
   {%- endif %}

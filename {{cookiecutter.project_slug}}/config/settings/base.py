@@ -554,6 +554,11 @@ CSRF_TRUSTED_ORIGINS = TRUSTED_CORS_ORIGINS
 CORS_ORIGIN_WHITELIST = TRUSTED_CORS_ORIGINS
 CORS_ALLOW_CREDENTIALS = True
 
+# Twilio settings - https://www.twilio.com/docs/usage/tutorials/how-to-use-your-free-trial-account
+TWILIO_ACCOUNT_SID = env('TWILIO_ACCOUNT_SID')
+TWILIO_AUTH_TOKEN = env('TWILIO_AUTH_TOKEN')
+TWILIO_PHONE_NUMBER = env('TWILIO_PHONE_NUMBER')
+TWILIO_SERVICE_SID = env('TWILIO_SERVICE_SID')
 
 # Your stuff...
 # ------------------------------------------------------------------------------

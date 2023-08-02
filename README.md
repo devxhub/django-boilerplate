@@ -1,4 +1,4 @@
-# Cookiecutter Django
+# Cookiecutter DEVxHUB
 
 [![Build Status](https://img.shields.io/github/actions/workflow/status/cookiecutter/cookiecutter-django/ci.yml?branch=master)](https://github.com/cookiecutter/cookiecutter-django/actions/workflows/ci.yml?query=branch%3Amaster)
 [![Documentation Status](https://readthedocs.org/projects/cookiecutter-django/badge/?version=latest)](https://cookiecutter-django.readthedocs.io/en/latest/?badge=latest)
@@ -82,7 +82,7 @@ Now run it against this repo:
 
 You'll be prompted for some values. Provide them, then a Django project will be created for you.
 
-**Warning**: After this point, change 'Daniel Greenfeld', 'pydanny', etc to your own information.
+**Warning**: After this point, change 'DEVxHUB AIS Team', 'devxhub', etc to your own information.
 
 Answer the prompts with your own desired [options](http://cookiecutter-django.readthedocs.io/en/latest/project-generation-options.html). For example:
 
@@ -95,9 +95,9 @@ Answer the prompts with your own desired [options](http://cookiecutter-django.re
     project_name [My Awesome Project]: Reddit Clone
     project_slug [reddit_clone]: reddit
     description [Behold My Awesome Project!]: A reddit clone.
-    author_name [Daniel Roy Greenfeld]: Daniel Greenfeld
+    author_name [DEVxHUB AIS Team]: Devxhub AIS
     domain_name [example.com]: myreddit.com
-    email [daniel-greenfeld@example.com]: pydanny@gmail.com
+    email [devxhub-ais@example.com]: devxhub@gmail.com
     version [0.1.0]: 0.0.1
     Select open_source_license:
     1 - MIT
@@ -149,8 +149,9 @@ Answer the prompts with your own desired [options](http://cookiecutter-django.re
     9 - Other SMTP
     Choose from 1, 2, 3, 4, 5, 6, 7, 8, 9 [1]: 1
     use_async [n]: n
+    use_selenium [n]:y
     use_drf [n]: n
-    use_graphene[n]: y
+    use_graphene[y]: y
     Select frontend_pipeline:
     1 - None
     2 - Django Compressor
