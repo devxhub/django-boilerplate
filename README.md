@@ -1,14 +1,9 @@
-# Cookiecutter Django
+# Django Boilerplate
 
-[![Build Status](https://img.shields.io/github/actions/workflow/status/cookiecutter/cookiecutter-django/ci.yml?branch=master)](https://github.com/cookiecutter/cookiecutter-django/actions/workflows/ci.yml?query=branch%3Amaster)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/devxhub/django-boilerplate/ci.yml?branch=main)](https://github.com/devxhub/django-boilerplate/actions/workflows/ci.yml?query=branch%3Amain)
 [![Documentation Status](https://readthedocs.org/projects/cookiecutter-django/badge/?version=latest)](https://cookiecutter-django.readthedocs.io/en/latest/?badge=latest)
-[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/cookiecutter/cookiecutter-django/master.svg)](https://results.pre-commit.ci/latest/github/cookiecutter/cookiecutter-django/master)
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/devxhub/django-boilerplate/main.svg)](https://results.pre-commit.ci/latest/github/devxhub/django-boilerplate/main)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
-
-[![Updates](https://pyup.io/repos/github/cookiecutter/cookiecutter-django/shield.svg)](https://pyup.io/repos/github/cookiecutter/cookiecutter-django/)
-[![Join our Discord](https://img.shields.io/badge/Discord-cookiecutter-5865F2?style=flat&logo=discord&logoColor=white)](https://discord.gg/uFXweDQc5a)
-[![Code Helpers Badge](https://www.codetriage.com/cookiecutter/cookiecutter-django/badges/users.svg)](https://www.codetriage.com/cookiecutter/cookiecutter-django)
-
 
 ## Features
 
@@ -37,7 +32,7 @@
 
 ## Optional Integrations
 
-_These features can be enabled during initial project setup._
+_These features can be enabled during the initial project setup._
 
 - Serve static files from Amazon S3, Google Cloud Storage, Azure Storage or [Whitenoise](https://whitenoise.readthedocs.io/)
 - Configuration for [Celery](https://docs.celeryq.dev) and [Flower](https://github.com/mher/flower) (the latter in Docker setup only)
@@ -47,42 +42,25 @@ _These features can be enabled during initial project setup._
 ## Constraints
 
 - Only maintained 3rd party libraries are used.
-- Uses PostgreSQL everywhere: 10.19 - 14.1 and MySQL 5.7, 8.0, 8.0.29  also available.
+- Uses PostgreSQL everywhere: 10.19 - 14.1 and MySQL 5.7, 8.0, and 8.0.29  are also available.
 - Environment variables for configuration (This won't work with Apache/mod_wsgi).
-
-
----
-
-<p align="center">
-  <a href="https://www.feldroy.com/products//two-scoops-of-django-3-x"><img src="https://cdn.shopify.com/s/files/1/0304/6901/products/Two-Scoops-of-Django-3-Alpha-Cover_540x_26507b15-e489-470b-8a97-02773dd498d1_1080x.jpg"></a>
-</p>
-
-Two Scoops of Django 3.x is the best ice cream-themed Django reference in the universe!
-
-### PyUp
-
-<p align="center">
-  <a href="https://pyup.io/"><img src="https://pyup.io/static/images/logo.png"></a>
-</p>
-
-PyUp brings you automated security and dependency updates used by Google and other organizations. Free for open source projects!
 
 ## Usage
 
 Let's pretend you want to create a Django project called "redditclone". Rather than using `startproject`
-and then editing the results to include your name, email, and various configuration issues that always get forgotten until the worst possible moment, get [cookiecutter](https://github.com/cookiecutter/cookiecutter) to do all the work.
+and then edit the results to include your name, email, and various configuration issues that always get forgotten until the worst possible moment, get [cookiecutter](https://github.com/cookiecutter/cookiecutter) to do all the work.
 
 First, get Cookiecutter. Trust me, it's awesome:
-
-    $ pip install "cookiecutter>=1.7.0"
-
+```sh
+pip install "cookiecutter>=1.7.0"
+```
 Now run it against this repo:
-
-    $ cookiecutter https://github.com/devxhubcom/cookiecutter-devxhub
-
+```sh
+cookiecutter https://github.com/devxhub/django-boilerplate
+```
 You'll be prompted for some values. Provide them, then a Django project will be created for you.
 
-**Warning**: After this point, change 'Daniel Greenfeld', 'pydanny', etc to your own information.
+**Warning**: After this point, change 'Daniel Greenfeld', 'pydanny', etc to your information.
 
 Answer the prompts with your own desired [options](http://cookiecutter-django.readthedocs.io/en/latest/project-generation-options.html). For example:
 
@@ -171,19 +149,6 @@ Answer the prompts with your own desired [options](http://cookiecutter-django.re
     keep_local_envs_in_vcs [y]: y
     debug [n]: n
 
-Enter the project and take a look around:
-
-    $ cd reddit/
-    $ ls
-
-Create a git repo and push it there:
-
-    $ git init
-    $ git add .
-    $ git commit -m "first awesome commit"
-    $ git remote add origin git@github.com:pydanny/redditclone.git
-    $ git push -u origin master
-
 Now take a look at your repo. Don't forget to carefully look at the generated README. Awesome, right?
 
 For local development, see the following:
@@ -191,33 +156,13 @@ For local development, see the following:
 - [Developing locally](http://cookiecutter-django.readthedocs.io/en/latest/developing-locally.html)
 - [Developing locally using docker](http://cookiecutter-django.readthedocs.io/en/latest/developing-locally-docker.html)
 
-## Community
-
-- Have questions? **Before you ask questions anywhere else**, please post your question on [Stack Overflow](http://stackoverflow.com/questions/tagged/cookiecutter-django) under the _cookiecutter-django_ tag. We check there periodically for questions.
-- If you think you found a bug or want to request a feature, please open an [issue](https://github.com/cookiecutter/cookiecutter-django/issues).
-- For anything else, you can chat with us on [Discord](https://discord.gg/uFXweDQc5a).
 
 ## For Readers of Two Scoops of Django
 
-You may notice that some elements of this project do not exactly match what we describe in chapter 3. The reason for that is this project, amongst other things, serves as a test bed for trying out new ideas and concepts. Sometimes they work, sometimes they don't, but the end result is that it won't necessarily match precisely what is described in the book I co-authored.
-
-## For PyUp Users
-
-If you are using [PyUp](https://pyup.io) to keep your dependencies updated and secure, use the code _cookiecutter_ during checkout to get 15% off every month.
+You may notice that some elements of this project do not exactly match what we describe in Chapter 3. The reason for that is this project, amongst other things, serves as a test bed for trying out new ideas and concepts. Sometimes they work, sometimes they don't, but the end result is that it won't necessarily match precisely what is described in the book I co-authored.
 
 ## "Your Stuff"
 
 Scattered throughout the Python and HTML of this project are places marked with "your stuff". This is where third-party libraries are to be integrated with your project.
 
-
-### Fork This
-
-If you have differences in your preferred setup, I encourage you to fork this to create your own version.
-Once you have your fork working, let me know and I'll add it to a '_Similar Cookiecutter Templates_' list here.
-It's up to you whether to rename your fork.
-
-If you do rename your fork, I encourage you to submit it to the following places:
-
-- [cookiecutter](https://github.com/cookiecutter/cookiecutter) so it gets listed in the README as a template.
-- The cookiecutter [grid](https://www.djangopackages.com/grids/g/cookiecutters/) on Django Packages.
 
