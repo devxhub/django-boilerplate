@@ -3,10 +3,13 @@ import graphql_jwt
 import string
 import random
 import environ
+import pytz
+from datetime import datetime, timedelta
 from graphql import GraphQLError
 from django.core.mail import send_mail
 from django.contrib.auth import get_user_model
 from graphql_jwt.shortcuts import create_refresh_token, get_token
+from {{ cookiecutter.project_slug }}.users.models import *
 from {{ cookiecutter.project_slug }}.users.api.inputs import *
 from {{ cookiecutter.project_slug }}.users.api.schema import UserObjectType
 {%- if cookiecutter.use_celery == 'y' %}
@@ -49,6 +52,7 @@ class CreateUserMutation(graphene.Mutation):
             {%- else %}
             username=input.username,
             {%- endif %}
+            phone_number=input.phone_number,
             password=input.password,
             is_active=False,
         )
@@ -57,6 +61,17 @@ class CreateUserMutation(graphene.Mutation):
         verify_token = ''.join(random.choices(string.ascii_letters + string.digits, k=64))
         user.verify_token = verify_token
         user.save()
+        otp = random.randint(1111, 9999)
+
+        PhoneVerification.objects.create(
+            otp=otp,
+            phone_number=user.phone_number,
+            expires_at=datetime.now(
+                tz=pytz.utc) + timedelta(seconds=120)
+        )
+        message = f"{otp} is your OTP to verify your phone number. This OTP is valid for 2 minutes"
+        send_sms.delay(user.phone_number, message)
+
         {%- if cookiecutter.use_celery == 'y' %}
         send_account_confirmation_email.delay(input.email, verify_token)
         {%- else %}
@@ -69,6 +84,37 @@ class CreateUserMutation(graphene.Mutation):
         {%- endif %}
         return CreateUserMutation(user=user, token=token, refresh_token=refresh_token)
 
+class PhoneVerificationSMS(graphene.Mutation):
+    class Arguments:
+        phone_number = graphene.String(required=True)
+        otp = graphene.String(required=True)
+
+    success = graphene.Boolean()
+    user = graphene.Field(UserObjectType)
+    token = graphene.String()
+    refresh_token = graphene.String()
+
+    def mutate(self, info, phone_number, otp):
+        try:
+            user = User.objects.get(phone_number=phone_number)
+        except User.DoesNotExist:
+            raise GraphQLError('User does not exist')
+       
+        try:
+            phone_verification = PhoneVerification.objects.get(
+                phone_number=user.phone_number,
+                otp=otp  
+            )
+            if phone_verification.expires_at < datetime.now(tz=pytz.utc):
+                raise GraphQLError('OTP has expired')
+
+        except Exception as e:
+            raise GraphQLError(e)
+        phone_verification.delete()
+        user.is_active = True
+        user.phone_verified = True
+        user.save()
+        return PhoneVerificationSMS(success=True, user=user, token=get_token(user), refresh_token=create_refresh_token(user))
 
 
 class UpdateUserMutation(graphene.Mutation):
@@ -270,7 +316,8 @@ class AuthMutation(graphene.ObjectType):
     delete_refresh_token_cookie = graphql_jwt.DeleteRefreshTokenCookie.Field()
     send_password_reset_email = SendPasswordResetEmailMutation.Field()
     reset_password = ResetPasswordMutation.Field()
-    verify_account = VerifyAccountMutation.Field()
+    verify_account_token = VerifyAccountMutation.Field()
+    verify_account_sms = PhoneVerificationSMS.Field()
     send_confirmation_email = SendConfirmationEmailMutation.Field()
     send_password_reset_otp = SendPasswordResetOTP.Field()
     verify_password_reset_otp = VerifyPasswordResetOTP.Field()

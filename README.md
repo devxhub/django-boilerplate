@@ -38,6 +38,9 @@ _These features can be enabled during the initial project setup._
 - Configuration for [Celery](https://docs.celeryq.dev) and [Flower](https://github.com/mher/flower) (the latter in Docker setup only)
 - Integration with [MailHog](https://github.com/mailhog/MailHog) for local email testing
 - Integration with [Sentry](https://sentry.io/welcome/) for error logging
+- Integration with [Twilio](https://www.twilio.com/) for SMS services
+- Integration with [Selenium](https://www.selenium.dev/) for browser testing
+- PGAdmin4 for PostgreSQL database management (Docker setup only)
 
 ## Constraints
 
@@ -73,9 +76,9 @@ Answer the prompts with your own desired [options](http://cookiecutter-django.re
     project_name [My Awesome Project]: Reddit Clone
     project_slug [reddit_clone]: reddit
     description [Behold My Awesome Project!]: A reddit clone.
-    author_name [Daniel Roy Greenfeld]: Daniel Greenfeld
+    author_name [DEVxHUB AIS Team]: Devxhub AIS
     domain_name [example.com]: myreddit.com
-    email [daniel-greenfeld@example.com]: pydanny@gmail.com
+    email [devxhub-ais@example.com]: devxhub@gmail.com
     version [0.1.0]: 0.0.1
     Select open_source_license:
     1 - MIT
@@ -127,8 +130,10 @@ Answer the prompts with your own desired [options](http://cookiecutter-django.re
     9 - Other SMTP
     Choose from 1, 2, 3, 4, 5, 6, 7, 8, 9 [1]: 1
     use_async [n]: n
+    use_selenium [n]:y
     use_drf [n]: n
-    use_graphene[n]: y
+    use_graphene[y]: y
+    use_twillio[n]:y
     Select frontend_pipeline:
     1 - None
     2 - Django Compressor

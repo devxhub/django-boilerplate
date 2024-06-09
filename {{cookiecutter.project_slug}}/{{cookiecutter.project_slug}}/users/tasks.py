@@ -1,3 +1,7 @@
+from django.conf import settings
+{%- if cookiecutter.use_twillio == 'y' %}
+from twilio.rest import Client
+{%- endif %}
 from django.contrib.auth import get_user_model
 from celery import shared_task
 from django.core.mail import send_mail
@@ -46,3 +50,26 @@ def send_password_reset_otp(email, otp):
     from_email = env('DEFAULT_FROM_EMAIL')
     to_email = [email]
     send_mail(subject, message, from_email, to_email)
+
+
+
+{%- if cookiecutter.use_twillio == 'y' %}
+@shared_task
+def send_sms(to_phone_number, message):
+    client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
+    message = client.messages.create(
+        body=message,
+        messaging_service_sid=settings.TWILIO_SERVICE_SID,
+        to=to_phone_number
+    )
+    return message.sid
+{%- endif %}
+
+
+
+{%- if cookiecutter.use_twillio == 'n' %}
+@shared_task
+def send_sms(to_phone_number, message):
+    return True
+
+{%- endif %}

@@ -3,6 +3,8 @@ from django.db.models import CharField{% if cookiecutter.username_type == "email
 from django.urls import reverse
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from {{ cookiecutter.project_slug }}.base_models.models import BaseModel
+
 {%- if cookiecutter.username_type == "email" %}
 
 from {{ cookiecutter.project_slug }}.users.managers import UserManager
@@ -23,6 +25,8 @@ class User(AbstractUser):
     reset_password_token = models.CharField(max_length=255, blank=True, null=True)
     reset_otp= models.CharField(max_length=6, blank=True, null=True)
     verify_token = models.CharField(max_length=255, blank=True, null=True)
+    phone_number = models.CharField(max_length=255, blank=True, null=True)
+    phone_verified = models.BooleanField(default=False)
     {%- if cookiecutter.username_type == "email" %}
     email = EmailField(_("email address"), unique=True)
     username = None  # type: ignore
@@ -45,3 +49,13 @@ class User(AbstractUser):
         {%- else %}
         return reverse("users:detail", kwargs={"username": self.username})
         {%- endif %}
+
+{%- if cookiecutter.use_twillio == 'y' %}
+class PhoneVerification(BaseModel):
+    phone_number = models.CharField(max_length=255, blank=True, null=True)
+    otp = models.CharField(max_length=4, blank=True, null=True)
+    expires_at = models.DateTimeField(blank=True, null=True)
+
+    def __str__(self) -> str:
+        return self.phone_number
+{%- endif %}
