@@ -4,6 +4,8 @@ volumes:
   {%- if cookiecutter.database_engine == 'postgresql' %}
   {{ cookiecutter.project_slug }}_local_postgres_data: {}
   {{ cookiecutter.project_slug }}_local_postgres_data_backups: {}
+  {{ cookiecutter.project_slug }}_local_pgadmin: {}
+
   {%- endif %}
   {%- if cookiecutter.database_engine == 'mysql' %}
   {{ cookiecutter.project_slug }}_local_mysql_data: {}
@@ -67,6 +69,17 @@ services:
       - {{ cookiecutter.project_slug }}_local_postgres_data_backups:/backups
     env_file:
       - ./.envs/.local/.postgres
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: {{ cookiecutter.project_slug }}_local_pgadmin
+    ports:
+      - '5050:5050'
+    environment:
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    depends_on:
+      - postgres
+    volumes:
+      - {{ cookiecutter.project_slug }}_local_pgadmin:/var/lib/pgadmin
   {%- endif %}
   {%- if cookiecutter.database_engine == 'mysql' %}
   mysql:
