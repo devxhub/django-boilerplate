@@ -157,11 +157,11 @@ Now take a look at your repo. Don't forget to carefully look at the generated RE
 
 After setting up your environment, you’re ready to add your first app. This project uses the setup from “Two Scoops of Django” with a two-tier layout:
 
-Top Level Repository Root has config files, documentation, manage.py, and more.
+- Top Level Repository Root has config files, documentation, manage.py, and more.
 
-Second Level Django Project Root is where your Django apps live.
+- Second Level Django Project Root is where your Django apps live.
 
-Second Level Configuration Root holds settings and URL configurations.
+- Second Level Configuration Root holds settings and URL configurations.
 
 The project layout looks something like this:
 
