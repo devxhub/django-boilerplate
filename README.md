@@ -209,10 +209,6 @@ mv <name-of-the-app> <django_project_root>/
 
 4. Register the new app by adding it to the `LOCAL_APPS` list in `config/settings/base.py`, integrating it as an official component of your project.
 
-## For Readers of Two Scoops of Django
-
-You may notice that some elements of this project do not exactly match what we describe in Chapter 3. The reason for that is this project, amongst other things, serves as a test bed for trying out new ideas and concepts. Sometimes they work, sometimes they don't, but the end result is that it won't necessarily match precisely what is described in the book I co-authored.
-
 ## "Your Stuff"
 
 Scattered throughout the Python and HTML of this project are places marked with "your stuff". This is where third-party libraries are to be integrated with your project.
