@@ -68,7 +68,7 @@ You'll be prompted for some values. Provide them, then a Django project will be 
 Answer the prompts with your own desired. For example:
 
 ```sh
-    You've downloaded /home/jamil/django-boilerplate before. Is it okay to delete and re-download it? [y/n] (y): y
+    You've downloaded /home/django-boilerplate before. Is it okay to delete and re-download it? [y/n] (y): y
   [1/30] project_name (My Awesome Project): Your Project Name
   [2/30] project_slug (my_awesome_project): your_project_name
   [3/30] description (Behold My Awesome Project!): 
