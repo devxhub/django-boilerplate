@@ -1,4 +1,4 @@
-# cookiecutter-django documentation build configuration file.
+# devxhub_python-django documentation build configuration file.
 #
 # This file is execfile()d with the current directory set to its containing dir.
 #
@@ -38,7 +38,7 @@ source_suffix = [".rst", ".md"]
 master_doc = "index"
 
 # General information about the project.
-project = "Cookiecutter Django"
+project = "devxhub_python Django"
 copyright = f"2013-{now.year}, Daniel Roy Greenfeld"
 
 # The version info for the project you're documenting, acts as replacement for
@@ -162,7 +162,7 @@ html_static_path = ["_static"]
 # html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = "cookiecutter-djangodoc"
+htmlhelp_basename = "devxhub_python-djangodoc"
 
 
 # -- Options for LaTeX output --------------------------------------------------
@@ -181,9 +181,9 @@ latex_elements = {
 latex_documents = [
     (
         "index",
-        "cookiecutter-django.tex",
-        "cookiecutter-django Documentation",
-        "cookiecutter-django",
+        "devxhub_python-django.tex",
+        "devxhub_python-django Documentation",
+        "devxhub_python-django",
         "manual",
     )
 ]
@@ -216,8 +216,8 @@ latex_documents = [
 man_pages = [
     (
         "index",
-        "Cookiecutter Django",
-        "Cookiecutter Django documentation",
+        "devxhub_python Django",
+        "devxhub_python Django documentation",
         ["Daniel Roy Greenfeld"],
         1,
     )
@@ -235,11 +235,11 @@ man_pages = [
 texinfo_documents = [
     (
         "index",
-        "Cookiecutter Django",
-        "Cookiecutter Django documentation",
+        "devxhub_python Django",
+        "devxhub_python Django documentation",
         "Daniel Roy Greenfeld",
-        "Cookiecutter Django",
-        "A Cookiecutter template for creating production-ready " "Django projects quickly.",
+        "devxhub_python Django",
+        "A devxhub_python template for creating production-ready " "Django projects quickly.",
         "Miscellaneous",
     )
 ]

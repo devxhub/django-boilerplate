@@ -11,9 +11,9 @@ except (ImportError, ModuleNotFoundError):
     sh = None  # sh doesn't support Windows
 import yaml
 from binaryornot.check import is_binary
-from cookiecutter.exceptions import FailedHookException
+from devxhub_python.exceptions import FailedHookException
 
-PATTERN = r"{{(\s?cookiecutter)[.](.*?)}}"
+PATTERN = r"{{(\s?devxhub_python)[.](.*?)}}"
 RE_OBJ = re.compile(PATTERN)
 
 if sys.platform.startswith("win"):
@@ -164,7 +164,7 @@ def check_paths(paths):
 
         for line in open(path):
             match = RE_OBJ.search(line)
-            assert match is None, f"cookiecutter variable not replaced in {path}"
+            assert match is None, f"devxhub_python variable not replaced in {path}"
 
 
 @pytest.mark.parametrize("context_override", SUPPORTED_COMBINATIONS, ids=_fixture_id)

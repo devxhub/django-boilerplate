@@ -11,13 +11,13 @@ with open("README.rst") as readme_file:
     long_description = readme_file.read()
 
 setup(
-    name="cookiecutter-django",
+    name="devxhub_python-django",
     version=version,
-    description=("A Cookiecutter template for creating production-ready " "Django projects quickly."),
+    description=("A devxhub_python template for creating production-ready " "Django projects quickly."),
     long_description=long_description,
     author="Daniel Roy Greenfeld",
     author_email="pydanny@gmail.com",
-    url="https://github.com/cookiecutter/cookiecutter-django",
+    url="https://github.com/devxhub_python/devxhub_python-django",
     packages=[],
     license="BSD",
     zip_safe=False,
@@ -35,7 +35,7 @@ setup(
         "Topic :: Software Development",
     ],
     keywords=(
-        "cookiecutter, Python, projects, project templates, django, "
+        "devxhub_python, Python, projects, project templates, django, "
         "skeleton, scaffolding, project directory, setup.py"
     ),
 )

@@ -1,7 +1,7 @@
 # Django Boilerplate
 
 [![Build Status](https://img.shields.io/github/actions/workflow/status/devxhub/django-boilerplate/ci.yml?branch=main)](https://github.com/devxhub/django-boilerplate/actions/workflows/ci.yml?query=branch%3Amain)
-[![Documentation Status](https://readthedocs.org/projects/cookiecutter-django/badge/?version=latest)](https://cookiecutter-django.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/devxhub_python-django/badge/?version=latest)](https://devxhub_python-django.readthedocs.io/en/latest/?badge=latest)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/devxhub/django-boilerplate/main.svg)](https://results.pre-commit.ci/latest/github/devxhub/django-boilerplate/main)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 

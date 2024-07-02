@@ -13,7 +13,7 @@ updates:
 
   # Update npm packages
   - package-ecosystem: "npm"
-    directory: "{{cookiecutter.project_slug}}/"
+    directory: "{{devxhub_python.project_slug}}/"
     schedule:
       interval: "daily"
     labels:
@@ -24,7 +24,7 @@ updates:
   # support wildcards or recursively checking subdirectories. Check this issue for updates:
   # https://github.com/dependabot/dependabot-core/issues/2178
   - package-ecosystem: "docker"
-    directory: "{{cookiecutter.project_slug}}/compose/local/django/"
+    directory: "{{devxhub_python.project_slug}}/compose/local/django/"
     schedule:
       interval: "daily"
     ignore:
@@ -36,7 +36,7 @@ updates:
       - "update"
 
   - package-ecosystem: "docker"
-    directory: "{{cookiecutter.project_slug}}/compose/local/docs/"
+    directory: "{{devxhub_python.project_slug}}/compose/local/docs/"
     schedule:
       interval: "daily"
     ignore:
@@ -48,21 +48,21 @@ updates:
       - "update"
 
   - package-ecosystem: "docker"
-    directory: "{{cookiecutter.project_slug}}/compose/local/node/"
+    directory: "{{devxhub_python.project_slug}}/compose/local/node/"
     schedule:
       interval: "daily"
     labels:
       - "update"
 
   - package-ecosystem: "docker"
-    directory: "{{cookiecutter.project_slug}}/compose/production/aws/"
+    directory: "{{devxhub_python.project_slug}}/compose/production/aws/"
     schedule:
       interval: "daily"
     labels:
       - "update"
 
   - package-ecosystem: "docker"
-    directory: "{{cookiecutter.project_slug}}/compose/production/django/"
+    directory: "{{devxhub_python.project_slug}}/compose/production/django/"
     schedule:
       interval: "daily"
     ignore:
@@ -74,14 +74,14 @@ updates:
       - "update"
 
   - package-ecosystem: "docker"
-    directory: "{{cookiecutter.project_slug}}/compose/production/postgres/"
+    directory: "{{devxhub_python.project_slug}}/compose/production/postgres/"
     schedule:
       interval: "daily"
     labels:
       - "update"
 
   - package-ecosystem: "docker"
-    directory: "{{cookiecutter.project_slug}}/compose/production/traefik/"
+    directory: "{{devxhub_python.project_slug}}/compose/production/traefik/"
     schedule:
       interval: "daily"
     labels:

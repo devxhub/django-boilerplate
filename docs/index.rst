@@ -1,11 +1,11 @@
-.. cookiecutter-django documentation master file.
+.. devxhub_python-django documentation master file.
 
-Welcome to Cookiecutter Django's documentation!
+Welcome to devxhub_python Django's documentation!
 ===============================================
 
-Powered by Cookiecutter_, Cookiecutter Django is a project template for jumpstarting production-ready Django projects. The template offers a number of generation options, we invite you to check the :ref:`dedicated page <template-options>` to learn more about each of them.
+Powered by devxhub_python_, devxhub_python Django is a project template for jumpstarting production-ready Django projects. The template offers a number of generation options, we invite you to check the :ref:`dedicated page <template-options>` to learn more about each of them.
 
-.. _cookiecutter: https://github.com/cookiecutter/cookiecutter
+.. _devxhub_python: https://github.com/devxhub_python/devxhub_python
 
 Contents
 --------

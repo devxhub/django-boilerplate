@@ -1,0 +1,89 @@
+# General
+# ------------------------------------------------------------------------------
+# DJANGO_READ_DOT_ENV_FILE=True
+DJANGO_SETTINGS_MODULE=config.settings.production
+DJANGO_SECRET_KEY=!!!SET DJANGO_SECRET_KEY!!!
+DJANGO_ADMIN_URL=!!!SET DJANGO_ADMIN_URL!!!
+DJANGO_ALLOWED_HOSTS=.{{ devxhub_python.domain_name }}
+
+# Security
+# ------------------------------------------------------------------------------
+# TIP: better off using DNS, however, redirect is OK too
+DJANGO_SECURE_SSL_REDIRECT=False
+
+# Email
+# ------------------------------------------------------------------------------
+DJANGO_SERVER_EMAIL=
+{% if devxhub_python.mail_service == 'Mailgun' %}
+MAILGUN_API_KEY=
+MAILGUN_DOMAIN=
+{% elif devxhub_python.mail_service == 'Mailjet' %}
+MAILJET_API_KEY=
+MAILJET_SECRET_KEY=
+{% elif devxhub_python.mail_service == 'Mandrill' %}
+MANDRILL_API_KEY=
+{% elif devxhub_python.mail_service == 'Postmark' %}
+POSTMARK_SERVER_TOKEN=
+{% elif devxhub_python.mail_service == 'Sendgrid' %}
+SENDGRID_API_KEY=
+SENDGRID_GENERATE_MESSAGE_ID=True
+SENDGRID_MERGE_FIELD_FORMAT=None
+{% elif devxhub_python.mail_service == 'SendinBlue' %}
+SENDINBLUE_API_KEY=
+{% elif devxhub_python.mail_service == 'SparkPost' %}
+SPARKPOST_API_KEY=
+{% endif %}
+{% if devxhub_python.cloud_provider == 'AWS' %}
+# AWS
+# ------------------------------------------------------------------------------
+DJANGO_AWS_ACCESS_KEY_ID=
+DJANGO_AWS_SECRET_ACCESS_KEY=
+DJANGO_AWS_STORAGE_BUCKET_NAME=
+{% elif devxhub_python.cloud_provider == 'GCP' %}
+# GCP
+# ------------------------------------------------------------------------------
+GOOGLE_APPLICATION_CREDENTIALS=
+DJANGO_GCP_STORAGE_BUCKET_NAME=
+{% elif devxhub_python.cloud_provider == 'Azure' %}
+# Azure
+# ------------------------------------------------------------------------------
+DJANGO_AZURE_ACCOUNT_KEY=
+DJANGO_AZURE_ACCOUNT_NAME=
+DJANGO_AZURE_CONTAINER_NAME=
+{% endif %}
+# django-allauth
+# ------------------------------------------------------------------------------
+DJANGO_ACCOUNT_ALLOW_REGISTRATION=True
+
+# Gunicorn
+# ------------------------------------------------------------------------------
+WEB_CONCURRENCY=4
+{% if devxhub_python.use_sentry == 'y' %}
+# Sentry
+# ------------------------------------------------------------------------------
+SENTRY_DSN=
+{% endif %}
+
+# Redis
+# ------------------------------------------------------------------------------
+REDIS_URL=redis://redis:6379/0
+{% if devxhub_python.use_celery == 'y' %}
+# Celery
+# ------------------------------------------------------------------------------
+
+# Flower
+CELERY_FLOWER_USER=!!!SET CELERY_FLOWER_USER!!!
+CELERY_FLOWER_PASSWORD=!!!SET CELERY_FLOWER_PASSWORD!!!
+{% endif %}
+
+
+
+{%- if devxhub_python.use_drf == 'y' %}
+
+# Social Auth
+# ------------------------------------------------------------------------------
+
+FACEBOOK_CALLBACK_URL = http://localhost:3000/auth/social/facebook
+GOOGLE_CALLBACK_URL = http://localhost:3000/auth/social/google
+
+{%- endif %}

@@ -169,19 +169,19 @@ it needs to do is to run ``docker-compose -f production.yml up`` in your project
 
 If you are using ``supervisor``, you can use this file as a starting point::
 
-    [program:{{cookiecutter.project_slug}}]
+    [program:{{devxhub_python.project_slug}}]
     command=docker-compose -f production.yml up
-    directory=/path/to/{{cookiecutter.project_slug}}
+    directory=/path/to/{{devxhub_python.project_slug}}
     redirect_stderr=true
     autostart=true
     autorestart=true
     priority=10
 
-Move it to ``/etc/supervisor/conf.d/{{cookiecutter.project_slug}}.conf`` and run::
+Move it to ``/etc/supervisor/conf.d/{{devxhub_python.project_slug}}.conf`` and run::
 
     supervisorctl reread
     supervisorctl update
-    supervisorctl start {{cookiecutter.project_slug}}
+    supervisorctl start {{devxhub_python.project_slug}}
 
 For status check, run::
 

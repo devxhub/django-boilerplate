@@ -69,7 +69,7 @@ The script above assumes that you've chose Mailgun as email service. If you want
 Heroku & Docker
 +++++++++++++++
 
-Although Heroku has some sort of `Docker support`_, it's not supported by cookiecutter-django.
+Although Heroku has some sort of `Docker support`_, it's not supported by devxhub_python-django.
 We invite you to follow Heroku documentation about it.
 
 .. _Docker support: https://devcenter.heroku.com/articles/build-docker-images-heroku-yml

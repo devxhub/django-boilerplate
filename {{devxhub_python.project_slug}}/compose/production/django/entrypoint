@@ -1,0 +1,79 @@
+#!/bin/bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+
+{% if devxhub_python.use_celery == 'y' %}
+# N.B. If only .env files supported variable expansion...
+export CELERY_BROKER_URL="${REDIS_URL}"
+{% endif %}
+
+{%- if devxhub_python.database_engine == 'postgresql' %}
+if [ -z "${POSTGRES_USER}" ]; then
+    base_postgres_image_default_user='postgres'
+    export POSTGRES_USER="${base_postgres_image_default_user}"
+fi
+export DATABASE_URL="postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}"
+{%- endif %}
+{%- if devxhub_python.database_engine == 'mysql' %}
+if [ -z "${MYSQL_USER}" ]; then
+    base_mysql_image_default_user='root'
+    export MYSQL_USER="${base_mysql_image_default_user}"
+fi
+export DATABASE_URL="mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_DATABASE}"
+{%- endif %}
+
+
+python << END
+import sys
+import time
+
+suggest_unrecoverable_after = 30
+start = time.time()
+
+{%- if devxhub_python.database_engine == 'postgresql' %}
+import psycopg2
+while True:
+    try:
+        psycopg2.connect(
+            dbname="${POSTGRES_DB}",
+            user="${POSTGRES_USER}",
+            password="${POSTGRES_PASSWORD}",
+            host="${POSTGRES_HOST}",
+            port="${POSTGRES_PORT}",
+        )
+        break
+    except psycopg2.OperationalError as error:
+        sys.stderr.write("Waiting for PostgreSQL to become available...\n")
+        if time.time() - start > suggest_unrecoverable_after:
+            sys.stderr.write("  This is taking longer than expected. The following exception may be indicative of an unrecoverable error: '{}'\n".format(error))
+    time.sleep(1)
+{%- endif %}
+
+{%- if devxhub_python.database_engine == 'mysql' %}
+import MySQLdb
+
+while True:
+    try:
+        _db = MySQLdb._mysql.connect(
+            host="${MYSQL_HOST}",
+            user="${MYSQL_USER}",
+            password="${MYSQL_PASSWORD}",
+            database="${MYSQL_DATABASE}",
+            port=int("${MYSQL_PORT}")
+        )
+        break
+    except MySQLdb._exceptions.OperationalError:
+        sys.stderr.write("Waiting for MySQL to become available...\n")
+        if time.time() - start > suggest_unrecoverable_after:
+            sys.stderr.write("  This is taking longer than expected. The following exception may be indicative of an unrecoverable error: '{}'\n".format(error))
+    time.sleep(1)
+{%- endif %}
+
+END
+
+>&2 echo 'Database is available'
+
+exec "$@"
