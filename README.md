@@ -58,7 +58,7 @@ pip install dxh-py
 Now run it against this repo:
 
 ```sh
-dxh_py https://github.com/devxhub/django-boilerplate
+devxhub_python https://github.com/devxhub/django-boilerplate
 ```
 
 You'll be prompted for some values. Provide them, then a Django project will be created for you.
