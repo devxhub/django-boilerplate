@@ -1,5 +1,5 @@
 #!/bin/sh
-# this is a very simple script that tests the docker configuration for devxhub_python-django
+# this is a very simple script that tests the docker configuration for dxh_py-django
 # it is meant to be run from the root directory of the repository, eg:
 # sh tests/test_bare.sh
 
@@ -10,8 +10,8 @@ set -x
 mkdir -p .cache/bare
 cd .cache/bare
 
-# create the project using the default settings in devxhub_python.json
-devxhub_python ../../ --no-input --overwrite-if-exists use_docker=n "$@"
+# create the project using the default settings in dxh_py.json
+dxh_py ../../ --no-input --overwrite-if-exists use_docker=n "$@"
 cd my_awesome_project
 
 # Install OS deps

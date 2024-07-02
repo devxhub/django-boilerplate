@@ -12,7 +12,7 @@ Make sure to have the following on your host:
 * Python 3.11
 * PostgreSQL_.
 * Redis_, if using Celery
-* devxhub_python_
+* dxh_py_
 
 First things first.
 
@@ -86,7 +86,7 @@ or if you're running asynchronously: ::
 
 .. _PostgreSQL: https://www.postgresql.org/download/
 .. _Redis: https://redis.io/download
-.. _devxhub_python: https://github.com/devxhub_python/devxhub_python
+.. _dxh_py: https://github.com/dxh_py/dxh_py
 .. _createdb: https://www.postgresql.org/docs/current/static/app-createdb.html
 .. _initial PostgreSQL set up: https://web.archive.org/web/20190303010033/http://suite.opengeo.org/docs/latest/dataadmin/pgGettingStarted/firstconnect.html
 .. _postgres documentation: https://www.postgresql.org/docs/current/static/auth-pg-hba-conf.html
@@ -194,4 +194,4 @@ If you've opted for Gulp or Webpack as front-end pipeline, the project comes con
 Summary
 -------
 
-Congratulations, you have made it! Keep on reading to unleash full potential of devxhub_python Django.
+Congratulations, you have made it! Keep on reading to unleash full potential of dxh_py Django.

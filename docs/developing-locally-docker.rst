@@ -16,12 +16,12 @@ Prerequisites
 * Docker; if you don't have it yet, follow the `installation instructions`_;
 * Docker Compose; refer to the official documentation for the `installation guide`_.
 * Pre-commit; refer to the official documentation for the `pre-commit`_.
-* devxhub_python; refer to the official GitHub repository of `devxhub_python`_
+* dxh_py; refer to the official GitHub repository of `dxh_py`_
 
 .. _`installation instructions`: https://docs.docker.com/install/#supported-platforms
 .. _`installation guide`: https://docs.docker.com/compose/install/
 .. _`pre-commit`: https://pre-commit.com/#install
-.. _`devxhub_python`: https://github.com/devxhub_python/devxhub_python
+.. _`dxh_py`: https://github.com/dxh_py/dxh_py
 
 Before Getting Started
 ----------------------

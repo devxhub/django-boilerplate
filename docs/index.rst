@@ -1,11 +1,11 @@
-.. devxhub_python-django documentation master file.
+.. dxh_py-django documentation master file.
 
-Welcome to devxhub_python Django's documentation!
+Welcome to dxh_py Django's documentation!
 ===============================================
 
-Powered by devxhub_python_, devxhub_python Django is a project template for jumpstarting production-ready Django projects. The template offers a number of generation options, we invite you to check the :ref:`dedicated page <template-options>` to learn more about each of them.
+Powered by dxh_py_, dxh_py Django is a project template for jumpstarting production-ready Django projects. The template offers a number of generation options, we invite you to check the :ref:`dedicated page <template-options>` to learn more about each of them.
 
-.. _devxhub_python: https://github.com/devxhub_python/devxhub_python
+.. _dxh_py: https://github.com/dxh_py/dxh_py
 
 Contents
 --------

@@ -1,7 +1,7 @@
 # Django Boilerplate
 
 [![Build Status](https://img.shields.io/github/actions/workflow/status/devxhub/django-boilerplate/ci.yml?branch=main)](https://github.com/devxhub/django-boilerplate/actions/workflows/ci.yml?query=branch%3Amain)
-[![Documentation Status](https://readthedocs.org/projects/devxhub_python-django/badge/?version=latest)](https://devxhub_python-django.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/dxh_py-django/badge/?version=latest)](https://dxh_py-django.readthedocs.io/en/latest/?badge=latest)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/devxhub/django-boilerplate/main.svg)](https://results.pre-commit.ci/latest/github/devxhub/django-boilerplate/main)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
@@ -58,7 +58,7 @@ pip install dxh-py
 Now run it against this repo:
 
 ```sh
-devxhub_python https://github.com/devxhub/django-boilerplate
+dxh_py https://github.com/devxhub/django-boilerplate
 ```
 
 You'll be prompted for some values. Provide them, then a Django project will be created for you.

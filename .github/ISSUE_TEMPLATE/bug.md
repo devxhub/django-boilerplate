@@ -14,7 +14,7 @@ labels: bug
 
 - Host system configuration:
 
-  - Version of devxhub_python CLI (get it with `devxhub_python --version`):
+  - Version of dxh_py CLI (get it with `dxh_py --version`):
   - OS name and version:
 
     On Linux, run
@@ -45,8 +45,8 @@ labels: bug
   - docker-compose version (if using Docker), run `docker-compose --version`:
   - ...
 
-- Options selected and/or [replay file](https://devxhub_python.readthedocs.io/en/latest/advanced/replay.html):
-  On Linux and macOS: `cat ${HOME}/.devxhub_python_replay/devxhub_python-django.json`
+- Options selected and/or [replay file](https://dxh_py.readthedocs.io/en/latest/advanced/replay.html):
+  On Linux and macOS: `cat ${HOME}/.dxh_py_replay/dxh_py-django.json`
   (Please, take care to remove sensitive information)
 
 ```json
@@ -57,7 +57,7 @@ labels: bug
 Logs:
 <details>
 <pre>
-$ devxhub_python https://github.com/devxhub_python/devxhub_python-django
+$ dxh_py https://github.com/dxh_py/dxh_py-django
 project_name [Project Name]: ...
 </pre>
 </details>

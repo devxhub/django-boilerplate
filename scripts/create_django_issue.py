@@ -23,7 +23,7 @@ if TYPE_CHECKING:
 
 CURRENT_FILE = Path(__file__)
 ROOT = CURRENT_FILE.parents[1]
-REQUIREMENTS_DIR = ROOT / "{{devxhub_python.project_slug}}" / "requirements"
+REQUIREMENTS_DIR = ROOT / "{{dxh_py.project_slug}}" / "requirements"
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN", None)
 GITHUB_REPO = os.getenv("GITHUB_REPOSITORY", None)
 

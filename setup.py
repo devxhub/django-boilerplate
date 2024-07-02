@@ -11,13 +11,13 @@ with open("README.rst") as readme_file:
     long_description = readme_file.read()
 
 setup(
-    name="devxhub_python-django",
+    name="dxh_py-django",
     version=version,
-    description=("A devxhub_python template for creating production-ready " "Django projects quickly."),
+    description=("A dxh_py template for creating production-ready " "Django projects quickly."),
     long_description=long_description,
     author="Daniel Roy Greenfeld",
     author_email="pydanny@gmail.com",
-    url="https://github.com/devxhub_python/devxhub_python-django",
+    url="https://github.com/dxh_py/dxh_py-django",
     packages=[],
     license="BSD",
     zip_safe=False,
@@ -35,7 +35,7 @@ setup(
         "Topic :: Software Development",
     ],
     keywords=(
-        "devxhub_python, Python, projects, project templates, django, "
+        "dxh_py, Python, projects, project templates, django, "
         "skeleton, scaffolding, project directory, setup.py"
     ),
 )

@@ -3,9 +3,9 @@
 Project Generation Options
 ==========================
 
-This page describes all the template options that will be prompted by the `devxhub_python CLI`_ prior to generating your project.
+This page describes all the template options that will be prompted by the `dxh_py CLI`_ prior to generating your project.
 
-.. _devxhub_python CLI: https://github.com/devxhub_python/devxhub_python
+.. _dxh_py CLI: https://github.com/dxh_py/dxh_py
 
 project_name:
     Your project's human-readable name, capitals and spaces allowed.
@@ -159,7 +159,7 @@ keep_local_envs_in_vcs:
 
 debug:
     Indicates whether the project should be configured for debugging.
-    This option is relevant for devxhub_python Django developers only.
+    This option is relevant for dxh_py Django developers only.
 
 
 .. _MIT: https://opensource.org/licenses/MIT
