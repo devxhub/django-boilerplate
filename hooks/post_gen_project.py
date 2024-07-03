@@ -1,11 +1,11 @@
 """
 NOTE:
     the below code is to be maintained Python 2.x-compatible
-    as the whole Cookiecutter Django project initialization
+    as the whole dxh_py Django project initialization
     can potentially be run in Python 2.x environment
     (at least so we presume in `pre_gen_project.py`).
 
-TODO: restrict Cookiecutter Django project initialization to
+TODO: restrict dxh_py Django project initialization to
       Python 3.x environments only
 """
 from __future__ import print_function
@@ -48,14 +48,14 @@ def remove_gplv3_files():
 def remove_custom_user_manager_files():
     os.remove(
         os.path.join(
-            "{{cookiecutter.project_slug}}",
+            "{{dxh_py.project_slug}}",
             "users",
             "managers.py",
         )
     )
     os.remove(
         os.path.join(
-            "{{cookiecutter.project_slug}}",
+            "{{dxh_py.project_slug}}",
             "users",
             "tests",
             "test_managers.py",
@@ -79,7 +79,7 @@ def remove_docker_files():
     file_names = ["local.yml", "production.yml", ".dockerignore"]
     for file_name in file_names:
         os.remove(file_name)
-    if "{{ cookiecutter.editor }}".lower() == "pycharm":
+    if "{{ dxh_py.editor }}".lower() == "pycharm":
         file_names = ["docker_compose_up_django.xml", "docker_compose_up_docs.xml"]
         for file_name in file_names:
             os.remove(os.path.join(".idea", "runConfigurations", file_name))
@@ -119,7 +119,7 @@ def remove_mysql_docker_folder():
 def remove_heroku_files():
     file_names = ["Procfile", "runtime.txt", "requirements.txt"]
     for file_name in file_names:
-        if file_name == "requirements.txt" and "{{ cookiecutter.ci_tool }}".lower() == "travis":
+        if file_name == "requirements.txt" and "{{ dxh_py.ci_tool }}".lower() == "travis":
             # don't remove the file if we are using travisci but not using heroku
             continue
         os.remove(file_name)
@@ -131,7 +131,7 @@ def remove_heroku_build_hooks():
 
 
 def remove_sass_files():
-    shutil.rmtree(os.path.join("{{cookiecutter.project_slug}}", "static", "sass"))
+    shutil.rmtree(os.path.join("{{dxh_py.project_slug}}", "static", "sass"))
 
 
 def remove_gulp_files():
@@ -147,7 +147,7 @@ def remove_webpack_files():
 
 def remove_vendors_js():
     vendors_js_path = os.path.join(
-        "{{ cookiecutter.project_slug }}",
+        "{{ dxh_py.project_slug }}",
         "static",
         "js",
         "vendors.js",
@@ -238,8 +238,8 @@ def handle_js_runner(choice, use_docker, use_async):
 def remove_celery_files():
     file_names = [
         os.path.join("config", "celery_app.py"),
-        os.path.join("{{ cookiecutter.project_slug }}", "users", "tasks.py"),
-        os.path.join("{{ cookiecutter.project_slug }}", "users", "tests", "test_tasks.py"),
+        os.path.join("{{ dxh_py.project_slug }}", "users", "tasks.py"),
+        os.path.join("{{ dxh_py.project_slug }}", "users", "tests", "test_tasks.py"),
     ]
     for file_name in file_names:
         os.remove(file_name)
@@ -422,7 +422,7 @@ def set_flags_in_envs(database_user, celery_flower_user, debug=False):
     local_django_envs_path = os.path.join(".envs", ".local", ".django")
     production_django_envs_path = os.path.join(".envs", ".production", ".django")
 
-    selected_database = "{{ cookiecutter.database_engine }}"
+    selected_database = "{{ dxh_py.database_engine }}"
 
     set_django_secret_key(production_django_envs_path)
     set_django_admin_url(production_django_envs_path)
@@ -494,36 +494,36 @@ def remove_aws_dockerfile():
 
 def remove_drf_starter_files():
     os.remove(os.path.join("config", "api_router.py"))
-    # shutil.rmtree(os.path.join("{{cookiecutter.project_slug}}", "users", "api"))
-    os.remove(os.path.join("{{cookiecutter.project_slug}}", "users", "api", "serializers.py"))
-    os.remove(os.path.join("{{cookiecutter.project_slug}}", "users", "api", "views.py"))
-    os.remove(os.path.join("{{cookiecutter.project_slug}}", "users", "tests", "test_drf_urls.py"))
-    os.remove(os.path.join("{{cookiecutter.project_slug}}", "users", "tests", "test_drf_views.py"))
-    os.remove(os.path.join("{{cookiecutter.project_slug}}", "users", "tests", "test_swagger.py"))
+    # shutil.rmtree(os.path.join("{{dxh_py.project_slug}}", "users", "api"))
+    os.remove(os.path.join("{{dxh_py.project_slug}}", "users", "api", "serializers.py"))
+    os.remove(os.path.join("{{dxh_py.project_slug}}", "users", "api", "views.py"))
+    os.remove(os.path.join("{{dxh_py.project_slug}}", "users", "tests", "test_drf_urls.py"))
+    os.remove(os.path.join("{{dxh_py.project_slug}}", "users", "tests", "test_drf_views.py"))
+    os.remove(os.path.join("{{dxh_py.project_slug}}", "users", "tests", "test_swagger.py"))
 
 
 def remove_graphene_starter_files():
     os.remove(os.path.join("config", "schema.py"))
     shutil.rmtree(os.path.join("api"))
-    os.remove(os.path.join("{{cookiecutter.project_slug}}", "users", "api", "schema.py"))
-    os.remove(os.path.join("{{cookiecutter.project_slug}}", "users", "api", "queries.py"))
-    os.remove(os.path.join("{{cookiecutter.project_slug}}", "users", "api", "mutations.py"))
-    os.remove(os.path.join("{{cookiecutter.project_slug}}", "users", "api", "filters.py"))
-    os.remove(os.path.join("{{cookiecutter.project_slug}}", "users", "api", "inputs.py"))
+    os.remove(os.path.join("{{dxh_py.project_slug}}", "users", "api", "schema.py"))
+    os.remove(os.path.join("{{dxh_py.project_slug}}", "users", "api", "queries.py"))
+    os.remove(os.path.join("{{dxh_py.project_slug}}", "users", "api", "mutations.py"))
+    os.remove(os.path.join("{{dxh_py.project_slug}}", "users", "api", "filters.py"))
+    os.remove(os.path.join("{{dxh_py.project_slug}}", "users", "api", "inputs.py"))
     
 
 
 
 def remove_tenant_files():
-    shutil.rmtree(os.path.join("{{cookiecutter.project_slug}}", "client"))
+    shutil.rmtree(os.path.join("{{dxh_py.project_slug}}", "client"))
 
 
 def remove_storages_module():
-    os.remove(os.path.join("{{cookiecutter.project_slug}}", "utils", "storages.py"))
+    os.remove(os.path.join("{{dxh_py.project_slug}}", "utils", "storages.py"))
 
 
 def main():
-    debug = "{{ cookiecutter.debug }}".lower() == "y"
+    debug = "{{ dxh_py.debug }}".lower() == "y"
 
     set_flags_in_envs(
         DEBUG_VALUE if debug else generate_random_user(),
@@ -532,43 +532,43 @@ def main():
     )
     set_flags_in_settings_files()
 
-    if "{{ cookiecutter.open_source_license }}" == "Not open source":
+    if "{{ dxh_py.open_source_license }}" == "Not open source":
         remove_open_source_files()
-    if "{{ cookiecutter.open_source_license}}" != "GPLv3":
+    if "{{ dxh_py.open_source_license}}" != "GPLv3":
         remove_gplv3_files()
 
-    if "{{ cookiecutter.username_type }}" == "username":
+    if "{{ dxh_py.username_type }}" == "username":
         remove_custom_user_manager_files()
 
-    if "{{ cookiecutter.editor }}".lower() != "pycharm":
+    if "{{ dxh_py.editor }}".lower() != "pycharm":
         remove_pycharm_files()
 
-    if "{{ cookiecutter.use_docker }}".lower() == "y":
-        if "{{ cookiecutter.database_engine }}".lower() == "postgresql":
+    if "{{ dxh_py.use_docker }}".lower() == "y":
+        if "{{ dxh_py.database_engine }}".lower() == "postgresql":
             remove_mysql_docker_folder()
-        elif "{{ cookiecutter.database_engine }}".lower() == "mysql":
+        elif "{{ dxh_py.database_engine }}".lower() == "mysql":
             remove_postgres_docker_folder()
         
         remove_utility_files()
     else:
         remove_docker_files()
 
-    if "{{ cookiecutter.database_engine }}".lower() == "postgresql":
+    if "{{ dxh_py.database_engine }}".lower() == "postgresql":
         remove_mysql_env_files()
-    elif "{{ cookiecutter.database_engine }}".lower() == "mysql":
+    elif "{{ dxh_py.database_engine }}".lower() == "mysql":
         remove_postgres_env_files()
 
 
-    if "{{ cookiecutter.use_docker }}".lower() == "y" and "{{ cookiecutter.cloud_provider}}" != "AWS":
+    if "{{ dxh_py.use_docker }}".lower() == "y" and "{{ dxh_py.cloud_provider}}" != "AWS":
         remove_aws_dockerfile()
 
-    if "{{ cookiecutter.use_heroku }}".lower() == "n":
+    if "{{ dxh_py.use_heroku }}".lower() == "n":
         remove_heroku_files()
-    elif "{{ cookiecutter.frontend_pipeline }}" != "Django Compressor":
+    elif "{{ dxh_py.frontend_pipeline }}" != "Django Compressor":
         remove_heroku_build_hooks()
 
-    if "{{ cookiecutter.use_docker }}".lower() == "n" and "{{ cookiecutter.use_heroku }}".lower() == "n":
-        if "{{ cookiecutter.keep_local_envs_in_vcs }}".lower() == "y":
+    if "{{ dxh_py.use_docker }}".lower() == "n" and "{{ dxh_py.use_heroku }}".lower() == "n":
+        if "{{ dxh_py.keep_local_envs_in_vcs }}".lower() == "y":
             print(
                 INFO + ".env(s) are only utilized when Docker Compose and/or "
                 "Heroku support is enabled so keeping them does not "
@@ -578,54 +578,54 @@ def main():
     else:
         append_to_gitignore_file(".env")
         append_to_gitignore_file(".envs/*")
-        if "{{ cookiecutter.keep_local_envs_in_vcs }}".lower() == "y":
+        if "{{ dxh_py.keep_local_envs_in_vcs }}".lower() == "y":
             append_to_gitignore_file("!.envs/.local/")
 
-    if "{{ cookiecutter.frontend_pipeline }}" in ["None", "Django Compressor"]:
+    if "{{ dxh_py.frontend_pipeline }}" in ["None", "Django Compressor"]:
         remove_gulp_files()
         remove_webpack_files()
         remove_sass_files()
         remove_packagejson_file()
-        if "{{ cookiecutter.use_docker }}".lower() == "y":
+        if "{{ dxh_py.use_docker }}".lower() == "y":
             remove_node_dockerfile()
     else:
         handle_js_runner(
-            "{{ cookiecutter.frontend_pipeline }}",
-            use_docker=("{{ cookiecutter.use_docker }}".lower() == "y"),
-            use_async=("{{ cookiecutter.use_async }}".lower() == "y"),
+            "{{ dxh_py.frontend_pipeline }}",
+            use_docker=("{{ dxh_py.use_docker }}".lower() == "y"),
+            use_async=("{{ dxh_py.use_async }}".lower() == "y"),
         )
 
-    if "{{ cookiecutter.cloud_provider }}" == "None" and "{{ cookiecutter.use_docker }}".lower() == "n":
+    if "{{ dxh_py.cloud_provider }}" == "None" and "{{ dxh_py.use_docker }}".lower() == "n":
         print(
             WARNING + "You chose to not use any cloud providers nor Docker, "
             "media files won't be served in production." + TERMINATOR
         )
         remove_storages_module()
 
-    if "{{ cookiecutter.use_celery }}".lower() == "n":
+    if "{{ dxh_py.use_celery }}".lower() == "n":
         remove_celery_files()
-        if "{{ cookiecutter.use_docker }}".lower() == "y":
+        if "{{ dxh_py.use_docker }}".lower() == "y":
             remove_celery_compose_dirs()
 
-    if "{{ cookiecutter.ci_tool }}" != "Travis":
+    if "{{ dxh_py.ci_tool }}" != "Travis":
         remove_dottravisyml_file()
 
-    if "{{ cookiecutter.ci_tool }}" != "Gitlab":
+    if "{{ dxh_py.ci_tool }}" != "Gitlab":
         remove_dotgitlabciyml_file()
 
-    if "{{ cookiecutter.ci_tool }}" != "Github":
+    if "{{ dxh_py.ci_tool }}" != "Github":
         remove_dotgithub_folder()
 
-    if "{{ cookiecutter.use_drf }}".lower() == "n":
+    if "{{ dxh_py.use_drf }}".lower() == "n":
         remove_drf_starter_files()
 
-    if "{{ cookiecutter.use_graphene }}".lower() == "n":
+    if "{{ dxh_py.use_graphene }}".lower() == "n":
         remove_graphene_starter_files()
 
-    if "{{ cookiecutter.use_async }}".lower() == "n":
+    if "{{ dxh_py.use_async }}".lower() == "n":
         remove_async_files()
         
-    if "{{ cookiecutter.use_tenants }}".lower() == "n":
+    if "{{ dxh_py.use_tenants }}".lower() == "n":
         remove_tenant_files()
 
     print(SUCCESS + "Project initialized, keep up the good work!" + TERMINATOR)
