@@ -8,6 +8,7 @@ class CreateUserInput(graphene.InputObjectType):
     username = graphene.String()
     {%- endif %}
     password = graphene.String()
+    phone_number = graphene.String()
 
 class UpdateUserInput(graphene.InputObjectType):
     id = graphene.ID(required=True)

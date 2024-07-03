@@ -38,6 +38,9 @@ _These features can be enabled during the initial project setup._
 - Configuration for [Celery](https://docs.celeryq.dev) and [Flower](https://github.com/mher/flower) (the latter in Docker setup only)
 - Integration with [MailHog](https://github.com/mailhog/MailHog) for local email testing
 - Integration with [Sentry](https://sentry.io/welcome/) for error logging
+- Integration with [Twilio](https://www.twilio.com/) for SMS services
+- Integration with [Selenium](https://www.selenium.dev/) for browser testing
+- PGAdmin4 for PostgreSQL database management (Docker setup only)
 
 ## Constraints
 
