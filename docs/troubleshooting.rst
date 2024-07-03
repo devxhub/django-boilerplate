@@ -1,7 +1,7 @@
 Troubleshooting
 ===============
 
-This page contains some advice about errors and problems commonly encountered during the development of Cookiecutter Django applications.
+This page contains some advice about errors and problems commonly encountered during the development of dxh_py Django applications.
 
 Server Error on sign-up/log-in
 ------------------------------
@@ -53,9 +53,9 @@ Others
 
 #. ``project_slug`` must be a valid Python module name or you will have issues on imports.
 
-#. ``jinja2.exceptions.TemplateSyntaxError: Encountered unknown tag 'now'.``: please upgrade your cookiecutter version to >= 1.4 (see `#528`_)
+#. ``jinja2.exceptions.TemplateSyntaxError: Encountered unknown tag 'now'.``: please upgrade your dxh_py version to >= 1.4 (see `#528`_)
 
-#. New apps not getting created in project root: This is the expected behavior, because cookiecutter-django does not change the way that django startapp works, you'll have to fix this manually (see `#1725`_)
+#. New apps not getting created in project root: This is the expected behavior, because dxh_py-django does not change the way that django startapp works, you'll have to fix this manually (see `#1725`_)
 
-.. _#528: https://github.com/cookiecutter/cookiecutter-django/issues/528#issuecomment-212650373
-.. _#1725: https://github.com/cookiecutter/cookiecutter-django/issues/1725#issuecomment-407493176
+.. _#528: https://github.com/dxh_py/dxh_py-django/issues/528#issuecomment-212650373
+.. _#1725: https://github.com/dxh_py/dxh_py-django/issues/1725#issuecomment-407493176

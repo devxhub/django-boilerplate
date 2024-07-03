@@ -1,0 +1,13 @@
+# PostgreSQL
+# ------------------------------------------------------------------------------
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_DB={{ dxh_py.project_slug }}
+POSTGRES_USER=!!!SET POSTGRESQL_USER!!!
+POSTGRES_PASSWORD=!!!SET POSTGRESQL_PASSWORD!!!
+
+# pgAdmin
+
+PGADMIN_DEFAULT_EMAIL: pgadmin4@pgadmin.org
+PGADMIN_DEFAULT_PASSWORD: admin
+PGADMIN_CONFIG_SERVER_MODE: 'False'

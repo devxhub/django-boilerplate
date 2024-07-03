@@ -112,8 +112,8 @@ jobs:
           cache: pip
           cache-dependency-path: |
             requirements.txt
-            {{cookiecutter.project_slug}}/requirements/base.txt
-            {{cookiecutter.project_slug}}/requirements/local.txt
+            {{dxh_py.project_slug}}/requirements/base.txt
+            {{dxh_py.project_slug}}/requirements/local.txt
       - name: Install dependencies
         run: pip install -r requirements.txt
       - uses: actions/setup-node@v3

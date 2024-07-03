@@ -1,11 +1,11 @@
-.. cookiecutter-django documentation master file.
+.. dxh_py-django documentation master file.
 
-Welcome to Cookiecutter Django's documentation!
+Welcome to dxh_py Django's documentation!
 ===============================================
 
-Powered by Cookiecutter_, Cookiecutter Django is a project template for jumpstarting production-ready Django projects. The template offers a number of generation options, we invite you to check the :ref:`dedicated page <template-options>` to learn more about each of them.
+Powered by dxh_py_, dxh_py Django is a project template for jumpstarting production-ready Django projects. The template offers a number of generation options, we invite you to check the :ref:`dedicated page <template-options>` to learn more about each of them.
 
-.. _cookiecutter: https://github.com/cookiecutter/cookiecutter
+.. _dxh_py: https://github.com/dxh_py/dxh_py
 
 Contents
 --------

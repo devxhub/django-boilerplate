@@ -1,4 +1,4 @@
-cookiecutter==2.6.0
+dxh_py==2.6.0
 sh==2.0.7; sys_platform != "win32"
 binaryornot==0.4.4
 

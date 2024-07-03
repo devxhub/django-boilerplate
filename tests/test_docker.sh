@@ -1,5 +1,5 @@
 #!/bin/sh
-# this is a very simple script that tests the docker configuration for cookiecutter-django
+# this is a very simple script that tests the docker configuration for dxh_py-django
 # it is meant to be run from the root directory of the repository, eg:
 # sh tests/test_docker.sh
 
@@ -10,8 +10,8 @@ set -x
 mkdir -p .cache/docker
 cd .cache/docker
 
-# create the project using the default settings in cookiecutter.json
-cookiecutter ../../ --no-input --overwrite-if-exists use_docker=y "$@"
+# create the project using the default settings in dxh_py.json
+dxh_py ../../ --no-input --overwrite-if-exists use_docker=y "$@"
 cd my_awesome_project
 
 # make sure all images build

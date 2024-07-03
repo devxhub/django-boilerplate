@@ -1,7 +1,7 @@
 # Django Boilerplate
 
 [![Build Status](https://img.shields.io/github/actions/workflow/status/devxhub/django-boilerplate/ci.yml?branch=main)](https://github.com/devxhub/django-boilerplate/actions/workflows/ci.yml?query=branch%3Amain)
-[![Documentation Status](https://readthedocs.org/projects/cookiecutter-django/badge/?version=latest)](https://cookiecutter-django.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/dxh_py-django/badge/?version=latest)](https://dxh_py-django.readthedocs.io/en/latest/?badge=latest)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/devxhub/django-boilerplate/main.svg)](https://results.pre-commit.ci/latest/github/devxhub/django-boilerplate/main)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
@@ -51,59 +51,58 @@ _These features can be enabled during the initial project setup._
 ## Usage
 
 Let's pretend you want to create a Django project called "redditclone". Rather than using `startproject`
-and then edit the results to include your name, email, and various configuration issues that always get forgotten until the worst possible moment, get [cookiecutter](https://github.com/cookiecutter/cookiecutter) to do all the work.
+and then edit the results to include your name, email, and various configuration issues that always get forgotten until the worst possible moment, get [dxh-py](https://github.com/devxhub/dxh-py) to do all the work.
 
-First, get Cookiecutter. Trust me, it's awesome:
+First, get `dxh-py`. Trust me, it's awesome:
+
 ```sh
-pip install "cookiecutter>=1.7.0"
+pip install dxh-py
 ```
 Now run it against this repo:
+
 ```sh
-cookiecutter https://github.com/devxhub/django-boilerplate
+dxh_py https://github.com/devxhub/django-boilerplate
 ```
+
 You'll be prompted for some values. Provide them, then a Django project will be created for you.
 
-**Warning**: After this point, change 'Daniel Greenfeld', 'pydanny', etc to your information.
+**Warning**: After this point, change 'DEVxHUB', 'devxhub@example.com', etc to your information.
 
-Answer the prompts with your own desired [options](http://cookiecutter-django.readthedocs.io/en/latest/project-generation-options.html). For example:
+Answer the prompts with your own desired. For example:
 
-    Cloning into 'cookiecutter-django'...
-    remote: Counting objects: 550, done.
-    remote: Compressing objects: 100% (310/310), done.
-    remote: Total 550 (delta 283), reused 479 (delta 222)
-    Receiving objects: 100% (550/550), 127.66 KiB | 58 KiB/s, done.
-    Resolving deltas: 100% (283/283), done.
-    project_name [My Awesome Project]: Reddit Clone
-    project_slug [reddit_clone]: reddit
-    description [Behold My Awesome Project!]: A reddit clone.
-    author_name [DEVxHUB AIS Team]: Devxhub AIS
-    domain_name [example.com]: myreddit.com
-    email [devxhub-ais@example.com]: devxhub@gmail.com
-    version [0.1.0]: 0.0.1
-    Select open_source_license:
+```sh
+    You've downloaded /home/django-boilerplate before. Is it okay to delete and re-download it? [y/n] (y): y
+  [1/30] project_name (My Awesome Project): Your Project Name
+  [2/30] project_slug (my_awesome_project): your_project_name
+  [3/30] description (Behold My Awesome Project!): 
+  [4/30] author_name (DEVxHUB Team-404): 
+  [5/30] domain_name (example.com): 
+  [6/30] email (devxhub@example.com): 
+  [7/30] version (0.1.0): 
+  [8/30] Select open_source_license
     1 - MIT
     2 - BSD
     3 - GPLv3
     4 - Apache Software License 2.0
     5 - Not open source
-    Choose from 1, 2, 3, 4, 5 [1]: 1
-    Select username_type:
+    Choose from [1/2/3/4/5] (1): 
+  [9/30] Select username_type
     1 - email
     2 - username
-    Choose from 1, 2 [1]: 1
-    timezone [UTC]: America/Los_Angeles
-    windows [n]: n
-    Select an editor to use. The choices are:
+    Choose from [1/2] (1): 
+  [10/30] timezone (UTC): 
+  [11/30] windows (n): 
+  [12/30] Select editor
     1 - none
-    2 - pycharm
-    3 - vscode
-    Choose from 1, 2, 3 [1]: 1
-    use_docker [n]: y
-    Select database_engine:
+    2 - vscode
+    3 - pycharm
+    Choose from [1/2/3] (1): 
+  [13/30] use_docker (n): 
+  [14/30] Select database_engine
     1 - postgresql
     2 - mysql
-    Choose from 1, 2 [1]: 2
-    Select database_version:
+    Choose from [1/2] (1): 
+  [15/30] Select database_version
     1 - postgresql@14
     2 - postgresql@13
     3 - postgresql@12
@@ -112,13 +111,15 @@ Answer the prompts with your own desired [options](http://cookiecutter-django.re
     6 - mysql@8.0.30
     7 - mysql@8.0
     8 - mysql@5.7
-    Choose from 1, 2, 3, 4, 5, 6, 7, 8 [1]: 1
-    Select cloud_provider:
+    Choose from [1/2/3/4/5/6/7/8] (1): 
+  [16/30] use_tenants (n): 
+  [17/30] Select cloud_provider
     1 - AWS
     2 - GCP
-    3 - None
-    Choose from 1, 2, 3 [1]: 1
-    Select mail_service:
+    3 - Azure
+    4 - None
+    Choose from [1/2/3/4] (1): 
+  [18/30] Select mail_service
     1 - Mailgun
     2 - Amazon SES
     3 - Mailjet
@@ -130,41 +131,86 @@ Answer the prompts with your own desired [options](http://cookiecutter-django.re
     9 - Other SMTP
     Choose from 1, 2, 3, 4, 5, 6, 7, 8, 9 [1]: 1
     use_async [n]: n
-    use_selenium [n]:y
     use_drf [n]: n
-    use_graphene[y]: y
-    use_twillio[n]:y
+    use_graphene[n]: y
     Select frontend_pipeline:
     1 - None
     2 - Django Compressor
     3 - Gulp
     4 - Webpack
-    Choose from 1, 2, 3, 4 [1]: 1
-    use_celery [n]: y
-    use_mailhog [n]: n
-    use_sentry [n]: y
-    use_whitenoise [n]: n
-    use_heroku [n]: y
-    Select ci_tool:
+    Choose from [1/2/3/4] (1): 
+  [23/30] use_celery (n): 
+  [24/30] use_mailhog (n): 
+  [25/30] use_sentry (n): 
+  [26/30] use_whitenoise (n): 
+  [27/30] use_heroku (n): 
+  [28/30] Select ci_tool
     1 - None
     2 - Travis
     3 - Gitlab
     4 - Github
-    Choose from 1, 2, 3, 4 [1]: 4
-    keep_local_envs_in_vcs [y]: y
-    debug [n]: n
+    Choose from [1/2/3/4] (1): 
+  [29/30] keep_local_envs_in_vcs (y): 
+  [30/30] debug (n): 
+```
 
 Now take a look at your repo. Don't forget to carefully look at the generated README. Awesome, right?
 
-For local development, see the following:
+## Creating Your First Django App
 
-- [Developing locally](http://cookiecutter-django.readthedocs.io/en/latest/developing-locally.html)
-- [Developing locally using docker](http://cookiecutter-django.readthedocs.io/en/latest/developing-locally-docker.html)
+After setting up your environment, you’re ready to add your first app. This project uses the setup from “Two Scoops of Django” with a two-tier layout:
 
+- Top Level Repository Root has config files, documentation, manage.py, and more.
 
-## For Readers of Two Scoops of Django
+- Second Level Django Project Root is where your Django apps live.
 
-You may notice that some elements of this project do not exactly match what we describe in Chapter 3. The reason for that is this project, amongst other things, serves as a test bed for trying out new ideas and concepts. Sometimes they work, sometimes they don't, but the end result is that it won't necessarily match precisely what is described in the book I co-authored.
+- Second Level Configuration Root holds settings and URL configurations.
+
+The project layout looks something like this:
+
+    <repository_root>/
+    ├── config/
+    │   ├── settings/
+    │   │   ├── __init__.py
+    │   │   ├── base.py
+    │   │   ├── local.py
+    │   │   └── production.py
+    │   ├── urls.py
+    │   └── wsgi.py
+    ├── <django_project_root>/
+    │   ├── <name_of_the_app>/
+    │   │   ├── migrations/
+    │   │   ├── admin.py
+    │   │   ├── apps.py
+    │   │   ├── models.py
+    │   │   ├── tests.py
+    │   │   └── views.py
+    │   ├── __init__.py
+    │   └── ...
+    ├── requirements/
+    │   ├── base.txt
+    │   ├── local.txt
+    │   └── production.txt
+    ├── manage.py
+    ├── README.md
+    └── ...
+
+Following this structured approach, here’s how to add a new app:
+
+1. Create the app using Django’s `startapp` command, replacing `<name-of-the-app>` with your desired app name:
+
+```sh
+python manage.py startapp <name-of-the-app>
+```
+
+2. Move the app to the Django Project Root, maintaining the project’s two-tier structure:
+
+```sh 
+mv <name-of-the-app> <django_project_root>/
+```
+3. Edit the app’s `apps.py` change name = `'<name-of-the-app>'` to name = `'<django_project_root>.<name-of-the-app>'`.
+
+4. Register the new app by adding it to the `LOCAL_APPS` list in `config/settings/base.py`, integrating it as an official component of your project.
 
 ## "Your Stuff"
 

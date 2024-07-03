@@ -22,8 +22,8 @@ accept and merge pull requests.
   {%- endfor %}
 </table>
 
-_Audrey is also the creator of Cookiecutter. Audrey and Daniel are on
-the Cookiecutter core team._
+_Audrey is also the creator of dxh_py. Audrey and Daniel are on
+the dxh_py core team._
 
 ## Other Contributors
 
