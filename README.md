@@ -75,7 +75,7 @@ Answer the prompts with your own desired. For example:
   [1/30] project_name (My Awesome Project): Your Project Name
   [2/30] project_slug (my_awesome_project): your_project_name
   [3/30] description (Behold My Awesome Project!): 
-  [4/30] author_name (DEVxHUB Team-404): 
+  [4/30] author_name (DEVxHUB-404): 
   [5/30] domain_name (example.com): 
   [6/30] email (devxhub@example.com): 
   [7/30] version (0.1.0): 
@@ -129,11 +129,11 @@ Answer the prompts with your own desired. For example:
     7 - SendinBlue
     8 - SparkPost
     9 - Other SMTP
-    Choose from 1, 2, 3, 4, 5, 6, 7, 8, 9 [1]: 1
-    use_async [n]: n
-    use_drf [n]: n
-    use_graphene[n]: y
-    Select frontend_pipeline:
+    Choose from [1/2/3/4/5/6/7/8/9] (1): 
+  [19/30] use_async (n): 
+  [20/30] use_drf (n): 
+  [21/30] use_graphene (n): 
+  [22/30] Select frontend_pipeline
     1 - None
     2 - Django Compressor
     3 - Gulp
