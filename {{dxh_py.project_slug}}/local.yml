@@ -69,11 +69,11 @@ services:
 
   pgadmin:
     image: dpage/pgadmin4
-    container_name: {{ cookiecutter.project_slug }}_local_pgadmin
+    container_name: {{ dxh_py.project_slug }}_local_pgadmin
     env_file:
       - ./.envs/.local/.postgres
     volumes:
-      - {{ cookiecutter.project_slug }}_local_pgadmin:/var/lib/pgadmin
+      - {{ dxh_py.project_slug }}_local_pgadmin:/var/lib/pgadmin
     depends_on:
       - postgres
     ports:
@@ -200,10 +200,10 @@ services:
       {%- endif %}
 
   {%- endif %}
-  {%- if cookiecutter.use_selenium == 'y' %}
+  {%- if dxh_py.use_selenium == 'y' %}
   selenium:
     image: seleniarm/standalone-chromium
-    container_name: {{ cookiecutter.project_slug }}_local_selenium
+    container_name: {{ dxh_py.project_slug }}_local_selenium
     ports:
       - '4444:4444'
   {%- endif %}

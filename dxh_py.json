@@ -2,7 +2,7 @@
   "project_name": "My Project",
   "project_slug": "{{ dxh_py.project_name.lower()|replace(' ', '_')|replace('-', '_')|replace('.', '_')|trim() }}",
   "description": "Behold My Awesome Project!",
-  "author_name": "DEVxHUB-404",
+  "author_name": "DEVxHUB",
   "domain_name": "devxhub.com",
   "email": "{{ dxh_py.author_name.lower() | trim() |replace(' ', '-') }}@{{ dxh_py.domain_name.lower() | trim() }}",
   "version": "0.1.0",

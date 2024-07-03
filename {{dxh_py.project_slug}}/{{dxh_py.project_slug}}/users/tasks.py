@@ -1,5 +1,5 @@
 from django.conf import settings
-{%- if cookiecutter.use_twillio == 'y' %}
+{%- if dxh_py.use_twillio == 'y' %}
 from twilio.rest import Client
 {%- endif %}
 from django.contrib.auth import get_user_model
@@ -53,7 +53,7 @@ def send_password_reset_otp(email, otp):
 
 
 
-{%- if cookiecutter.use_twillio == 'y' %}
+{%- if dxh_py.use_twillio == 'y' %}
 @shared_task
 def send_sms(to_phone_number, message):
     client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
@@ -67,7 +67,7 @@ def send_sms(to_phone_number, message):
 
 
 
-{%- if cookiecutter.use_twillio == 'n' %}
+{%- if dxh_py.use_twillio == 'n' %}
 @shared_task
 def send_sms(to_phone_number, message):
     return True

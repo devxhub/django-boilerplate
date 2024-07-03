@@ -49,7 +49,7 @@ services:
       - mysql
       {%- endif %}
       - redis
-      {%- if cookiecutter.use_selenium == 'y' %}
+      {%- if dxh_py.use_selenium == 'y' %}
       - selenium
       {%- endif %}
     env_file:
@@ -149,7 +149,7 @@ services:
       - production_django_media:/usr/share/nginx/media:ro
   {%- endif %}
 
-  {%- if cookiecutter.use_selenium == 'y' %}
+  {%- if dxh_py.use_selenium == 'y' %}
   selenium:
     image: seleniarm/standalone-chromium
     ports:

@@ -75,7 +75,7 @@ Answer the prompts with your own desired. For example:
   [1/30] project_name (My Awesome Project): Your Project Name
   [2/30] project_slug (my_awesome_project): your_project_name
   [3/30] description (Behold My Awesome Project!): 
-  [4/30] author_name (DEVxHUB-404): 
+  [4/30] author_name (DEVxHUB): 
   [5/30] domain_name (example.com): 
   [6/30] email (devxhub@example.com): 
   [7/30] version (0.1.0): 
