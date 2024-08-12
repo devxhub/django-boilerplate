@@ -167,6 +167,7 @@ TENANT_APPS = [
     "corsheaders",
     "django_filters",
     "{{ dxh_py.project_slug }}.users",
+    "{{ dxh_py.project_slug }}.setting",
     # Your stuff: custom apps go here
 ]
 
