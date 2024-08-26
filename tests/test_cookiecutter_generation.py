@@ -359,7 +359,7 @@ def test_error_if_incompatible(cookies, context, invalid_context):
     ["editor", "pycharm_docs_exist"],
     [
         ("None", False),
-        ("pycharm", True)
+        ("pycharm", True),
         ("vscode", False),
     ],
 )
