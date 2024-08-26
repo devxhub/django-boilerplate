@@ -64,7 +64,7 @@ SUPPORTED_COMBINATIONS = [
     {"database_engine": "postgresql", "database_version": "postgresql@12"},
     {"database_engine": "postgresql", "database_version": "postgresql@11"},
     {"database_engine": "postgresql", "database_version": "postgresql@10"},
-    {"database_engine": "mysql", "database_version": "mysql@8.0.29"},
+    {"database_engine": "mysql", "database_version": "mysql@8.0.30"},
     {"database_engine": "mysql", "database_version": "mysql@8.0"},
     {"database_engine": "mysql", "database_version": "mysql@5.7"},
     {"cloud_provider": "AWS", "use_whitenoise": "y"},
