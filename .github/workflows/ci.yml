@@ -52,9 +52,9 @@ jobs:
           - name: Extended - Postgres
             args: "use_celery=y use_drf=y frontend_pipeline=Gulp database_engine=postgresql database_version='postgresql@14'"
           - name: Basic - MySQL
-            args: "database_engine=mysql database_version='mysql@8.0.29'"
+            args: "database_engine=mysql database_version='mysql@8.0.30'"
           - name: Extended - MySQL
-            args: "use_celery=y use_drf=y frontend_pipeline=Gulp database_engine=mysql database_version='mysql@8.0.29'"
+            args: "use_celery=y use_drf=y frontend_pipeline=Gulp database_engine=mysql database_version='mysql@8.0.30'"
 
     name: "${{ matrix.script.name }} Docker"
     runs-on: ubuntu-latest
