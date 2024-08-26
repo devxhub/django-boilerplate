@@ -57,6 +57,8 @@ SUPPORTED_COMBINATIONS = [
     {"editor": "vscode"},
     {"use_docker": "y"},
     {"use_docker": "n"},
+    {"database_engine": "postgresql", "database_version": "postgresql@16"},
+    {"database_engine": "postgresql", "database_version": "postgresql@15"},
     {"database_engine": "postgresql", "database_version": "postgresql@14"},
     {"database_engine": "postgresql", "database_version": "postgresql@13"},
     {"database_engine": "postgresql", "database_version": "postgresql@12"},

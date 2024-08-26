@@ -1,5 +1,5 @@
 # define an alias for the specific python version used in this file.
-FROM python:3.11.3-slim-bullseye as python
+FROM docker.io/python:3.12.5-slim-bookworm AS python
 
 # Python build stage
 FROM python as python-build-stage

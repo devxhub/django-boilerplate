@@ -165,7 +165,6 @@ services:
       - selenium
       {%- endif %}
     ports: []
-    ports: []
     command: /start-celerybeat
 
   flower:

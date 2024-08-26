@@ -2,48 +2,48 @@
 
 -r base.txt
 
-gunicorn==20.1.0  # https://github.com/benoitc/gunicorn
+gunicorn==23.0.0  # https://github.com/benoitc/gunicorn
 {%- if dxh_py.database_engine == "postgresql" %}
-psycopg2==2.9.6  # https://github.com/psycopg/psycopg2
+psycopg2==2.9.9  # https://github.com/psycopg/psycopg2
 {%- elif dxh_py.database_engine == "mysql" %}
-mysqlclient==2.1.1 # https://github.com/PyMySQL/mysqlclient
+mysqlclient==2.2.4 # https://github.com/PyMySQL/mysqlclient
 {%- endif %}
 
 {%- if dxh_py.use_whitenoise == 'n' %}
 Collectfast==2.2.0  # https://github.com/antonagestam/collectfast
 {%- endif %}
 {%- if dxh_py.use_sentry == "y" %}
-sentry-sdk==1.21.0  # https://github.com/getsentry/sentry-python
+sentry-sdk==2.13.0  # https://github.com/getsentry/sentry-python
 {%- endif %}
 {%- if dxh_py.use_docker == "n" and dxh_py.windows == "y" %}
-hiredis==2.2.2  # https://github.com/redis/hiredis-py
+hiredis==3.0.0  # https://github.com/redis/hiredis-py
 {%- endif %}
 
 # Django
 # ------------------------------------------------------------------------------
 {%- if dxh_py.cloud_provider == 'AWS' %}
-django-storages[boto3]==1.13.2  # https://github.com/jschneier/django-storages
+django-storages[boto3]==1.14.4  # https://github.com/jschneier/django-storages
 {%- elif dxh_py.cloud_provider == 'GCP' %}
-django-storages[google]==1.13.2  # https://github.com/jschneier/django-storages
+django-storages[google]==1.14.4  # https://github.com/jschneier/django-storages
 {%- elif dxh_py.cloud_provider == 'Azure' %}
-django-storages[azure]==1.13.2  # https://github.com/jschneier/django-storages
+django-storages[azure]==1.14.4  # https://github.com/jschneier/django-storages
 {%- endif %}
 {%- if dxh_py.mail_service == 'Mailgun' %}
-django-anymail[mailgun]==9.1  # https://github.com/anymail/django-anymail
+django-anymail[mailgun]==11.1  # https://github.com/anymail/django-anymail
 {%- elif dxh_py.mail_service == 'Amazon SES' %}
-django-anymail[amazon_ses]==9.1  # https://github.com/anymail/django-anymail
+django-anymail[amazon-ses]==11.1  # https://github.com/anymail/django-anymail
 {%- elif dxh_py.mail_service == 'Mailjet' %}
-django-anymail[mailjet]==9.1  # https://github.com/anymail/django-anymail
+django-anymail[mailjet]==11.1  # https://github.com/anymail/django-anymail
 {%- elif dxh_py.mail_service == 'Mandrill' %}
-django-anymail[mandrill]==9.1  # https://github.com/anymail/django-anymail
+django-anymail[mandrill]==11.1  # https://github.com/anymail/django-anymail
 {%- elif dxh_py.mail_service == 'Postmark' %}
-django-anymail[postmark]==9.1  # https://github.com/anymail/django-anymail
+django-anymail[postmark]==11.1   # https://github.com/anymail/django-anymail
 {%- elif dxh_py.mail_service == 'Sendgrid' %}
-django-anymail[sendgrid]==9.1  # https://github.com/anymail/django-anymail
+django-anymail[sendgrid]==11.1  # https://github.com/anymail/django-anymail
 {%- elif dxh_py.mail_service == 'SendinBlue' %}
-django-anymail[sendinblue]==9.1  # https://github.com/anymail/django-anymail
+django-anymail[sendinblue]==11.1  # https://github.com/anymail/django-anymail
 {%- elif dxh_py.mail_service == 'SparkPost' %}
-django-anymail[sparkpost]==9.1  # https://github.com/anymail/django-anymail
+django-anymail[sparkpost]==11.1  # https://github.com/anymail/django-anymail
 {%- elif dxh_py.mail_service == 'Other SMTP' %}
-django-anymail==9.1  # https://github.com/anymail/django-anymail
+django-anymail==11.1  # https://github.com/anymail/django-anymail
 {%- endif %}
