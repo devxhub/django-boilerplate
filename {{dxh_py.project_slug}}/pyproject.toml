@@ -37,7 +37,7 @@ skip_glob = ["**/migrations/*.py"]
 
 # ==== mypy ====
 [tool.mypy]
-python_version = "3.11"
+python_version = "3.12"
 check_untyped_defs = true
 ignore_missing_imports = true
 warn_unused_ignores = true

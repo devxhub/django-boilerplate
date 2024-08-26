@@ -8,7 +8,7 @@
 ## Features
 
 - For Django 4.1
-- Works with Python 3.11
+- Works with Python 3.12
 - Renders Django projects with 100% starting test coverage
 - Twitter [Bootstrap](https://github.com/twbs/bootstrap) v5
 - [12-Factor](http://12factor.net/) based settings via [django-environ](https://github.com/joke2k/django-environ)

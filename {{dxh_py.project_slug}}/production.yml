@@ -89,7 +89,7 @@ services:
     
   {%- endif %}
 
- traefik:
+  traefik:
     build:
       context: .
       dockerfile: ./compose/production/traefik/Dockerfile

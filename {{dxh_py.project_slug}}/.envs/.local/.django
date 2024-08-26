@@ -10,7 +10,7 @@ REDIS_URL=redis://redis:6379/0
 
 # Celery
 # ------------------------------------------------------------------------------
-
+CELERY_BROKER_URL=redis://redis:6379/0
 # Flower
 CELERY_FLOWER_USER=!!!SET CELERY_FLOWER_USER!!!
 CELERY_FLOWER_PASSWORD=!!!SET CELERY_FLOWER_PASSWORD!!!
@@ -40,3 +40,5 @@ FACEBOOK_CALLBACK_URL = http://localhost:3000/auth/social/facebook
 GOOGLE_CALLBACK_URL = http://localhost:3000/auth/social/google
 
 {%- endif %}
+
+DATABASE_URL= postgres://POSTGRES_USER:POSTGRES_PASSWORD@POSTGRES_HOST:POSTGRES_PORT/{{ dxh_py.project_slug }} 
