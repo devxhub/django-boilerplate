@@ -16,7 +16,7 @@ cd my_awesome_project
 
 # Install OS deps
 #!/bin/bash
-WORK_DIR="$(dirname "$0")"
+WORK_DIR="my_awesome_project/"
 DISTRO_NAME=$(lsb_release -sc)
 OS_REQUIREMENTS_FILENAME="requirements-$DISTRO_NAME.apt"
 
