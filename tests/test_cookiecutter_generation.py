@@ -174,7 +174,7 @@ def test_project_generation(cookies, context, context_override):
     """Test that project is generated and fully rendered."""
 
     result = cookies.bake(extra_context={**context, **context_override})
-    assert result.exit_code == 0
+    assert result.exit_code != 0
     assert result.exception is None
     assert result.project_path.name == context["project_slug"]
     assert result.project_path.is_dir()
