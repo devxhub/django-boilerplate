@@ -25,7 +25,7 @@ class UserManager(DjangoUserManager["User"]):
     def create_user(self, username=None, email: str = None, password: str | None = None, **extra_fields):
         extra_fields.setdefault("is_staff", False)
         extra_fields.setdefault("is_superuser", False)
-        return self._create_user(email, password, **extra_fields)
+        return self._create_user(username, email, password, **extra_fields)
 
     def create_superuser(self, username=None, email: str = None, password: str | None = None, **extra_fields):
         extra_fields.setdefault("is_staff", True)
@@ -36,4 +36,4 @@ class UserManager(DjangoUserManager["User"]):
         if extra_fields.get("is_superuser") is not True:
             raise ValueError("Superuser must have is_superuser=True.")
 
-        return self._create_user(email, password, **extra_fields)
+        return self._create_user(username, email, password, **extra_fields)
