@@ -41,4 +41,4 @@ GOOGLE_CALLBACK_URL = http://localhost:3000/auth/social/google
 
 {%- endif %}
 
-DATABASE_URL= postgres://POSTGRES_USER:POSTGRES_PASSWORD@postgres:5432/{{ dxh_py.project_slug }} 
+DATABASE_URL= postgres://devxhub:iLoveDevXhuB@postgres:5432/{{ dxh_py.project_slug }} 
