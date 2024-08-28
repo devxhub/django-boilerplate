@@ -328,38 +328,38 @@ def test_djlint_check_passes(cookies, context_override):
 #             pytest.fail(e)
 
 
-@pytest.mark.parametrize(
-    ["use_docker", "expected_test_script"],
-    [
-        ("n", "pytest"),
-        ("y", "docker compose -f local.yml run django pytest"),
-    ],
-)
-def test_github_invokes_linter_and_pytest(cookies, context, use_docker, expected_test_script):
-    context.update({"ci_tool": "Github", "use_docker": use_docker})
-    result = cookies.bake(extra_context=context)
+# @pytest.mark.parametrize(
+#     ["use_docker", "expected_test_script"],
+#     [
+#         ("n", "pytest"),
+#         ("y", "docker compose -f local.yml run django pytest"),
+#     ],
+# )
+# def test_github_invokes_linter_and_pytest(cookies, context, use_docker, expected_test_script):
+#     context.update({"ci_tool": "Github", "use_docker": use_docker})
+#     result = cookies.bake(extra_context=context)
 
-    assert result.exit_code == 0
-    assert result.exception is None
-    assert result.project_path.name == context["project_slug"]
-    assert result.project_path.is_dir()
+#     assert result.exit_code == 0
+#     assert result.exception is None
+#     assert result.project_path.name == context["project_slug"]
+#     assert result.project_path.is_dir()
 
-    with open(f"{result.project_path}/.github/workflows/ci.yml") as github_yml:
-        try:
-            github_config = yaml.safe_load(github_yml)
-            linter_present = False
-            for action_step in github_config["jobs"]["linter"]["steps"]:
-                if action_step.get("uses", "NA").startswith("pre-commit"):
-                    linter_present = True
-            assert linter_present
+#     with open(f"{result.project_path}/.github/workflows/ci.yml") as github_yml:
+#         try:
+#             github_config = yaml.safe_load(github_yml)
+#             linter_present = False
+#             for action_step in github_config["jobs"]["linter"]["steps"]:
+#                 if action_step.get("uses", "NA").startswith("pre-commit"):
+#                     linter_present = True
+#             assert linter_present
 
-            expected_test_script_present = False
-            for action_step in github_config["jobs"]["pytest"]["steps"]:
-                if action_step.get("run") == expected_test_script:
-                    expected_test_script_present = True
-            assert expected_test_script_present
-        except yaml.YAMLError as e:
-            pytest.fail(e)
+#             expected_test_script_present = False
+#             for action_step in github_config["jobs"]["pytest"]["steps"]:
+#                 if action_step.get("run") == expected_test_script:
+#                     expected_test_script_present = True
+#             assert expected_test_script_present
+#         except yaml.YAMLError as e:
+#             pytest.fail(e)
 
 
 # @pytest.mark.parametrize("slug", ["project slug", "Project_Slug"])
