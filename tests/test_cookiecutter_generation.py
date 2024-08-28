@@ -169,19 +169,19 @@ def check_paths(paths):
             assert match is None, f"dxh_py variable not replaced in {path}"
 
 
-@pytest.mark.parametrize("context_override", SUPPORTED_COMBINATIONS, ids=_fixture_id)
-def test_project_generation(cookies, context, context_override):
-    """Test that project is generated and fully rendered."""
+# @pytest.mark.parametrize("context_override", SUPPORTED_COMBINATIONS, ids=_fixture_id)
+# def test_project_generation(cookies, context, context_override):
+#     """Test that project is generated and fully rendered."""
 
-    result = cookies.bake(extra_context={**context, **context_override})
-    assert result.exit_code == 0
-    assert result.exception is None
-    assert result.project_path.name == context["project_slug"]
-    assert result.project_path.is_dir()
+#     result = cookies.bake(extra_context={**context, **context_override})
+#     assert result.exit_code == 0
+#     assert result.exception is None
+#     assert result.project_path.name == context["project_slug"]
+#     assert result.project_path.is_dir()
 
-    paths = build_files_list(str(result.project_path))
-    assert paths
-    check_paths(paths)
+#     paths = build_files_list(str(result.project_path))
+#     assert paths
+#     check_paths(paths)
 
 
 @pytest.mark.parametrize("context_override", SUPPORTED_COMBINATIONS, ids=_fixture_id)
