@@ -48,9 +48,9 @@ jobs:
       matrix:
         script:
           - name: Basic - Postgres
-            args: "database_engine=postgresql database_version='postgresql@14'"
+            args: "database_engine=postgresql database_version='postgresql@16'"
           - name: Extended - Postgres
-            args: "use_celery=y use_drf=y frontend_pipeline=Gulp database_engine=postgresql database_version='postgresql@14'"
+            args: "use_celery=y use_drf=y frontend_pipeline=Gulp database_engine=postgresql database_version='postgresql@16'"
           - name: Basic - MySQL
             args: "database_engine=mysql database_version='mysql@8.0.30'"
           - name: Extended - MySQL
@@ -79,11 +79,11 @@ jobs:
       matrix:
         script:
           - name: With Celery
-            args: "use_celery=y frontend_pipeline='Django Compressor' database_engine=postgresql database_version=postgresql@14"
+            args: "use_celery=y frontend_pipeline='Django Compressor' database_engine=postgresql database_version=postgresql@16"
             # postgres://user:password@host:port/database
             database_url: "postgres://postgres:postgres@localhost:5432/postgres"
           - name: With Gulp
-            args: "frontend_pipeline='Gulp' custom_bootstrap_compilation=y database_engine=postgresql database_version=postgresql@14"
+            args: "frontend_pipeline='Gulp' custom_bootstrap_compilation=y database_engine=postgresql database_version=postgresql@16"
             database_url: "postgres://postgres:postgres@localhost:5432/postgres"
 
     name: "${{ matrix.script.name }} Bare metal"
