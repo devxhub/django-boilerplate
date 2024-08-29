@@ -1,4 +1,4 @@
-##basic build dependencies of various Django apps for Ubuntu Bionic 18.04
+##basic build dependencies of various Django apps for Debian Bookworm 12.x
 #build-essential metapackage install: make, gcc, g++,
 build-essential
 #required to translate
@@ -14,7 +14,7 @@ libpq-dev
 
 ##Pillow dependencies
 libtiff5-dev
-libjpeg8-dev
+libjpeg62-turbo-dev
 libfreetype6-dev
 liblcms2-dev
 libwebp-dev
