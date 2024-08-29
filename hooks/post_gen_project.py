@@ -40,6 +40,12 @@ def remove_open_source_files():
         os.remove(file_name)
 
 
+def remove_gplv3_files():
+    file_names = ["COPYING"]
+    for file_name in file_names:
+        os.remove(file_name)
+
+
 def remove_custom_user_manager_files():
     os.remove(
         os.path.join(
