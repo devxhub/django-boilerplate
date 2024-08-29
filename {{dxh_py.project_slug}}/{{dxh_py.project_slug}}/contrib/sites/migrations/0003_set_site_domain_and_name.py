@@ -50,8 +50,8 @@ def update_site_forward(apps, schema_editor):
     _update_or_create_site_with_sequence(
         Site,
         schema_editor.connection,
-        "{{dxh_py.domain_name}}",
-        "{{dxh_py.project_name}}",
+        "{{ dxh_py.domain_name }}",
+        "{{ dxh_py.project_name[:50] }}",
     )
 
 
