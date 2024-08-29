@@ -1,5 +1,5 @@
 #!/bin/sh
-# this is a very simple script that tests the docker configuration for dxh_py-django
+# this is a very simple script that tests the docker configuration for django boilarplate
 # it is meant to be run from the root directory of the repository, eg:
 # sh tests/test_bare.sh
 

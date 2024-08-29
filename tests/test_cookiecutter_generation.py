@@ -62,8 +62,6 @@ SUPPORTED_COMBINATIONS = [
     {"database_engine": "postgresql", "database_version": "postgresql@14"},
     {"database_engine": "postgresql", "database_version": "postgresql@13"},
     {"database_engine": "postgresql", "database_version": "postgresql@12"},
-    {"database_engine": "postgresql", "database_version": "postgresql@11"},
-    {"database_engine": "postgresql", "database_version": "postgresql@10"},
     {"database_engine": "mysql", "database_version": "mysql@8.0.30"},
     {"database_engine": "mysql", "database_version": "mysql@8.0"},
     {"database_engine": "mysql", "database_version": "mysql@5.7"},
@@ -78,7 +76,7 @@ SUPPORTED_COMBINATIONS = [
     {"cloud_provider": "None", "use_whitenoise": "y", "mail_service": "Mandrill"},
     {"cloud_provider": "None", "use_whitenoise": "y", "mail_service": "Postmark"},
     {"cloud_provider": "None", "use_whitenoise": "y", "mail_service": "Sendgrid"},
-    {"cloud_provider": "None", "use_whitenoise": "y", "mail_service": "SendinBlue"},
+    {"cloud_provider": "None", "use_whitenoise": "y", "mail_service": "Brevo"},
     {"cloud_provider": "None", "use_whitenoise": "y", "mail_service": "SparkPost"},
     {"cloud_provider": "None", "use_whitenoise": "y", "mail_service": "Other SMTP"},
     # Note: cloud_provider=None AND use_whitenoise=n is not supported
@@ -88,7 +86,7 @@ SUPPORTED_COMBINATIONS = [
     {"cloud_provider": "AWS", "mail_service": "Mandrill"},
     {"cloud_provider": "AWS", "mail_service": "Postmark"},
     {"cloud_provider": "AWS", "mail_service": "Sendgrid"},
-    {"cloud_provider": "AWS", "mail_service": "SendinBlue"},
+    {"cloud_provider": "AWS", "mail_service": "Brevo"},
     {"cloud_provider": "AWS", "mail_service": "SparkPost"},
     {"cloud_provider": "AWS", "mail_service": "Other SMTP"},
     {"cloud_provider": "GCP", "mail_service": "Mailgun"},
@@ -96,7 +94,7 @@ SUPPORTED_COMBINATIONS = [
     {"cloud_provider": "GCP", "mail_service": "Mandrill"},
     {"cloud_provider": "GCP", "mail_service": "Postmark"},
     {"cloud_provider": "GCP", "mail_service": "Sendgrid"},
-    {"cloud_provider": "GCP", "mail_service": "SendinBlue"},
+    {"cloud_provider": "GCP", "mail_service": "Brevo"},
     {"cloud_provider": "GCP", "mail_service": "SparkPost"},
     {"cloud_provider": "GCP", "mail_service": "Other SMTP"},
     {"cloud_provider": "Azure", "mail_service": "Mailgun"},
@@ -104,7 +102,7 @@ SUPPORTED_COMBINATIONS = [
     {"cloud_provider": "Azure", "mail_service": "Mandrill"},
     {"cloud_provider": "Azure", "mail_service": "Postmark"},
     {"cloud_provider": "Azure", "mail_service": "Sendgrid"},
-    {"cloud_provider": "Azure", "mail_service": "SendinBlue"},
+    {"cloud_provider": "Azure", "mail_service": "Brevo"},
     {"cloud_provider": "Azure", "mail_service": "SparkPost"},
     {"cloud_provider": "Azure", "mail_service": "Other SMTP"},
     # Note: cloud_providers GCP, Azure, and None
@@ -133,6 +131,7 @@ SUPPORTED_COMBINATIONS = [
     {"ci_tool": "Travis"},
     {"ci_tool": "Gitlab"},
     {"ci_tool": "Github"},
+    {"ci_tool": "Drone"},
     {"keep_local_envs_in_vcs": "y"},
     {"keep_local_envs_in_vcs": "n"},
     {"debug": "y"},
@@ -169,30 +168,30 @@ def check_paths(paths):
             assert match is None, f"dxh_py variable not replaced in {path}"
 
 
-# @pytest.mark.parametrize("context_override", SUPPORTED_COMBINATIONS, ids=_fixture_id)
-# def test_project_generation(cookies, context, context_override):
-#     """Test that project is generated and fully rendered."""
+@pytest.mark.parametrize("context_override", SUPPORTED_COMBINATIONS, ids=_fixture_id)
+def test_project_generation(cookies, context, context_override):
+    """Test that project is generated and fully rendered."""
 
-#     result = cookies.bake(extra_context={**context, **context_override})
-#     assert result.exit_code == 0
-#     assert result.exception is None
-#     assert result.project_path.name == context["project_slug"]
-#     assert result.project_path.is_dir()
+    result = cookies.bake(extra_context={**context, **context_override})
+    assert result.exit_code == 0
+    assert result.exception is None
+    assert result.project_path.name == context["project_slug"]
+    assert result.project_path.is_dir()
 
-#     paths = build_files_list(str(result.project_path))
-#     assert paths
-#     check_paths(paths)
+    paths = build_files_list(str(result.project_path))
+    assert paths
+    check_paths(paths)
 
 
-# @pytest.mark.parametrize("context_override", SUPPORTED_COMBINATIONS, ids=_fixture_id)
-# def test_ruff_check_passes(cookies, context_override):
-#     """Generated project should pass ruff check."""
-#     result = cookies.bake(extra_context=context_override)
+@pytest.mark.parametrize("context_override", SUPPORTED_COMBINATIONS, ids=_fixture_id)
+def test_ruff_check_passes(cookies, context_override):
+    """Generated project should pass ruff check."""
+    result = cookies.bake(extra_context=context_override)
 
-#     try:
-#         sh.ruff("check", ".", _cwd=str(result.project_path))
-#     except sh.ErrorReturnCode as e:
-#         pytest.fail(e.stdout.decode())
+    try:
+        sh.ruff("check", ".", _cwd=str(result.project_path))
+    except sh.ErrorReturnCode as e:
+        pytest.fail(e.stdout.decode())
 
 
 @auto_fixable
@@ -244,24 +243,24 @@ def test_django_upgrade_passes(cookies, context_override):
         pytest.fail(e.stdout.decode())
 
 
-# @pytest.mark.parametrize("context_override", SUPPORTED_COMBINATIONS, ids=_fixture_id)
-# def test_djlint_lint_passes(cookies, context_override):
-#     """Check whether generated project passes djLint --lint."""
-#     result = cookies.bake(extra_context=context_override)
+@pytest.mark.parametrize("context_override", SUPPORTED_COMBINATIONS, ids=_fixture_id)
+def test_djlint_lint_passes(cookies, context_override):
+    """Check whether generated project passes djLint --lint."""
+    result = cookies.bake(extra_context=context_override)
 
-#     autofixable_rules = "H014,T001"
-#     # TODO: remove T002 when fixed https://github.com/Riverside-Healthcare/djLint/issues/687
-#     ignored_rules = "H006,H030,H031,T002"
-#     try:
-#         sh.djlint(
-#             "--lint",
-#             "--ignore",
-#             f"{autofixable_rules},{ignored_rules}",
-#             ".",
-#             _cwd=str(result.project_path),
-#         )
-#     except sh.ErrorReturnCode as e:
-#         pytest.fail(e.stdout.decode())
+    autofixable_rules = "H014,T001"
+    # TODO: remove T002 when fixed https://github.com/Riverside-Healthcare/djLint/issues/687
+    ignored_rules = "H006,H030,H031,T002"
+    try:
+        sh.djlint(
+            "--lint",
+            "--ignore",
+            f"{autofixable_rules},{ignored_rules}",
+            ".",
+            _cwd=str(result.project_path),
+        )
+    except sh.ErrorReturnCode as e:
+        pytest.fail(e.stdout.decode())
 
 
 @auto_fixable
@@ -276,127 +275,145 @@ def test_djlint_check_passes(cookies, context_override):
         pytest.fail(e.stdout.decode())
 
 
-# @pytest.mark.parametrize(
-#     ["use_docker", "expected_test_script"],
-#     [
-#         ("n", "pytest"),
-#         ("y", "docker compose -f local.yml run django pytest"),
-#     ],
-# )
-# def test_travis_invokes_pytest(cookies, context, use_docker, expected_test_script):
-#     context.update({"ci_tool": "Travis", "use_docker": use_docker})
-#     result = cookies.bake(extra_context=context)
+@pytest.mark.parametrize(
+    ["use_docker", "expected_test_script"],
+    [
+        ("n", "pytest"),
+        ("y", "docker compose -f local.yml run django pytest"),
+    ],
+)
+def test_travis_invokes_pytest(cookies, context, use_docker, expected_test_script):
+    context.update({"ci_tool": "Travis", "use_docker": use_docker})
+    result = cookies.bake(extra_context=context)
 
-#     assert result.exit_code == 0
-#     assert result.exception is None
-#     assert result.project_path.name == context["project_slug"]
-#     assert result.project_path.is_dir()
+    assert result.exit_code == 0
+    assert result.exception is None
+    assert result.project_path.name == context["project_slug"]
+    assert result.project_path.is_dir()
 
-#     with open(f"{result.project_path}/.travis.yml") as travis_yml:
-#         try:
-#             yml = yaml.safe_load(travis_yml)["jobs"]["include"]
-#             assert yml[0]["script"] == ["ruff check ."]
-#             assert yml[1]["script"] == [expected_test_script]
-#         except yaml.YAMLError as e:
-#             pytest.fail(str(e))
-
-
-# @pytest.mark.parametrize(
-#     ["use_docker", "expected_test_script"],
-#     [
-#         ("n", "pytest"),
-#         ("y", "docker compose -f local.yml run django pytest"),
-#     ],
-# )
-# def test_gitlab_invokes_precommit_and_pytest(cookies, context, use_docker, expected_test_script):
-#     context.update({"ci_tool": "Gitlab", "use_docker": use_docker})
-#     result = cookies.bake(extra_context=context)
-
-#     assert result.exit_code == 0
-#     assert result.exception is None
-#     assert result.project_path.name == context["project_slug"]
-#     assert result.project_path.is_dir()
-
-#     with open(f"{result.project_path}/.gitlab-ci.yml") as gitlab_yml:
-#         try:
-#             gitlab_config = yaml.safe_load(gitlab_yml)
-#             assert gitlab_config["precommit"]["script"] == [
-#                 "pre-commit run --show-diff-on-failure --color=always --all-files"
-#             ]
-#             assert gitlab_config["pytest"]["script"] == [expected_test_script]
-#         except yaml.YAMLError as e:
-#             pytest.fail(e)
+    with open(f"{result.project_path}/.travis.yml") as travis_yml:
+        try:
+            yml = yaml.safe_load(travis_yml)["jobs"]["include"]
+            assert yml[0]["script"] == ["ruff check ."]
+            assert yml[1]["script"] == [expected_test_script]
+        except yaml.YAMLError as e:
+            pytest.fail(str(e))
 
 
-# @pytest.mark.parametrize(
-#     ["use_docker", "expected_test_script"],
-#     [
-#         ("n", "pytest"),
-#         ("y", "docker compose -f local.yml run django pytest"),
-#     ],
-# )
-# def test_github_invokes_linter_and_pytest(cookies, context, use_docker, expected_test_script):
-#     context.update({"ci_tool": "Github", "use_docker": use_docker})
-#     result = cookies.bake(extra_context=context)
+@pytest.mark.parametrize(
+    ["use_docker", "expected_test_script"],
+    [
+        ("n", "pytest"),
+        ("y", "docker compose -f local.yml run django pytest"),
+    ],
+)
+def test_gitlab_invokes_precommit_and_pytest(cookies, context, use_docker, expected_test_script):
+    context.update({"ci_tool": "Gitlab", "use_docker": use_docker})
+    result = cookies.bake(extra_context=context)
 
-#     assert result.exit_code == 0
-#     assert result.exception is None
-#     assert result.project_path.name == context["project_slug"]
-#     assert result.project_path.is_dir()
+    assert result.exit_code == 0
+    assert result.exception is None
+    assert result.project_path.name == context["project_slug"]
+    assert result.project_path.is_dir()
 
-#     with open(f"{result.project_path}/.github/workflows/ci.yml") as github_yml:
-#         try:
-#             github_config = yaml.safe_load(github_yml)
-#             linter_present = False
-#             for action_step in github_config["jobs"]["linter"]["steps"]:
-#                 if action_step.get("uses", "NA").startswith("pre-commit"):
-#                     linter_present = True
-#             assert linter_present
-
-#             expected_test_script_present = False
-#             for action_step in github_config["jobs"]["pytest"]["steps"]:
-#                 if action_step.get("run") == expected_test_script:
-#                     expected_test_script_present = True
-#             assert expected_test_script_present
-#         except yaml.YAMLError as e:
-#             pytest.fail(e)
+    with open(f"{result.project_path}/.gitlab-ci.yml") as gitlab_yml:
+        try:
+            gitlab_config = yaml.safe_load(gitlab_yml)
+            assert gitlab_config["precommit"]["script"] == [
+                "pre-commit run --show-diff-on-failure --color=always --all-files"
+            ]
+            assert gitlab_config["pytest"]["script"] == [expected_test_script]
+        except yaml.YAMLError as e:
+            pytest.fail(e)
 
 
-# @pytest.mark.parametrize("slug", ["project slug", "Project_Slug"])
-# def test_invalid_slug(cookies, context, slug):
-#     """Invalid slug should fail pre-generation hook."""
-#     context.update({"project_slug": slug})
+@pytest.mark.parametrize(
+    ["use_docker", "expected_test_script"],
+    [
+        ("n", "pytest"),
+        ("y", "docker compose -f local.yml run django pytest"),
+    ],
+)
+def test_github_invokes_linter_and_pytest(cookies, context, use_docker, expected_test_script):
+    context.update({"ci_tool": "Github", "use_docker": use_docker})
+    result = cookies.bake(extra_context=context)
 
-#     result = cookies.bake(extra_context=context)
+    assert result.exit_code == 0
+    assert result.exception is None
+    assert result.project_path.name == context["project_slug"]
+    assert result.project_path.is_dir()
 
-#     assert result.exit_code != 0
-#     assert isinstance(result.exception, FailedHookException)
+    with open(f"{result.project_path}/.github/workflows/ci.yml") as github_yml:
+        try:
+            github_config = yaml.safe_load(github_yml)
+            linter_present = False
+            for action_step in github_config["jobs"]["linter"]["steps"]:
+                if action_step.get("uses", "NA").startswith("pre-commit"):
+                    linter_present = True
+            assert linter_present
+
+            expected_test_script_present = False
+            for action_step in github_config["jobs"]["pytest"]["steps"]:
+                if action_step.get("run") == expected_test_script:
+                    expected_test_script_present = True
+            assert expected_test_script_present
+        except yaml.YAMLError as e:
+            pytest.fail(e)
 
 
-# @pytest.mark.parametrize("invalid_context", UNSUPPORTED_COMBINATIONS)
-# def test_error_if_incompatible(cookies, context, invalid_context):
-#     """It should not generate project an incompatible combination is selected."""
-#     context.update(invalid_context)
-#     result = cookies.bake(extra_context=context)
+@pytest.mark.parametrize("slug", ["project slug", "Project_Slug"])
+def test_invalid_slug(cookies, context, slug):
+    """Invalid slug should fail pre-generation hook."""
+    context.update({"project_slug": slug})
 
-#     assert result.exit_code != 0
-#     assert isinstance(result.exception, FailedHookException)
+    result = cookies.bake(extra_context=context)
 
-# def test_trim_domain_email(cookies, context):
-#     """Check that leading and trailing spaces are trimmed in domain and email."""
-#     context.update(
-#         {
-#             "use_docker": "y",
-#             "domain_name": "   example.com   ",
-#             "email": "  me@example.com  ",
-#         }
-#     )
-#     result = cookies.bake(extra_context=context)
+    assert result.exit_code != 0
+    assert isinstance(result.exception, FailedHookException)
 
-#     assert result.exit_code != 0
 
-#     prod_django_env = result.project_path / ".envs" / ".production" / ".django"
-#     assert "DJANGO_ALLOWED_HOSTS=.example.com" in prod_django_env.read_text()
+@pytest.mark.parametrize("invalid_context", UNSUPPORTED_COMBINATIONS)
+def test_error_if_incompatible(cookies, context, invalid_context):
+    """It should not generate project an incompatible combination is selected."""
+    context.update(invalid_context)
+    result = cookies.bake(extra_context=context)
 
-#     base_settings = result.project_path / "config" / "settings" / "base.py"
-#     assert '"me@example.com"' in base_settings.read_text()
+    assert result.exit_code != 0
+    assert isinstance(result.exception, FailedHookException)
+
+
+@pytest.mark.parametrize(
+    ["editor", "pycharm_docs_exist"],
+    [
+        ("none", False),
+        ("pycharm", True),
+        ("vscode", False),
+    ],
+)
+def test_pycharm_docs_removed(cookies, context, editor, pycharm_docs_exist):
+    context.update({"editor": editor})
+    result = cookies.bake(extra_context=context)
+
+    with open(f"{result.project_path}/docs/index.rst") as f:
+        has_pycharm_docs = "pycharm/configuration" in f.read()
+        assert has_pycharm_docs is pycharm_docs_exist
+
+
+def test_trim_domain_email(cookies, context):
+    """Check that leading and trailing spaces are trimmed in domain and email."""
+    context.update(
+        {
+            "use_docker": "y",
+            "domain_name": "   example.com   ",
+            "email": "  me@example.com  ",
+        }
+    )
+    result = cookies.bake(extra_context=context)
+
+    assert result.exit_code == 0
+
+    prod_django_env = result.project_path / ".envs" / ".production" / ".django"
+    assert "DJANGO_ALLOWED_HOSTS=.example.com" in prod_django_env.read_text()
+
+    base_settings = result.project_path / "config" / "settings" / "base.py"
+    assert '"me@example.com"' in base_settings.read_text()

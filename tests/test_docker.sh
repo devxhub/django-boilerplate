@@ -1,5 +1,5 @@
 #!/bin/sh
-# this is a very simple script that tests the docker configuration for dxh_py-django
+# this is a very simple script that tests the docker configuration for django-boilarplate
 # it is meant to be run from the root directory of the repository, eg:
 # sh tests/test_docker.sh
 
@@ -24,7 +24,7 @@ docker compose -f local.yml run django mypy my_awesome_project
 docker compose -f local.yml run django pytest
 
 # return non-zero status code if there are migrations that have not been created
-docker compose -f local.yml run django python manage.py makemigrations --dry-run --check || { echo "ERROR: there were changes in the models, but migration listed above have not been created and are not saved in version control"; exit 1; }
+docker compose -f local.yml run django python manage.py makemigrations --check || { echo "ERROR: there were changes in the models, but migration listed above have not been created and are not saved in version control"; exit 1; }
 
 # Test support for translations
 docker compose -f local.yml run django python manage.py makemessages --all
@@ -43,7 +43,7 @@ docker compose -f local.yml run \
   django python manage.py check --settings=config.settings.production --deploy --database default --fail-level WARNING
 
 # Generate the HTML for the documentation
-docker compose -f local.yml run docs make html
+docker compose -f docs.yml run docs make html
 
 # Run npm build script if package.json is present
 if [ -f "package.json" ]
