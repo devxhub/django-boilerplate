@@ -2,16 +2,14 @@ from django.conf import settings
 {%- if dxh_py.use_twillio == 'y' %}
 from twilio.rest import Client
 {%- endif %}
-from django.contrib.auth import get_user_model
 from celery import shared_task
 from django.core.mail import send_mail
 from config import celery_app
 import environ
 from django.template.loader import render_to_string
+from .models import User
 
 env = environ.Env()
-User = get_user_model()
-
 
 @celery_app.task()
 def get_users_count():

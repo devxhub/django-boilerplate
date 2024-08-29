@@ -9,7 +9,8 @@ from django.db.models import EmailField
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 {%- if dxh_py.username_type == "email" %}
-from {{ dxh_py.project_slug }}.users.managers import UserManager
+
+from .managers import UserManager
 {%- endif %}
 
 
@@ -38,6 +39,7 @@ class User(AbstractUser):
     # Update the USERNAME_FIELD and REQUIRED_FIELDS
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
+    
     objects: ClassVar[UserManager] = UserManager()
     {%- endif %}
 
