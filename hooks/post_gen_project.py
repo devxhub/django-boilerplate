@@ -8,6 +8,7 @@ NOTE:
 TODO: restrict dxh_py Django project initialization to
       Python 3.x environments only
 """
+
 from __future__ import print_function
 
 import json
@@ -74,6 +75,7 @@ def remove_pycharm_files():
 
 
 def remove_docker_files():
+    shutil.rmtree(".devcontainer")
     shutil.rmtree("compose")
 
     file_names = ["local.yml", "production.yml", ".dockerignore"]
@@ -213,6 +215,7 @@ def handle_js_runner(choice, use_docker, use_async):
             "browser-sync",
             "cssnano",
             "gulp",
+            "gulp-concat",
             "gulp-imagemin",
             "gulp-plumber",
             "gulp-postcss",
@@ -221,7 +224,8 @@ def handle_js_runner(choice, use_docker, use_async):
             "gulp-uglify-es",
         ]
         if not use_docker:
-            dev_django_cmd = "uvicorn config.asgi:application --reload" if use_async else "python manage.py runserver"
+            dev_django_cmd = ("uvicorn config.asgi:application --reload" if use_async else "python manage.py runserver_plus"
+            )
             scripts.update(
                 {
                     "dev": "concurrently npm:dev:*",
@@ -233,6 +237,24 @@ def handle_js_runner(choice, use_docker, use_async):
             remove_dev_deps.append("concurrently")
         update_package_json(remove_dev_deps=remove_dev_deps, scripts=scripts)
         remove_gulp_files()
+
+
+def remove_prettier_pre_commit():
+    with open(".pre-commit-config.yaml", "r") as fd:
+        content = fd.readlines()
+
+    removing = False
+    new_lines = []
+    for line in content:
+        if removing and "- repo:" in line:
+            removing = False
+        if "mirrors-prettier" in line:
+            removing = True
+        if not removing:
+            new_lines.append(line)
+
+    with open(".pre-commit-config.yaml", "w") as fd:
+        fd.writelines(new_lines)
 
 
 def remove_celery_files():
@@ -264,6 +286,10 @@ def remove_dotgitlabciyml_file():
 
 def remove_dotgithub_folder():
     shutil.rmtree(".github")
+
+
+def remove_dotdrone_file():
+    os.remove(".drone.yml")
 
 
 def generate_random_string(length, using_digits=False, using_ascii_letters=False, using_punctuation=False):
@@ -332,6 +358,7 @@ def set_django_admin_url(file_path):
         using_ascii_letters=True,
     )
     return django_admin_url
+
 
 def generate_random_user():
     return generate_random_string(length=32, using_ascii_letters=True)
@@ -587,6 +614,7 @@ def main():
         remove_webpack_files()
         remove_sass_files()
         remove_packagejson_file()
+        remove_prettier_pre_commit()
         if "{{ dxh_py.use_docker }}".lower() == "y":
             remove_node_dockerfile()
     else:
@@ -616,6 +644,9 @@ def main():
 
     if "{{ dxh_py.ci_tool }}" != "Github":
         remove_dotgithub_folder()
+
+    if "{{ dxh_py.ci_tool }}" != "Drone":
+        remove_dotdrone_file()
 
     if "{{ dxh_py.use_drf }}".lower() == "n":
         remove_drf_starter_files()
