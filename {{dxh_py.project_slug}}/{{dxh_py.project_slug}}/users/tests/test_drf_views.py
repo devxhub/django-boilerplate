@@ -26,7 +26,7 @@ class TestUserViewSet:
 
         view.request = request
 
-        response = view.me(request)  # type: ignore
+        response = view.me(request)  # type: ignore[call-arg, arg-type, misc]
 
         assert response.data == {
             {%- if dxh_py.username_type == "email" %}
