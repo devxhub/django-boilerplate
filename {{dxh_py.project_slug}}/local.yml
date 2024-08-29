@@ -91,7 +91,7 @@ services:
     ports:
       - '3406:3306'
   {%- endif %}
- {%- if cookiecutter.use_mailhog == 'y' %}
+ {%- if dxh_py.use_mailhog == 'y' %}
   mailhog:
     image: mailhog/mailhog:v1.0.0
     container_name: {{ dxh_py.project_slug }}_local_mailhog
