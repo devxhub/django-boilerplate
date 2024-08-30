@@ -42,14 +42,6 @@ docker compose -f local.yml run \
   -e MAILGUN_DOMAIN=x \
   django python manage.py check --settings=config.settings.production --deploy --database default --fail-level WARNING
 
-# Check if there are errors or only warnings
-if echo "$CHECK_RESULT" | grep -q "ERROR"; then
-    echo "ERROR: Issues found during the Django check:"
-    echo "$CHECK_RESULT"
-    exit 1
-else
-    echo "Django check passed with warnings only (if any)."
-fi
 
 # Generate the HTML for the documentation
 docker compose -f docs.yml run docs make html
