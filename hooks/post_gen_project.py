@@ -87,11 +87,6 @@ def remove_docker_files():
             os.remove(os.path.join(".idea", "runConfigurations", file_name))
 
 
-def remove_utility_files():
-    shutil.rmtree("utility")
-
-
-
 def remove_postgres_env_files():
     local_postgres_envs_path = os.path.join(".envs", ".local", ".postgres")
     production_postgres_envs_path = os.path.join(".envs", ".production", ".postgres")
@@ -577,7 +572,6 @@ def main():
         elif "{{ dxh_py.database_engine }}".lower() == "mysql":
             remove_postgres_docker_folder()
         
-        remove_utility_files()
     else:
         remove_docker_files()
 
