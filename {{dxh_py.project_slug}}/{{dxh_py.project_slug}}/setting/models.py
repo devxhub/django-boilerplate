@@ -6,6 +6,7 @@ from {{ dxh_py.project_slug }}.utils.constants import DATE_FORMAT_CHOICES, CURRE
 
 
 class PasswordPolicies(BaseModel):
+    id = models.BigAutoField(primary_key=True)
     min_length = models.IntegerField(default=4, blank=True, null=True)
     min_uppercase = models.IntegerField(default=1, blank=True, null=True)
     min_lowercase = models.IntegerField(default=1, blank=True, null=True)
