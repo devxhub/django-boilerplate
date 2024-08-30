@@ -559,9 +559,11 @@ GRAPHQL_JWT = {
 {%- endif %}
 
 
+# Read the TRUSTED_CORS_ORIGINS from the environment variable
+TRUSTED_CORS_ORIGINS = env.list("TRUSTED_CORS_ORIGINS", default=[])
+
 # django-cors-headers - https://github.com/adamchainz/django-cors-headers#setup
 CORS_ALLOW_ALL_ORIGINS = True
-TRUSTED_CORS_ORIGINS = env("TRUSTED_CORS_ORIGINS").split(',')
 CSRF_TRUSTED_ORIGINS = TRUSTED_CORS_ORIGINS
 CORS_ORIGIN_WHITELIST = TRUSTED_CORS_ORIGINS
 CORS_ALLOW_CREDENTIALS = True
