@@ -31,6 +31,7 @@ uvicorn-worker==0.2.0  # https://github.com/Kludex/uvicorn-worker
 # Django
 # ------------------------------------------------------------------------------
 django==5.0.8  # pyup: < 5.1  # https://www.djangoproject.com/
+django-cors-headers==4.4.0  # https://github.com/adamchainz/django-cors-headers
 PyJWT==2.9.0 
 django-environ==0.11.2  # https://github.com/joke2k/django-environ
 django-model-utils==4.5.1  # https://github.com/jazzband/django-model-utils
@@ -44,7 +45,6 @@ django-redis==5.4.0  # https://github.com/jazzband/django-redis
 {%- if dxh_py.use_drf == 'y' %}
 # Django REST Framework
 djangorestframework==3.15.2  # https://github.com/encode/django-rest-framework
-django-cors-headers==4.4.0  # https://github.com/adamchainz/django-cors-headers
 # DRF-spectacular for api documentation
 drf-spectacular==0.27.2  # https://github.com/tfranzel/drf-spectacular
 {%- endif %}
