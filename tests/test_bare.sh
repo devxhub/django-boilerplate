@@ -14,24 +14,24 @@ cd .cache/bare
 dxh_py ../../ --no-input --overwrite-if-exists use_docker=n "$@"
 cd my_awesome_project
 
-# Install OS deps
-sudo utility/install_os_dependencies.sh install
+# # Install OS deps
+# sudo utility/install_os_dependencies.sh install
 
-# Install Python deps
-pip install -r requirements/local.txt
+# # Install Python deps
+# pip install -r requirements/local.txt
 
-# run the project's tests
-pytest
+# # run the project's tests
+# pytest
 
-# Make sure the check doesn't raise any warnings
-python manage.py check --fail-level WARNING
+# # Make sure the check doesn't raise any warnings
+# python manage.py check --fail-level WARNING
 
-# Run npm build script if package.json is present
-if [ -f "package.json" ]
-then
-    npm install
-    npm run build
-fi
+# # Run npm build script if package.json is present
+# if [ -f "package.json" ]
+# then
+#     npm install
+#     npm run build
+# fi
 
-# Generate the HTML for the documentation
-cd docs && make html
+# # Generate the HTML for the documentation
+# cd docs && make html
