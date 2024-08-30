@@ -19,7 +19,7 @@ cd utility
 ls
 
 # Install OS deps
-sudo install_os_dependencies.sh
+sudo my_awesome_project/utility/install_os_dependencies.sh install
 
 cd ..
 
