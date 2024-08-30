@@ -14,14 +14,11 @@ cd .cache/bare
 dxh_py ../../ --no-input --overwrite-if-exists use_docker=n "$@"
 cd my_awesome_project
 
-cd utility
-
-ls
+chmod +x ./utility/install_os_dependencies.sh
 
 # Install OS deps
-sudo my_awesome_project/utility/install_os_dependencies.sh install
+sudo bash ./utility/install_os_dependencies.sh install
 
-cd ..
 
 # Install Python deps
 pip install -r requirements/local.txt
