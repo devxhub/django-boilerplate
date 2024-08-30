@@ -22,10 +22,9 @@ class User(AbstractUser):
     """
     
     # Overriding fields in AbstractUser
-    # first_name = None  # type: ignore
-    # last_name = None  # type: ignore
-    first_name = CharField(_('first name'), max_length=150, blank=True)
-    last_name = CharField(_('last name'), max_length=150, blank=True)
+    first_name = None  # type: ignore
+    last_name = None  # type: ignore
+    
     {%- if dxh_py.username_type == "email" %}
     username = None  # type: ignore
     {%- endif %}
