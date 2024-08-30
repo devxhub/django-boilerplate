@@ -504,12 +504,6 @@ REST_AUTH = {
     'JWT_AUTH_REFRESH_COOKIE': '{{dxh_py.project_slug}}-refresh-cookie',
     'JWT_AUTH_HTTPONLY': False,
 }
-# Custom REST_AUTH Serializers
-# ------------------------------------------------------------------------------
-REST_AUTH_SERIALIZERS = {
-    'USER_DETAILS_SERIALIZER': '{{dxh_py.project_slug}}.users.serializers.CustomUserDetailsSerializer',
-}
-
 
 SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("JWT",),
