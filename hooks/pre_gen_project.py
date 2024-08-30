@@ -7,6 +7,7 @@ NOTE:
 TODO: restrict dxh_py Django project initialization
       to Python 3.x environments only
 """
+
 from __future__ import print_function
 
 import sys
@@ -38,7 +39,7 @@ if "{{ dxh_py.use_docker }}".lower() == "n":
     if python_major_version == 2:
         print(
             WARNING + "You're running dxh_py under Python 2, but the generated "
-            "project requires Python 3.11+. Do you want to proceed (y/n)? " + TERMINATOR
+            "project requires Python 3.12+. Do you want to proceed (y/n)? " + TERMINATOR
         )
         yes_options, no_options = frozenset(["y"]), frozenset(["n"])
         while True:

@@ -2,8 +2,9 @@
 
 {{ dxh_py.description }}
 
-[![Built with dxh_py Django](https://img.shields.io/badge/built%20with-dxh_py%20Django-ff69b4.svg?logo=dxh_py)](https://github.com/dxh_py/dxh_py-django/)
+[![Built with Django-Boilerplate](https://img.shields.io/badge/Built%20with-Django%20Boilerplate-ff69b4.svg?logo=Django-Boilerplate)](https://github.com/devxhub/django-boilerplate/)
 [![Black code style](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
 {%- if dxh_py.open_source_license != "Not open source" %}
 

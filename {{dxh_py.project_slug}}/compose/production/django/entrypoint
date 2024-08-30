@@ -34,10 +34,10 @@ suggest_unrecoverable_after = 30
 start = time.time()
 
 {%- if dxh_py.database_engine == 'postgresql' %}
-import psycopg2
+import psycopg
 while True:
     try:
-        psycopg2.connect(
+        psycopg.connect(
             dbname="${POSTGRES_DB}",
             user="${POSTGRES_USER}",
             password="${POSTGRES_PASSWORD}",
@@ -45,7 +45,7 @@ while True:
             port="${POSTGRES_PORT}",
         )
         break
-    except psycopg2.OperationalError as error:
+    except psycopg.OperationalError as error:
         sys.stderr.write("Waiting for PostgreSQL to become available...\n")
         if time.time() - start > suggest_unrecoverable_after:
             sys.stderr.write("  This is taking longer than expected. The following exception may be indicative of an unrecoverable error: '{}'\n".format(error))

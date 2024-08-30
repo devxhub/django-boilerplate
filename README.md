@@ -8,7 +8,7 @@
 ## Features
 
 - For Django 4.1
-- Works with Python 3.11
+- Works with Python 3.12
 - Renders Django projects with 100% starting test coverage
 - Twitter [Bootstrap](https://github.com/twbs/bootstrap) v5
 - [12-Factor](http://12factor.net/) based settings via [django-environ](https://github.com/joke2k/django-environ)
@@ -103,15 +103,17 @@ Answer the prompts with your own desired. For example:
     2 - mysql
     Choose from [1/2] (1): 
   [15/30] Select database_version
-    1 - postgresql@14
-    2 - postgresql@13
-    3 - postgresql@12
-    4 - postgresql@11
-    5 - postgresql@10
-    6 - mysql@8.0.30
-    7 - mysql@8.0
-    8 - mysql@5.7
-    Choose from [1/2/3/4/5/6/7/8] (1): 
+    1 - postgresql@16
+    2 - postgresql@15
+    3 - postgresql@14
+    4 - postgresql@13
+    5 - postgresql@12
+    6 - postgresql@11
+    7 - postgresql@10
+    8 - mysql@8.0.30
+    9 - mysql@8.0
+    10 - mysql@5.7
+    Choose from [1/2/3/4/5/6/7/8/9/10] (1): 
   [16/30] use_tenants (n): 
   [17/30] Select cloud_provider
     1 - AWS
@@ -126,7 +128,7 @@ Answer the prompts with your own desired. For example:
     4 - Mandrill
     5 - Postmark
     6 - Sendgrid
-    7 - SendinBlue
+    7 - Brevo
     8 - SparkPost
     9 - Other SMTP
     Choose from [1/2/3/4/5/6/7/8/9] (1): 
