@@ -11,7 +11,9 @@ from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 {%- endif %}
 from {{ dxh_py.project_slug }}.users.models import User
+import environ
 
+env = environ.Env()
 
 class UserDetailView(LoginRequiredMixin, DetailView):
     model = User
