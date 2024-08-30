@@ -215,7 +215,6 @@ THIRD_PARTY_APPS = [
     {%- if dxh_py.use_drf == "y" %}
     "rest_framework",
     "rest_framework.authtoken",
-    "corsheaders",
     "dj_rest_auth",
     "dj_rest_auth.registration",
     "drf_spectacular",
