@@ -16,8 +16,10 @@ cd my_awesome_project
 
 cd utility
 
+ls
+
 # Install OS deps
-install_os_dependencies.sh install
+sudo install_os_dependencies.sh
 
 cd ..
 
