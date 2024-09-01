@@ -152,7 +152,7 @@ typings/
 # .nfs files are created when an open file is removed but is still being accessed
 .nfs*
 
-
+{% if dxh_py.editor == "vscode" -%}
 ### VisualStudioCode template
 .vscode/*
 !.vscode/settings.json
@@ -161,10 +161,12 @@ typings/
 !.vscode/extensions.json
 *.code-workspace
 
-# Local History for devcontainer
-.devcontainer/bash_history
+{% endif %}
+
+
 # Local History for Visual Studio Code
 .history/
+
 
 {% if dxh_py.editor == "pycharm" -%}
 # Provided default Pycharm Run/Debug Configurations should be tracked by git
@@ -343,7 +345,9 @@ MailHog
 {%- endif %}
 
 {%- if dxh_py.frontend_pipeline == 'Gulp' %}
-
+project.css
+project.min.css
+vendors.js
 *.min.js
 *.min.js.map
 {%- endif %}
