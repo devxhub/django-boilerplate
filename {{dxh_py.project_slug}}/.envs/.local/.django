@@ -1,42 +1,45 @@
 # General
 # ------------------------------------------------------------------------------
-USE_DOCKER=yes
-IPYTHONDIR=/app/.ipython
+    USE_DOCKER=yes
+    IPYTHONDIR=/app/.ipython
+    
+    {%- if dxh_py.use_celery == 'y' %}
+    # Redis
+    # ------------------------------------------------------------------------------
+    REDIS_URL=redis://redis:6379/0
+    
+    # Celery
+    # ------------------------------------------------------------------------------
+    CELERY_BROKER_URL=redis://redis:6379/0
+    # Flower
+    CELERY_FLOWER_USER=!!!SET CELERY_FLOWER_USER!!!
+    CELERY_FLOWER_PASSWORD=!!!SET CELERY_FLOWER_PASSWORD!!!
+    {%- endif %}
+    
+    
+    # CORS
+    TRUSTED_CORS_ORIGINS="http://localhost,capacitor://localhost,http://localhost:3000,http://localhost:8000"
+    
+    # Email
+    # ------------------------------------------------------------------------------
+    DEFAULT_FROM_EMAIL={{dxh_py.project_slug}}<noreply@{{dxh_py.project_slug}}.com>
+    EMAIL_HOST='sandbox.smtp.mailtrap.io'
+    EMAIL_HOST_USER="a1e6903e4a929f"  
+    EMAIL_HOST_PASSWORD="cabcf313e6c7f8"  
+    EMAIL_PORT="2525"
+    FRONTEND_URL="http://localhost:3000"
+    EMAIL_USE_TLS=True
+    
+    
+    {%- if dxh_py.use_drf == 'y' %}
+    
+    # Social Auth
+    # ------------------------------------------------------------------------------
+    
+    FACEBOOK_CALLBACK_URL = http://localhost:3000/auth/social/facebook
+    GOOGLE_CALLBACK_URL = http://localhost:3000/auth/social/google
+    
+    {%- endif %}
 
-{%- if dxh_py.use_celery == 'y' %}
-# Redis
-# ------------------------------------------------------------------------------
-REDIS_URL=redis://redis:6379/0
-
-# Celery
-# ------------------------------------------------------------------------------
-
-# Flower
-CELERY_FLOWER_USER=!!!SET CELERY_FLOWER_USER!!!
-CELERY_FLOWER_PASSWORD=!!!SET CELERY_FLOWER_PASSWORD!!!
-{%- endif %}
-
-
-# CORS
-TRUSTED_CORS_ORIGINS="http://localhost,capacitor://localhost,http://localhost:3000,http://localhost:8000"
-
-# Email
-# ------------------------------------------------------------------------------
-DEFAULT_FROM_EMAIL={{dxh_py.project_slug}}<noreply@{{dxh_py.project_slug}}.com>
-EMAIL_HOST='sandbox.smtp.mailtrap.io'
-EMAIL_HOST_USER="a1e6903e4a929f"  
-EMAIL_HOST_PASSWORD="cabcf313e6c7f8"  
-EMAIL_PORT="2525"
-FRONTEND_URL="http://localhost:3000"
-EMAIL_USE_TLS=True
-
-
-{%- if dxh_py.use_drf == 'y' %}
-
-# Social Auth
-# ------------------------------------------------------------------------------
-
-FACEBOOK_CALLBACK_URL = http://localhost:3000/auth/social/facebook
-GOOGLE_CALLBACK_URL = http://localhost:3000/auth/social/google
-
-{%- endif %}
+    # postgres://postgres:postgres@postgres:5432/{{ dxh_py.project_slug }} 
+    DATABASE_URL= 
