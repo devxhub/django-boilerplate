@@ -106,6 +106,8 @@ services:
       {%- if dxh_py.use_celery == 'y' %}
       - '0.0.0.0:5555:5555'
       {%- endif %}
+    env_file:
+        - ./.envs/.production/.django
 
   redis:
     image: docker.io/redis:6

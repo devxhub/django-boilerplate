@@ -5,6 +5,8 @@ DJANGO_SETTINGS_MODULE=config.settings.production
 DJANGO_SECRET_KEY=!!!SET DJANGO_SECRET_KEY!!!
 DJANGO_ADMIN_URL=!!!SET DJANGO_ADMIN_URL!!!
 DJANGO_ALLOWED_HOSTS=.{{ dxh_py.domain_name }}
+DOMAIN_NAME={{ dxh_py.domain_name }}
+DOMAIN_EMAIL={{ dxh_py.email }}
 
 # Security
 # ------------------------------------------------------------------------------
