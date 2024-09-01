@@ -1,4 +1,8 @@
-FROM traefik:2.10.0
+FROM traefik:2.10.6
+
+# Install gettext for envsubst
+RUN apk add --no-cache gettext nano
+
 RUN mkdir -p /etc/traefik/acme \
   && touch /etc/traefik/acme/acme.json \
   && chmod 600 /etc/traefik/acme/acme.json
