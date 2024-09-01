@@ -1,11 +1,16 @@
+{%- if dxh_py.username_type == "email" %}
+from typing import ClassVar
+{% endif -%}
 from django.contrib.auth.models import AbstractUser
-from django.db.models import CharField{% if dxh_py.username_type == "email" %}, EmailField{% endif %}
+from django.db.models import CharField
+{%- if dxh_py.username_type == "email" %}
+from django.db.models import EmailField
+{%- endif %}
 from django.urls import reverse
-from django.db import models
 from django.utils.translation import gettext_lazy as _
 {%- if dxh_py.username_type == "email" %}
 
-from {{ dxh_py.project_slug }}.users.managers import UserManager
+from .managers import UserManager
 {%- endif %}
 
 
@@ -15,22 +20,28 @@ class User(AbstractUser):
     If adding fields that need to be filled at user signup,
     check forms.SignupForm and forms.SocialSignupForms accordingly.
     """
-
-    # First and last name do not cover name patterns around the globe
-    name = CharField(_("Name of User"), blank=True, max_length=255)
+    
+    # Overriding fields in AbstractUser
     first_name = None  # type: ignore
     last_name = None  # type: ignore
-    reset_password_token = models.CharField(max_length=255, blank=True, null=True)
-    reset_otp= models.CharField(max_length=6, blank=True, null=True)
-    verify_token = models.CharField(max_length=255, blank=True, null=True)
+    
+    {%- if dxh_py.username_type == "email" %}
+    username = None  # type: ignore
+    {%- endif %}
+
+    # Custom fields
+    name = CharField(_("Name of User"), blank=True, max_length=255)
+    reset_password_token = CharField(max_length=255, blank=True, null=True)
+    reset_otp= CharField(max_length=6, blank=True, null=True)
+    verify_token = CharField(max_length=255, blank=True, null=True)
     {%- if dxh_py.username_type == "email" %}
     email = EmailField(_("email address"), unique=True)
-    username = None  # type: ignore
 
+    # Update the USERNAME_FIELD and REQUIRED_FIELDS
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
-
-    objects = UserManager()
+    
+    objects: ClassVar[UserManager] = UserManager()
     {%- endif %}
 
     def get_absolute_url(self) -> str:

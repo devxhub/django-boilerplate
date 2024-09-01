@@ -6,6 +6,7 @@ from {{ dxh_py.project_slug }}.utils.constants import DATE_FORMAT_CHOICES, CURRE
 
 
 class PasswordPolicies(BaseModel):
+    id = models.BigAutoField(primary_key=True)
     min_length = models.IntegerField(default=4, blank=True, null=True)
     min_uppercase = models.IntegerField(default=1, blank=True, null=True)
     min_lowercase = models.IntegerField(default=1, blank=True, null=True)
@@ -18,12 +19,17 @@ class PasswordPolicies(BaseModel):
     
     def clean(self):
         super().clean()
-        total_length = self.min_uppercase + self.min_lowercase + self.min_numerals + self.min_special_chars
-        if (
-            total_length > self.min_length
-        ):
+        min_uppercase = self.min_uppercase or 0
+        min_lowercase = self.min_lowercase or 0
+        min_numerals = self.min_numerals or 0
+        min_special_chars = self.min_special_chars or 0
+        min_length = self.min_length or 0
+        
+        total_length = min_uppercase + min_lowercase + min_numerals + min_special_chars
+        
+        if total_length > min_length:
             raise ValidationError(
-                "Minimum uppercase, lowercase, numerals, or special characters cannot exceed minimum length."
+                "The sum of minimum uppercase, lowercase, numerals, and special characters cannot exceed the minimum length."
             )
 
 
