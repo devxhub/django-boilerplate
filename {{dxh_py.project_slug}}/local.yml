@@ -1,5 +1,3 @@
-version: '3'
-
 volumes:
   {%- if dxh_py.database_engine == 'postgresql' %}
   {{ dxh_py.project_slug }}_local_postgres_data: {}
@@ -10,6 +8,7 @@ volumes:
   {{ dxh_py.project_slug }}_local_mysql_data: {}
   {{ dxh_py.project_slug }}_local_mysql_data_backups: {}
   {%- endif %}
+  {% if dxh_py.use_celery == 'y' %}{{ dxh_py.project_slug }}_local_redis_data: {}{% endif %}
 
 services:
   django:{% if dxh_py.use_celery == 'y' %} &django{% endif %}
@@ -94,24 +93,7 @@ services:
     ports:
       - '3406:3306'
   {%- endif %}
-
-  docs:
-    image: {{ dxh_py.project_slug }}_local_docs
-    container_name: {{ dxh_py.project_slug }}_local_docs
-    build:
-      context: .
-      dockerfile: ./compose/local/docs/Dockerfile
-    env_file:
-      - ./.envs/.local/.django
-    volumes:
-      - ./docs:/docs:z
-      - ./config:/app/config:z
-      - ./{{ dxh_py.project_slug }}:/app/{{ dxh_py.project_slug }}:z
-    ports:
-      - '9000:9000'
-    command: /start-docs
-  {%- if dxh_py.use_mailhog == 'y' %}
-
+ {%- if dxh_py.use_mailhog == 'y' %}
   mailhog:
     image: mailhog/mailhog:v1.0.0
     container_name: {{ dxh_py.project_slug }}_local_mailhog
@@ -122,8 +104,12 @@ services:
   {%- if dxh_py.use_celery == 'y' %}
 
   redis:
-    image: redis:6
+    image: docker.io/redis:6
     container_name: {{ dxh_py.project_slug }}_local_redis
+    {% if dxh_py.use_celery == 'y' %}
+    volumes:
+      - {{ dxh_py.project_slug }}_local_redis_data:/data
+    {% endif %}
 
   celeryworker:
     <<: *django
@@ -164,7 +150,6 @@ services:
       {%- if dxh_py.use_selenium == 'y' %}
       - selenium
       {%- endif %}
-    ports: []
     ports: []
     command: /start-celerybeat
 
