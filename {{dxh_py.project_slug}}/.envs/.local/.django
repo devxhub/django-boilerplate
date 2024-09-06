@@ -22,7 +22,7 @@ TRUSTED_CORS_ORIGINS="http://localhost,capacitor://localhost,http://localhost:30
 
 # Email
 # ------------------------------------------------------------------------------
-DEFAULT_FROM_EMAIL={{dxh_py.project_slug}}<noreply@{{dxh_py.project_slug}}.com>
+DEFAULT_FROM_EMAIL=noreply@{{dxh_py.project_slug}}.com
 EMAIL_HOST='sandbox.smtp.mailtrap.io'
 EMAIL_HOST_USER="a1e6903e4a929f"  
 EMAIL_HOST_PASSWORD="cabcf313e6c7f8"  

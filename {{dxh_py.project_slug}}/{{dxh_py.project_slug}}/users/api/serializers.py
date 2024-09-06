@@ -1,7 +1,6 @@
-from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-User = get_user_model()
+from {{ dxh_py.project_slug }}.users.models import User
 
 
 class UserSerializer(serializers.ModelSerializer[User]):

@@ -1,5 +1,3 @@
-import environ
-from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import QuerySet
@@ -12,10 +10,10 @@ from dj_rest_auth.registration.views import SocialLoginView
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 {%- endif %}
+from {{ dxh_py.project_slug }}.users.models import User
+import environ
 
 env = environ.Env()
-User = get_user_model()
-
 
 class UserDetailView(LoginRequiredMixin, DetailView):
     model = User
