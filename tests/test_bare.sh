@@ -17,7 +17,7 @@ cd my_awesome_project
 chmod +x ./utility/install_os_dependencies.sh
 
 # Install OS deps
-sudo bash ./utility/install_os_dependencies.sh install
+# sudo bash ./utility/install_os_dependencies.sh install
 
 
 # Install Python deps

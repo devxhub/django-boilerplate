@@ -4,11 +4,7 @@
 
 gunicorn==23.0.0  # https://github.com/benoitc/gunicorn
 {%- if dxh_py.database_engine == "postgresql" %}
-{%- if dxh_py.use_docker == 'y' %}
 psycopg[c]==3.2.1  # https://github.com/psycopg/psycopg
-{%- else %}
-psycopg[binary]==3.2.1  # https://github.com/psycopg/psycopg
-{%- endif %}
 {%- elif dxh_py.database_engine == "mysql" %}
 mysqlclient==2.2.4 # https://github.com/PyMySQL/mysqlclient
 {%- endif %}
