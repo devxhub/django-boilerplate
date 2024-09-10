@@ -72,6 +72,7 @@ REDIS_URL=redis://redis:6379/0
 {% if dxh_py.use_celery == 'y' %}
 # Celery
 # ------------------------------------------------------------------------------
+CELERY_BROKER_URL=redis://redis:6379/0
 
 # Flower
 CELERY_FLOWER_USER=!!!SET CELERY_FLOWER_USER!!!
