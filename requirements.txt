@@ -1,4 +1,4 @@
-dxh_py==0.0.4
+dxh_py==0.0.5
 sh==2.0.7; sys_platform != "win32"
 binaryornot==0.4.4
 
