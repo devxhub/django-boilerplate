@@ -57,12 +57,12 @@ SUPPORTED_COMBINATIONS = [
     {"editor": "vscode"},
     {"use_docker": "y"},
     {"use_docker": "n"},
+    {"database_engine": "postgresql", "database_version": "postgresql@16"},
+    {"database_engine": "postgresql", "database_version": "postgresql@15"},
     {"database_engine": "postgresql", "database_version": "postgresql@14"},
     {"database_engine": "postgresql", "database_version": "postgresql@13"},
     {"database_engine": "postgresql", "database_version": "postgresql@12"},
-    {"database_engine": "postgresql", "database_version": "postgresql@11"},
-    {"database_engine": "postgresql", "database_version": "postgresql@10"},
-    {"database_engine": "mysql", "database_version": "mysql@8.0.29"},
+    {"database_engine": "mysql", "database_version": "mysql@8.0.30"},
     {"database_engine": "mysql", "database_version": "mysql@8.0"},
     {"database_engine": "mysql", "database_version": "mysql@5.7"},
     {"cloud_provider": "AWS", "use_whitenoise": "y"},
@@ -76,7 +76,7 @@ SUPPORTED_COMBINATIONS = [
     {"cloud_provider": "None", "use_whitenoise": "y", "mail_service": "Mandrill"},
     {"cloud_provider": "None", "use_whitenoise": "y", "mail_service": "Postmark"},
     {"cloud_provider": "None", "use_whitenoise": "y", "mail_service": "Sendgrid"},
-    {"cloud_provider": "None", "use_whitenoise": "y", "mail_service": "SendinBlue"},
+    {"cloud_provider": "None", "use_whitenoise": "y", "mail_service": "Brevo"},
     {"cloud_provider": "None", "use_whitenoise": "y", "mail_service": "SparkPost"},
     {"cloud_provider": "None", "use_whitenoise": "y", "mail_service": "Other SMTP"},
     # Note: cloud_provider=None AND use_whitenoise=n is not supported
@@ -86,7 +86,7 @@ SUPPORTED_COMBINATIONS = [
     {"cloud_provider": "AWS", "mail_service": "Mandrill"},
     {"cloud_provider": "AWS", "mail_service": "Postmark"},
     {"cloud_provider": "AWS", "mail_service": "Sendgrid"},
-    {"cloud_provider": "AWS", "mail_service": "SendinBlue"},
+    {"cloud_provider": "AWS", "mail_service": "Brevo"},
     {"cloud_provider": "AWS", "mail_service": "SparkPost"},
     {"cloud_provider": "AWS", "mail_service": "Other SMTP"},
     {"cloud_provider": "GCP", "mail_service": "Mailgun"},
@@ -94,7 +94,7 @@ SUPPORTED_COMBINATIONS = [
     {"cloud_provider": "GCP", "mail_service": "Mandrill"},
     {"cloud_provider": "GCP", "mail_service": "Postmark"},
     {"cloud_provider": "GCP", "mail_service": "Sendgrid"},
-    {"cloud_provider": "GCP", "mail_service": "SendinBlue"},
+    {"cloud_provider": "GCP", "mail_service": "Brevo"},
     {"cloud_provider": "GCP", "mail_service": "SparkPost"},
     {"cloud_provider": "GCP", "mail_service": "Other SMTP"},
     {"cloud_provider": "Azure", "mail_service": "Mailgun"},
@@ -102,7 +102,7 @@ SUPPORTED_COMBINATIONS = [
     {"cloud_provider": "Azure", "mail_service": "Mandrill"},
     {"cloud_provider": "Azure", "mail_service": "Postmark"},
     {"cloud_provider": "Azure", "mail_service": "Sendgrid"},
-    {"cloud_provider": "Azure", "mail_service": "SendinBlue"},
+    {"cloud_provider": "Azure", "mail_service": "Brevo"},
     {"cloud_provider": "Azure", "mail_service": "SparkPost"},
     {"cloud_provider": "Azure", "mail_service": "Other SMTP"},
     # Note: cloud_providers GCP, Azure, and None
@@ -131,6 +131,7 @@ SUPPORTED_COMBINATIONS = [
     {"ci_tool": "Travis"},
     {"ci_tool": "Gitlab"},
     {"ci_tool": "Github"},
+    {"ci_tool": "Drone"},
     {"keep_local_envs_in_vcs": "y"},
     {"keep_local_envs_in_vcs": "n"},
     {"debug": "y"},
@@ -183,28 +184,25 @@ def test_project_generation(cookies, context, context_override):
 
 
 @pytest.mark.parametrize("context_override", SUPPORTED_COMBINATIONS, ids=_fixture_id)
-def test_flake8_passes(cookies, context_override):
-    """Generated project should pass flake8."""
+def test_ruff_check_passes(cookies, context_override):
+    """Generated project should pass ruff check."""
     result = cookies.bake(extra_context=context_override)
 
     try:
-        sh.flake8(_cwd=str(result.project_path))
+        sh.ruff("check", ".", _cwd=str(result.project_path))
     except sh.ErrorReturnCode as e:
         pytest.fail(e.stdout.decode())
 
 
 @auto_fixable
 @pytest.mark.parametrize("context_override", SUPPORTED_COMBINATIONS, ids=_fixture_id)
-def test_black_passes(cookies, context_override):
-    """Check whether generated project passes black style."""
+def test_ruff_format_passes(cookies, context_override):
+    """Check whether generated project passes ruff format."""
     result = cookies.bake(extra_context=context_override)
 
     try:
-        sh.black(
-            "--check",
-            "--diff",
-            "--exclude",
-            "migrations",
+        sh.ruff(
+            "format",
             ".",
             _cwd=str(result.project_path),
         )
@@ -237,10 +235,42 @@ def test_django_upgrade_passes(cookies, context_override):
     try:
         sh.django_upgrade(
             "--target-version",
-            "4.1",
+            "5.0",
             *python_files,
             _cwd=str(result.project_path),
         )
+    except sh.ErrorReturnCode as e:
+        pytest.fail(e.stdout.decode())
+
+
+@pytest.mark.parametrize("context_override", SUPPORTED_COMBINATIONS, ids=_fixture_id)
+def test_djlint_lint_passes(cookies, context_override):
+    """Check whether generated project passes djLint --lint."""
+    result = cookies.bake(extra_context=context_override)
+
+    autofixable_rules = "H014,T001"
+    # TODO: remove T002 when fixed https://github.com/Riverside-Healthcare/djLint/issues/687
+    ignored_rules = "H006,H030,H031,T002"
+    try:
+        sh.djlint(
+            "--lint",
+            "--ignore",
+            f"{autofixable_rules},{ignored_rules}",
+            ".",
+            _cwd=str(result.project_path),
+        )
+    except sh.ErrorReturnCode as e:
+        pytest.fail(e.stdout.decode())
+
+
+@auto_fixable
+@pytest.mark.parametrize("context_override", SUPPORTED_COMBINATIONS, ids=_fixture_id)
+def test_djlint_check_passes(cookies, context_override):
+    """Check whether generated project passes djLint --check."""
+    result = cookies.bake(extra_context=context_override)
+
+    try:
+        sh.djlint("--check", ".", _cwd=str(result.project_path))
     except sh.ErrorReturnCode as e:
         pytest.fail(e.stdout.decode())
 
@@ -249,7 +279,7 @@ def test_django_upgrade_passes(cookies, context_override):
     ["use_docker", "expected_test_script"],
     [
         ("n", "pytest"),
-        ("y", "docker-compose -f local.yml run django pytest"),
+        ("y", "docker compose -f local.yml run django pytest"),
     ],
 )
 def test_travis_invokes_pytest(cookies, context, use_docker, expected_test_script):
@@ -264,7 +294,7 @@ def test_travis_invokes_pytest(cookies, context, use_docker, expected_test_scrip
     with open(f"{result.project_path}/.travis.yml") as travis_yml:
         try:
             yml = yaml.safe_load(travis_yml)["jobs"]["include"]
-            assert yml[0]["script"] == ["flake8"]
+            assert yml[0]["script"] == ["ruff check ."]
             assert yml[1]["script"] == [expected_test_script]
         except yaml.YAMLError as e:
             pytest.fail(str(e))
@@ -274,7 +304,7 @@ def test_travis_invokes_pytest(cookies, context, use_docker, expected_test_scrip
     ["use_docker", "expected_test_script"],
     [
         ("n", "pytest"),
-        ("y", "docker-compose -f local.yml run django pytest"),
+        ("y", "docker compose -f local.yml run django pytest"),
     ],
 )
 def test_gitlab_invokes_precommit_and_pytest(cookies, context, use_docker, expected_test_script):
@@ -301,7 +331,7 @@ def test_gitlab_invokes_precommit_and_pytest(cookies, context, use_docker, expec
     ["use_docker", "expected_test_script"],
     [
         ("n", "pytest"),
-        ("y", "docker-compose -f local.yml run django pytest"),
+        ("y", "docker compose -f local.yml run django pytest"),
     ],
 )
 def test_github_invokes_linter_and_pytest(cookies, context, use_docker, expected_test_script):
@@ -352,19 +382,17 @@ def test_error_if_incompatible(cookies, context, invalid_context):
     assert isinstance(result.exception, FailedHookException)
 
 
-
 @pytest.mark.parametrize(
     ["editor", "pycharm_docs_exist"],
     [
-        ("None", False),
-        ("pycharm", True)
+        ("none", False),
+        ("pycharm", True),
         ("vscode", False),
     ],
 )
 def test_pycharm_docs_removed(cookies, context, editor, pycharm_docs_exist):
     context.update({"editor": editor})
     result = cookies.bake(extra_context=context)
-
 
     with open(f"{result.project_path}/docs/index.rst") as f:
         has_pycharm_docs = "pycharm/configuration" in f.read()

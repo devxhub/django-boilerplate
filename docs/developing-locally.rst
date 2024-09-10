@@ -9,7 +9,7 @@ Setting Up Development Environment
 
 Make sure to have the following on your host:
 
-* Python 3.11
+* Python 3.12
 * PostgreSQL_.
 * Redis_, if using Celery
 * dxh_py_
@@ -18,7 +18,7 @@ First things first.
 
 #. Create a virtualenv: ::
 
-    $ python3.11 -m venv <virtual env path>
+    $ python3.12 -m venv <virtual env path>
 
 #. Activate the virtualenv you have just created: ::
 
@@ -80,18 +80,75 @@ First things first.
 
     $ python manage.py runserver 0.0.0.0:8000
 
-or if you're running asynchronously: ::
+   or if you're running asynchronously: ::
 
     $ uvicorn config.asgi:application --host 0.0.0.0 --reload --reload-include '*.html'
 
+   If you've opted for Webpack or Gulp as frontend pipeline, please see the :ref:`dedicated section <bare-metal-webpack-gulp>` below.
+
 .. _PostgreSQL: https://www.postgresql.org/download/
 .. _Redis: https://redis.io/download
-.. _dxh_py: https://github.com/dxh_py/dxh_py
+.. _django-boilerplate: https://github.com/ devxhub/django-boilerplate
 .. _createdb: https://www.postgresql.org/docs/current/static/app-createdb.html
 .. _initial PostgreSQL set up: https://web.archive.org/web/20190303010033/http://suite.opengeo.org/docs/latest/dataadmin/pgGettingStarted/firstconnect.html
 .. _postgres documentation: https://www.postgresql.org/docs/current/static/auth-pg-hba-conf.html
 .. _pre-commit: https://pre-commit.com/
 .. _direnv: https://direnv.net/
+
+
+Creating Your First Django App
+-------------------------------
+
+After setting up your environment, you're ready to add your first app. This project uses the setup from "Two Scoops of Django" with a two-tier layout:
+
+- **Top Level Repository Root** has config files, documentation, `manage.py`, and more.
+- **Second Level Django Project Root** is where your Django apps live.
+- **Second Level Configuration Root** holds settings and URL configurations.
+
+The project layout looks something like this: ::
+
+    <repository_root>/
+    ├── config/
+    │   ├── settings/
+    │   │   ├── __init__.py
+    │   │   ├── base.py
+    │   │   ├── local.py
+    │   │   └── production.py
+    │   ├── urls.py
+    │   └── wsgi.py
+    ├── <django_project_root>/
+    │   ├── <name_of_the_app>/
+    │   │   ├── migrations/
+    │   │   ├── admin.py
+    │   │   ├── apps.py
+    │   │   ├── models.py
+    │   │   ├── tests.py
+    │   │   └── views.py
+    │   ├── __init__.py
+    │   └── ...
+    ├── requirements/
+    │   ├── base.txt
+    │   ├── local.txt
+    │   └── production.txt
+    ├── manage.py
+    ├── README.md
+    └── ...
+
+
+Following this structured approach, here's how to add a new app:
+
+#. **Create the app** using Django's ``startapp`` command, replacing ``<name-of-the-app>`` with your desired app name: ::
+
+    $ python manage.py startapp <name-of-the-app>
+
+#. **Move the app** to the Django Project Root, maintaining the project's two-tier structure: ::
+
+    $ mv <name-of-the-app> <django_project_root>/
+
+#. **Edit the app's apps.py** change ``name = '<name-of-the-app>'`` to ``name = '<django_project_root>.<name-of-the-app>'``.
+
+#. **Register the new app** by adding it to the ``LOCAL_APPS`` list in ``config/settings/base.py``, integrating it as an official component of your project.
+
 
 
 Setup Email Backend
@@ -108,9 +165,7 @@ For instance, one of the packages we depend upon, ``django-allauth`` sends verif
 
 #. `Download the latest MailHog release`_ for your OS.
 
-#. Rename the build to ``MailHog``.
-
-#. Copy the file to the project root.
+#. Copy the binary file to the project root.
 
 #. Make it executable: ::
 
@@ -169,10 +224,12 @@ You can also use Django admin to queue up tasks, thanks to the `django-celerybea
 .. _django-celerybeat: https://django-celery-beat.readthedocs.io/en/latest/
 
 
-Sass Compilation & Live Reloading
----------------------------------
+.. _bare-metal-webpack-gulp:
 
-If you've opted for Gulp or Webpack as front-end pipeline, the project comes configured with `Sass`_ compilation and `live reloading`_. As you change you Sass/JS source files, the task runner will automatically rebuild the corresponding CSS and JS assets and reload them in your browser without refreshing the page.
+Using Webpack or Gulp
+---------------------
+
+If you've opted for Gulp or Webpack as front-end pipeline, the project comes configured with `Sass`_ compilation and `live reloading`_. As you change your Sass/JS source files, the task runner will automatically rebuild the corresponding CSS and JS assets and reload them in your browser without refreshing the page.
 
 #. Make sure that `Node.js`_ v18 is installed on your machine.
 #. In the project root, install the JS dependencies with::
@@ -183,9 +240,12 @@ If you've opted for Gulp or Webpack as front-end pipeline, the project comes con
 
     $ npm run dev
 
-   The app will now run with live reloading enabled, applying front-end changes dynamically.
+   This will start 2 processes in parallel: the static assets build loop on one side, and the Django server on the other.
 
-.. note:: The task will start 2 processes in parallel: the static assets build loop on one side, and the Django server on the other. You do NOT need to run Django as your would normally with ``manage.py runserver``.
+#. Access your application at the address of the ``node`` service in order to see your correct styles. This is http://localhost:3000 by default.
+
+   .. note:: Do NOT access the application using the Django port (8000 by default), as it will result in broken styles and 404s when accessing static assets.
+
 
 .. _Node.js: http://nodejs.org/download/
 .. _Sass: https://sass-lang.com/

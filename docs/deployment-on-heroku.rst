@@ -46,7 +46,7 @@ Run these commands to deploy the project to Heroku:
     # Assign with AWS_STORAGE_BUCKET_NAME
     heroku config:set DJANGO_AWS_STORAGE_BUCKET_NAME=
 
-    git push heroku master
+    git push heroku main
 
     heroku run python manage.py createsuperuser
 
@@ -69,7 +69,7 @@ The script above assumes that you've chose Mailgun as email service. If you want
 Heroku & Docker
 +++++++++++++++
 
-Although Heroku has some sort of `Docker support`_, it's not supported by dxh_py-django.
+Although Heroku has some sort of `Docker support`_, it's not supported by django boilarplate.
 We invite you to follow Heroku documentation about it.
 
 .. _Docker support: https://devcenter.heroku.com/articles/build-docker-images-heroku-yml

@@ -57,7 +57,7 @@ labels: bug
 Logs:
 <details>
 <pre>
-$ dxh_py https://github.com/dxh_py/dxh_py-django
+$ dxh_py https://github.com/devxhub/django-boilerplate
 project_name [Project Name]: ...
 </pre>
 </details>

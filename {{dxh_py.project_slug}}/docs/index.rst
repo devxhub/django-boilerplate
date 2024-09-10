@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 Welcome to {{ dxh_py.project_name }}'s documentation!
-======================================================================
+=================================================================================
 
 .. toctree::
    :maxdepth: 2

@@ -152,7 +152,7 @@ typings/
 # .nfs files are created when an open file is removed but is still being accessed
 .nfs*
 
-{% if dxh_py.editor == "vscode" -%}
+
 ### VisualStudioCode template
 .vscode/*
 !.vscode/settings.json
@@ -161,9 +161,8 @@ typings/
 !.vscode/extensions.json
 *.code-workspace
 
-{% endif %}
-
-
+# Local History for devcontainer
+.devcontainer/bash_history
 # Local History for Visual Studio Code
 .history/
 

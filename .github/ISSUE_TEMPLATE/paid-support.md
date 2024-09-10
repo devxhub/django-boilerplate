@@ -3,7 +3,7 @@ name: Paid Support Request
 about: Ask Core Team members to help you out
 ---
 
-Provided your question goes beyond [regular support](https://github.com/dxh_py/dxh_py-django/issues/new?template=question.md), and/or the task at hand is of timely/high priority nature use the below information to reach out for contributors directly.
+Provided your question goes beyond [regular support](https://github.com/devxhub/django-boilerplate/issues/new?template=question.md), and/or the task at hand is of timely/high priority nature use the below information to reach out for contributors directly.
 
 - Bruno Alla, Core Developer ([GitHub](https://github.com/sponsors/browniebroke)).
 

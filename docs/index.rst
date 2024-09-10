@@ -1,11 +1,11 @@
-.. dxh_py-django documentation master file.
+.. django-boilarplate documentation master file.
 
-Welcome to dxh_py Django's documentation!
+Welcome to Django Boilarplate's documentation!
 ===============================================
 
-Powered by dxh_py_, dxh_py Django is a project template for jumpstarting production-ready Django projects. The template offers a number of generation options, we invite you to check the :ref:`dedicated page <template-options>` to learn more about each of them.
+Powered by DevXhuB_, Django Boilarplate is a project template for jumpstarting production-ready Django projects. The template offers a number of generation options, we invite you to check the :ref:`dedicated page <template-options>` to learn more about each of them.
 
-.. _dxh_py: https://github.com/dxh_py/dxh_py
+.. _django-boilarplate: https://github.com/devxhub/django-boilerplate
 
 Contents
 --------

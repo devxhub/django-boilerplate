@@ -1,4 +1,4 @@
-# dxh_py-django documentation build configuration file.
+# django boilerplate documentation build configuration file.
 #
 # This file is execfile()d with the current directory set to its containing dir.
 #
@@ -38,8 +38,8 @@ source_suffix = [".rst", ".md"]
 master_doc = "index"
 
 # General information about the project.
-project = "dxh_py Django"
-copyright = f"2013-{now.year}, Daniel Roy Greenfeld"
+project = "Django Boilerplate"
+copyright = f"2013-{now.year}, DevxhuB"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -218,7 +218,7 @@ man_pages = [
         "index",
         "dxh_py Django",
         "dxh_py Django documentation",
-        ["Daniel Roy Greenfeld"],
+        ["DevxhuB"],
         1,
     )
 ]
@@ -237,7 +237,7 @@ texinfo_documents = [
         "index",
         "dxh_py Django",
         "dxh_py Django documentation",
-        "Daniel Roy Greenfeld",
+        "DevxhuB",
         "dxh_py Django",
         "A dxh_py template for creating production-ready " "Django projects quickly.",
         "Miscellaneous",

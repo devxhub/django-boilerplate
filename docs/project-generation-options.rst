@@ -3,9 +3,9 @@
 Project Generation Options
 ==========================
 
-This page describes all the template options that will be prompted by the `dxh_py CLI`_ prior to generating your project.
+This page describes all the template options that will be prompted by the `django-boilerplate CLI`_ prior to generating your project.
 
-.. _dxh_py CLI: https://github.com/dxh_py/dxh_py
+.. _django-boilerplate CLI: https://github.com/devxhub/django-boilerplate
 
 project_name:
     Your project's human-readable name, capitals and spaces allowed.
@@ -53,7 +53,6 @@ timezone:
 windows:
     Indicates whether the project should be configured for development on Windows.
 
-
 editor:
     Select an editor to use. The choices are:
 
@@ -63,7 +62,7 @@ editor:
 
 
 use_docker:
-    Indicates whether the project should be configured to use Docker_ and `Docker Compose`_.
+    Indicates whether the project should be configured to use Docker_, `Docker Compose`_ and `devcontainer`_.
 
 database_version:
     Select the version of the database you want to use for your project.
@@ -75,16 +74,15 @@ database_version:
 
     *Currently, following PostgreSQL versions are supported:*
 
-    1. 14
-    2. 13
-    3. 12
-    4. 11
-    5. 10
+    1. 16
+    2. 15
+    3. 14
+    4. 13
+    5. 12
 
     *Currently, following MySQL versions are supported:*
 
     1. 8.0
-    
 cloud_provider:
     Select a cloud provider for static & media files. The choices are:
 
@@ -104,7 +102,7 @@ mail_service:
     4. Mandrill_
     5. Postmark_
     6. SendGrid_
-    7. SendinBlue_
+    7. `Brevo (formerly SendinBlue)`_
     8. SparkPost_
     9. `Other SMTP`_
 
@@ -150,6 +148,7 @@ ci_tool:
     2. `Travis CI`_
     3. `Gitlab CI`_
     4. `Github Actions`_
+    5. `Drone CI`_
 
 keep_local_envs_in_vcs:
     Indicates whether the project's ``.envs/.local/`` should be kept in VCS
@@ -159,7 +158,7 @@ keep_local_envs_in_vcs:
 
 debug:
     Indicates whether the project should be configured for debugging.
-    This option is relevant for dxh_py Django developers only.
+    This option is relevant for Django Boilarplate developers only.
 
 
 .. _MIT: https://opensource.org/licenses/MIT
@@ -172,6 +171,7 @@ debug:
 
 .. _Docker: https://github.com/docker/docker
 .. _Docker Compose: https://docs.docker.com/compose/
+.. _devcontainer: https://containers.dev/
 
 .. _PostgreSQL: https://www.postgresql.org/docs/
 
@@ -188,7 +188,7 @@ debug:
 .. _Mandrill: http://mandrill.com
 .. _Postmark: https://postmarkapp.com
 .. _SendGrid: https://sendgrid.com
-.. _SendinBlue: https://www.sendinblue.com
+.. _Brevo (formerly SendinBlue): https://www.brevo.com
 .. _SparkPost: https://www.sparkpost.com
 .. _Other SMTP: https://anymail.readthedocs.io/en/stable/
 
@@ -211,5 +211,7 @@ debug:
 .. _Travis CI: https://travis-ci.org/
 
 .. _GitLab CI: https://docs.gitlab.com/ee/ci/
+
+.. _Drone CI: https://docs.drone.io/pipeline/overview/
 
 .. _Github Actions: https://docs.github.com/en/actions

@@ -16,12 +16,12 @@ Prerequisites
 * Docker; if you don't have it yet, follow the `installation instructions`_;
 * Docker Compose; refer to the official documentation for the `installation guide`_.
 * Pre-commit; refer to the official documentation for the `pre-commit`_.
-* dxh_py; refer to the official GitHub repository of `dxh_py`_
+* django-boilerplate; refer to the official GitHub repository of `django-boilerplate`_
 
 .. _`installation instructions`: https://docs.docker.com/install/#supported-platforms
 .. _`installation guide`: https://docs.docker.com/compose/install/
 .. _`pre-commit`: https://pre-commit.com/#install
-.. _`dxh_py`: https://github.com/dxh_py/dxh_py
+.. _`django-boilerplate`: https://github.com/devxhub/django-boilerplate
 
 Before Getting Started
 ----------------------
@@ -32,7 +32,7 @@ Build the Stack
 
 This can take a while, especially the first time you run this particular command on your development system::
 
-    $ docker-compose -f local.yml build
+    $ docker compose -f local.yml build
 
 Generally, if you want to emulate production environment use ``production.yml`` instead. And this is true for any other actions you might need to perform: whenever a switch is required, just do it!
 
@@ -43,7 +43,6 @@ Before doing any git commit, `pre-commit`_ should be installed globally on your 
 
 Failing to do so will result with a bunch of CI and Linter errors that can be avoided with pre-commit.
 
-
 Run the Stack
 -------------
 
@@ -51,7 +50,7 @@ This brings up both Django and PostgreSQL. The first time it is run it might tak
 
 Open a terminal at the project root and run the following for local development::
 
-    $ docker-compose -f local.yml up
+    $ docker compose -f local.yml up
 
 You can also set the environment variable ``COMPOSE_FILE`` pointing to ``local.yml`` like this::
 
@@ -59,29 +58,37 @@ You can also set the environment variable ``COMPOSE_FILE`` pointing to ``local.y
 
 And then run::
 
-    $ docker-compose up
+    $ docker compose up
 
 To run in a detached (background) mode, just::
 
-    $ docker-compose up -d
+    $ docker compose up -d
 
+These commands don't run the docs service. In order to run docs service you can run::
+
+    $ docker compose -f docs.yml up
+
+To run the docs with local services just use::
+
+    $ docker compose -f local.yml -f docs.yml up
+
+The site should start and be accessible at http://localhost:3000 if you selected Webpack or Gulp as frontend pipeline and http://localhost:8000 otherwise.
 
 Execute Management Commands
 ---------------------------
 
-As with any shell command that we wish to run in our container, this is done using the ``docker-compose -f local.yml run --rm`` command: ::
+As with any shell command that we wish to run in our container, this is done using the ``docker compose -f local.yml run --rm`` command: ::
 
-    $ docker-compose -f local.yml run --rm django python manage.py migrate
-    $ docker-compose -f local.yml run --rm django python manage.py createsuperuser
+    $ docker compose -f local.yml run --rm django python manage.py migrate
+    $ docker compose -f local.yml run --rm django python manage.py createsuperuser
 
 Here, ``django`` is the target service we are executing the commands against.
-
+Also, please note that the ``docker exec`` does not work for running management commands.
 
 (Optionally) Designate your Docker Development Server IP
 --------------------------------------------------------
 
 When ``DEBUG`` is set to ``True``, the host is validated against ``['localhost', '127.0.0.1', '[::1]']``. This is adequate when running a ``virtualenv``. For Docker, in the ``config.settings.local``, add your host development server IP to ``INTERNAL_IPS`` or ``ALLOWED_HOSTS`` if the variable exists.
-
 
 .. _envs:
 
@@ -108,8 +115,8 @@ The most important thing for us here now is ``env_file`` section enlisting ``./.
 
     .envs
     ├── .local
-    │   ├── .django
-    │   └── .postgres
+    │   ├── .django
+    │   └── .postgres
     └── .production
         ├── .django
         └── .postgres
@@ -154,8 +161,8 @@ You have to modify the relevant requirement file: base, local or production by a
 
 To get this change picked up, you'll need to rebuild the image(s) and restart the running container: ::
 
-    docker-compose -f local.yml build
-    docker-compose -f local.yml up
+    docker compose -f local.yml build
+    docker compose -f local.yml up
 
 Debugging
 ~~~~~~~~~
@@ -169,7 +176,7 @@ If you are using the following within your code to debug: ::
 
 Then you may need to run the following for it to work as desired: ::
 
-    $ docker-compose -f local.yml run --rm --service-ports django
+    $ docker compose -f local.yml run --rm --service-ports django
 
 
 django-debug-toolbar
@@ -185,7 +192,6 @@ The ``container_name`` from the yml file can be used to check on containers with
 
     $ docker logs <project_slug>_local_celeryworker
     $ docker top <project_slug>_local_celeryworker
-
 
 Notice that the ``container_name`` is generated dynamically using your project slug as a prefix
 
@@ -229,97 +235,71 @@ By default, it's enabled both in local and production environments (``local.yml`
 Using Webpack or Gulp
 ~~~~~~~~~~~~~~~~~~~~~
 
-When using Webpack or Gulp as the ``frontend_pipeline`` option, you should access your application at the address of the ``node`` service in order to see your correct styles. This is http://localhost:3000 by default. When using any of the other ``frontend_pipeline`` options, you should use the address of the ``django`` service, http://localhost:8000.
+If you've opted for Gulp or Webpack as front-end pipeline, the project comes configured with `Sass`_ compilation and `live reloading`_. As you change your Sass/JS source files, the task runner will automatically rebuild the corresponding CSS and JS assets and reload them in your browser without refreshing the page.
 
-Developing locally with HTTPS
------------------------------
+The stack comes with a dedicated node service to build the static assets, watch for changes and proxy requests to the Django app with live reloading scripts injected in the response. For everything to work smoothly, you need to access the application at the port served by the node service, which is http://localhost:3000 by default.
 
-Increasingly it is becoming necessary to develop software in a secure environment in order that there are very few changes when deploying to production. Recently Facebook changed their policies for apps/sites that use Facebook login which requires the use of an HTTPS URL for the OAuth redirect URL. So if you want to use the ``users`` application with a OAuth provider such as Facebook, securing your communication to the local development environment will be necessary.
+.. _Sass: https://sass-lang.com/
+.. _live reloading: https://browsersync.io
 
-In order to create a secure environment, we need to have a trusted SSL certificate installed in our Docker application.
+(Optionally) Developing locally with HTTPS
+------------------------------------------
 
-#.  **Let's Encrypt**
-
-    The official line from Let’s Encrypt is:
-
-    [For local development section] ... The best option: Generate your own certificate, either self-signed or signed by a local root, and trust it in your operating system’s trust store. Then use that certificate in your local web server. See below for details.
-
-    See `letsencrypt.org - certificates-for-localhost`_
-
-    .. _`letsencrypt.org - certificates-for-localhost`: https://letsencrypt.org/docs/certificates-for-localhost/
-
-#.  **mkcert: Valid Https Certificates For Localhost**
-
-    `mkcert`_ is a simple by design tool that hides all the arcane knowledge required to generate valid TLS certificates. It works for any hostname or IP, including localhost. It supports macOS, Linux, and Windows, and Firefox, Chrome and Java. It even works on mobile devices with a couple manual steps.
-
-    See https://blog.filippo.io/mkcert-valid-https-certificates-for-localhost/
-
-    .. _`mkcert`:  https://github.com/FiloSottile/mkcert/blob/master/README.md#supported-root-stores
-
-After installing a trusted TLS certificate, configure your docker installation. We are going to configure an ``nginx`` reverse-proxy server. This makes sure that it does not interfere with our ``traefik`` configuration that is reserved for production environments.
-
-These are the places that you should configure to secure your local environment.
-
-certs
+Nginx
 ~~~~~
 
-Take the certificates that you generated and place them in a folder called ``certs`` in the project's root folder. Assuming that you registered your local hostname as ``my-dev-env.local``, the certificates you will put in the folder should have the names ``my-dev-env.local.crt`` and ``my-dev-env.local.key``.
+If you want to add some sort of social authentication with a OAuth provider such as Facebook, securing your communication to the local development environment will be necessary. These providers usually require that you use an HTTPS URL for the OAuth redirect URL for the Facebook login to work appropriately.
 
-local.yml
-~~~~~~~~~
+Here is a link to an article on `how to add HTTPS using Nginx`_ to your local docker installation. This also includes how to serve files from the ``media`` location, in the event that you are want to serve user-uploaded content.
 
-#. Add the ``nginx-proxy`` service. ::
+.. _`how to add HTTPS using Nginx`: https://afroshok.com/dxh_py-https
 
-    ...
+Webpack
+~~~~~~~
 
-    nginx-proxy:
-      image: jwilder/nginx-proxy:alpine
-      container_name: nginx-proxy
-      ports:
-        - "80:80"
-        - "443:443"
-      volumes:
-        - /var/run/docker.sock:/tmp/docker.sock:ro
-        - ./certs:/etc/nginx/certs
-      restart: always
-      depends_on:
-        - django
+If you are using Webpack, first install ``mkcert``_. It is a simple by design tool that hides all the arcane knowledge required to generate valid TLS certificates. It works for any hostname or IP, including localhost. It supports macOS, Linux, and Windows, and Firefox, Chrome and Java. It even works on mobile devices with a couple manual steps. See https://blog.filippo.io/mkcert-valid-https-certificates-for-localhost/
 
-    ...
+.. _`mkcert`:  https://github.com/FiloSottile/mkcert/blob/master/README.md#supported-root-stores
 
-#. Link the ``nginx-proxy`` to ``django`` through environment variables.
+These are the places that you should configure to secure your local environment. Take the certificates that you generated and place them in a folder called ``certs`` in the project's root folder. Configure an ``nginx`` reverse-proxy server as a ``service`` in the ``local.yml``. This makes sure that it does not interfere with our ``traefik`` configuration that is reserved for production environments.
 
-   ``django`` already has an ``.env`` file connected to it. Add the following variables. You should do this especially if you are working with a team and you want to keep your local environment details to yourself.
+Assuming that you registered your local hostname as ``my-dev-env.local``, the certificates you will put in the folder should have the names ``my-dev-env.local.crt`` and ``my-dev-env.local.key``.
 
-   ::
+1. Add the ``nginx-proxy`` service to the ``local.yml``. ::
 
-      # HTTPS
-      # ------------------------------------------------------------------------------
-      VIRTUAL_HOST=my-dev-env.local
-      VIRTUAL_PORT=8000
+  nginx-proxy:
+    image: jwilder/nginx-proxy:alpine
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./certs:/etc/nginx/certs
+    restart: always
+    depends_on:
+      - node
+    environment:
+      - VIRTUAL_HOST=my-dev-env.local
+      - VIRTUAL_PORT=3000
 
-   The services run behind the reverse proxy.
-
-config/settings/local.py
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-You should allow the new hostname. ::
+2. Add the local secure domain to the ``config/settings/local.py``. You should allow the new hostname ::
 
   ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", "my-dev-env.local"]
 
+3. Add the following configuration to the ``devServer`` section of ``webpack/dev.config.js`` ::
+
+  client: {
+    webSocketURL: 'auto://0.0.0.0:0/ws', // note the `:0` after `0.0.0.0`
+  },
+
+
 Rebuild your ``docker`` application. ::
 
-  $ docker-compose -f local.yml up -d --build
+  $ docker compose -f local.yml up -d --build
 
-Go to your browser and type in your URL bar ``https://my-dev-env.local``
+Go to your browser and type in your URL bar ``https://my-dev-env.local``.
 
-See `https with nginx`_ for more information on this configuration.
+For more on this configuration, see `https with nginx`_.
 
-  .. _`https with nginx`: https://codewithhugo.com/docker-compose-local-https/
-
-.gitignore
-~~~~~~~~~~
-
-Add ``certs/*`` to the ``.gitignore`` file. This allows the folder to be included in the repo but its contents to be ignored.
-
-*This configuration is for local development environments only. Do not use this for production since you might expose your local* ``rootCA-key.pem``.
+.. _`https with nginx`: https://codewithhugo.com/docker-compose-local-https/

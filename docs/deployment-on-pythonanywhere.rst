@@ -37,7 +37,7 @@ Make sure your project is fully committed and pushed up to Bitbucket or Github o
     mkvirtualenv --python=/usr/bin/python3.10 my-project-name
     pip install -r requirements/production.txt  # may take a few minutes
 
-.. note:: We're creating the virtualenv using Python 3.10 (``--python=/usr/bin/python3.10```), although dxh_py Django generates a project for Python 3.11. This is because, at time of writing, PythonAnywhere only supports Python 3.10. It shouldn't be a problem, but if is, you may try changing the Python version to 3.11 and see if it works. If it does, please let us know, or even better, submit a pull request to update this section.
+.. note:: We're creating the virtualenv using Python 3.10 (``--python=/usr/bin/python3.10```), although Django Boilarplate generates a project for Python 3.12. This is because, at time of writing, PythonAnywhere only supports Python 3.10. It shouldn't be a problem, but if is, you may try changing the Python version to 3.12 and see if it works. If it does, please let us know, or even better, submit a pull request to update this section.
 
 Setting environment variables in the console
 --------------------------------------------
@@ -118,7 +118,7 @@ Now run the migration, and collectstatic:
 Redis
 -----
 
-PythonAnywhere does NOT `offer a built-in solution <https://www.pythonanywhere.com/forums/topic/1666/>`_ for Redis, however the production setup from dxh_py Django uses Redis as cache and requires one.
+PythonAnywhere does NOT `offer a built-in solution <https://www.pythonanywhere.com/forums/topic/1666/>`_ for Redis, however the production setup from Django Boilarplate uses Redis as cache and requires one.
 
 We recommend to signup to a separate service offering hosted Redis (e.g. `Redislab <https://redis.com/>`_) and use the URL they provide.
 

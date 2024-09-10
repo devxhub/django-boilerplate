@@ -1,4 +1,4 @@
-FROM postgres:{{ dxh_py.database_version.lower().split('@')[1] }}
+FROM docker.io/postgres:{{ dxh_py.database_version.lower().split('@')[1] }}
 
 
 COPY ./compose/production/postgres/maintenance /usr/local/bin/maintenance

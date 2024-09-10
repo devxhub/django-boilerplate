@@ -1,0 +1,16 @@
+services:
+  docs:
+    image: {{ dxh_py.project_slug }}_local_docs
+    container_name: {{ dxh_py.project_slug }}_local_docs
+    build:
+      context: .
+      dockerfile: ./compose/local/docs/Dockerfile
+    env_file:
+      - ./.envs/.local/.django
+    volumes:
+      - ./docs:/docs:z
+      - ./config:/app/config:z
+      - ./{{ dxh_py.project_slug }}:/app/{{ dxh_py.project_slug }}:z
+    ports:
+      - '9000:9000'
+    command: /start-docs

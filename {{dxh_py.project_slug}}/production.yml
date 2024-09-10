@@ -1,5 +1,3 @@
-version: '3'
-
 volumes:
   {%- if dxh_py.database_engine == 'postgresql' %}
   production_postgres_data: {}
@@ -13,6 +11,10 @@ volumes:
   {%- if dxh_py.cloud_provider == 'None' %}
   production_django_media: {}
   {%- endif %}
+  {% if dxh_py.use_celery == 'y' %}
+  production_redis_data: {}
+  {% endif %}
+
 
 services:
   django:{% if dxh_py.use_celery == 'y' %} &django{% endif %}
@@ -89,7 +91,7 @@ services:
     
   {%- endif %}
 
- traefik:
+  traefik:
     build:
       context: .
       dockerfile: ./compose/production/traefik/Dockerfile
@@ -108,8 +110,12 @@ services:
         - ./.envs/.production/.django
 
   redis:
-    image: redis:6
-
+    image: docker.io/redis:6
+    {% if dxh_py.use_celery == 'y' %}
+    volumes:
+      - production_redis_data:/data
+    {% endif %}
+    
   {%- if dxh_py.use_celery == 'y' %}
 
   celeryworker:
@@ -144,7 +150,7 @@ services:
     build:
       context: .
       dockerfile: ./compose/production/nginx/Dockerfile
-    image: {{ dxh_py.project_slug }}_local_nginx
+    image: {{ dxh_py.project_slug }}_production_nginx
     depends_on:
       - django
     volumes:
