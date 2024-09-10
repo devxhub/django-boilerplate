@@ -578,5 +578,9 @@ TWILIO_PHONE_NUMBER = env('TWILIO_PHONE_NUMBER')
 TWILIO_SERVICE_SID = env('TWILIO_SERVICE_SID')
 {%- endif %}
 
+# config/settings/base.py
+SILENCED_SYSTEM_CHECKS = [
+    'drf_spectacular.W001',  # Suppress drf_spectacular warnings for missing first_name and last_name fields
+]
 # Your stuff...
 # ------------------------------------------------------------------------------
