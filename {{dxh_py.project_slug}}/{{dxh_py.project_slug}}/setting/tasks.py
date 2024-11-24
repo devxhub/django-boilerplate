@@ -1,4 +1,4 @@
-{% if dxh_py.use_celery == 'y' %}
+{% if dxh_py.use_celery == 'y' and dxh_py.use_docker == 'y' %}
 
 from celery import shared_task
 import subprocess
