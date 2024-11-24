@@ -77,7 +77,7 @@ def remove_docker_files():
     shutil.rmtree(".devcontainer")
     shutil.rmtree("compose")
 
-    file_names = ["local.yml", "production.yml", ".dockerignore"]
+    file_names = ["local.yml", "production.yml", ".dockerignore", "db_backup.sh"]
     for file_name in file_names:
         os.remove(file_name)
     if "{{ dxh_py.editor }}".lower() == "pycharm":
