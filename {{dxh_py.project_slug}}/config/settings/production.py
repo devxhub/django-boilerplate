@@ -1,19 +1,25 @@
-from .base import env
-from sentry_sdk.integrations.redis import RedisIntegration
-from sentry_sdk.integrations.logging import LoggingIntegration
-from sentry_sdk.integrations.django import DjangoIntegration
-from sentry_sdk.integrations.celery import CeleryIntegration
-import sentry_sdk
+# ruff: noqa: E501
+{% if dxh_py.use_sentry == 'y' -%}
 import logging
-{%-if dxh_py.use_sentry == 'y' %}
 
+import sentry_sdk
 
 {%- if dxh_py.use_celery == 'y' %}
+from sentry_sdk.integrations.celery import CeleryIntegration
 
 {%- endif %}
+from sentry_sdk.integrations.django import DjangoIntegration
+from sentry_sdk.integrations.logging import LoggingIntegration
+from sentry_sdk.integrations.redis import RedisIntegration
 
-{%-endif %}
-from .base import *  # noqa
+{% endif -%}
+from .base import *  # noqa: F403
+from .base import DATABASES
+from .base import INSTALLED_APPS
+{%- if dxh_py.use_drf == "y" %}
+from .base import SPECTACULAR_SETTINGS
+{%- endif %}
+from .base import env
 
 # GENERAL
 # ------------------------------------------------------------------------------
@@ -24,7 +30,7 @@ ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["{{ dxh_py.domain_name
 
 # DATABASES
 # ------------------------------------------------------------------------------
-DATABASES["default"]["CONN_MAX_AGE"] = env.int("CONN_MAX_AGE", default=60)  # noqa: F405
+DATABASES["default"]["CONN_MAX_AGE"] = env.int("CONN_MAX_AGE", default=60)
 
 # CACHES
 # ------------------------------------------------------------------------------
@@ -38,7 +44,7 @@ CACHES = {
             # https://github.com/jazzband/django-redis#memcached-exceptions-behavior
             "IGNORE_EXCEPTIONS": True,
         },
-    }
+    },
 }
 
 # SECURITY
@@ -49,8 +55,12 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 SECURE_SSL_REDIRECT = env.bool("DJANGO_SECURE_SSL_REDIRECT", default=True)
 # https://docs.djangoproject.com/en/dev/ref/settings/#session-cookie-secure
 SESSION_COOKIE_SECURE = True
+# https://docs.djangoproject.com/en/dev/ref/settings/#session-cookie-name
+SESSION_COOKIE_NAME = "__Secure-sessionid"
 # https://docs.djangoproject.com/en/dev/ref/settings/#csrf-cookie-secure
 CSRF_COOKIE_SECURE = True
+# https://docs.djangoproject.com/en/dev/ref/settings/#csrf-cookie-name
+CSRF_COOKIE_NAME = "__Secure-csrftoken"
 # https://docs.djangoproject.com/en/dev/topics/security/#ssl-https
 # https://docs.djangoproject.com/en/dev/ref/settings/#secure-hsts-seconds
 # TODO: set this to 60 seconds first and then to 518400 once you prove the former works
@@ -105,33 +115,97 @@ AZURE_CONTAINER = env("DJANGO_AZURE_CONTAINER_NAME")
 {%- if dxh_py.cloud_provider != 'None' or dxh_py.use_whitenoise == 'y' %}
 # STATIC
 # ------------------------
-{%- endif %}
-{%- if dxh_py.use_whitenoise == 'y' %}
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STORAGES = {
+{%- if dxh_py.use_whitenoise == 'y' and dxh_py.cloud_provider == 'None' %}
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
 {%- elif dxh_py.cloud_provider == 'AWS' %}
-STATICFILES_STORAGE = "{{dxh_py.project_slug}}.utils.storages.StaticRootS3Boto3Storage"
-COLLECTFAST_STRATEGY = "collectfast.strategies.boto3.Boto3Strategy"
-STATIC_URL = f"https://{aws_s3_domain}/static/"
+    "default": {
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {
+            "location": "media",
+            "file_overwrite": False,
+        },
+    },
+    {%- if dxh_py.use_whitenoise == 'y' %}
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+    {%- else %}
+    "staticfiles": {
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {
+            "location": "static",
+            "default_acl": "public-read",
+        },
+    },
+    {%- endif %}
 {%- elif dxh_py.cloud_provider == 'GCP' %}
-STATICFILES_STORAGE = "{{dxh_py.project_slug}}.utils.storages.StaticRootGoogleCloudStorage"
-COLLECTFAST_STRATEGY = "collectfast.strategies.gcloud.GoogleCloudStrategy"
-STATIC_URL = f"https://storage.googleapis.com/{GS_BUCKET_NAME}/static/"
+    "default": {
+        "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
+        "OPTIONS": {
+            "location": "media",
+            "file_overwrite": False,
+        },
+    },
+    {%- if dxh_py.use_whitenoise == 'y' %}
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+    {%- else %}
+    "staticfiles": {
+        "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
+        "OPTIONS": {
+            "location": "static",
+            "default_acl": "publicRead",
+        },
+    },
+    {%- endif %}
 {%- elif dxh_py.cloud_provider == 'Azure' %}
-STATICFILES_STORAGE = "{{dxh_py.project_slug}}.utils.storages.StaticRootAzureStorage"
-STATIC_URL = f"https://{AZURE_ACCOUNT_NAME}.blob.core.windows.net/static/"
+    "default": {
+        "BACKEND": "storages.backends.azure_storage.AzureStorage",
+        "OPTIONS": {
+            "location": "media",
+            "file_overwrite": False,
+        },
+    },
+    {%- if dxh_py.use_whitenoise == 'y' %}
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+    {%- else %}
+    "staticfiles": {
+        "BACKEND": "storages.backends.azure_storage.AzureStorage",
+        "OPTIONS": {
+            "location": "static",
+        },
+    },
+    {%- endif %}
+{%- endif %}
+}
 {%- endif %}
 
-# MEDIA
-# ------------------------------------------------------------------------------
 {%- if dxh_py.cloud_provider == 'AWS' %}
-DEFAULT_FILE_STORAGE = "{{dxh_py.project_slug}}.utils.storages.MediaRootS3Boto3Storage"
 MEDIA_URL = f"https://{aws_s3_domain}/media/"
+{%- if dxh_py.use_whitenoise == 'n' %}
+COLLECTFASTA_STRATEGY = "collectfasta.strategies.boto3.Boto3Strategy"
+STATIC_URL = f"https://{aws_s3_domain}/static/"
+{%- endif %}
 {%- elif dxh_py.cloud_provider == 'GCP' %}
-DEFAULT_FILE_STORAGE = "{{dxh_py.project_slug}}.utils.storages.MediaRootGoogleCloudStorage"
 MEDIA_URL = f"https://storage.googleapis.com/{GS_BUCKET_NAME}/media/"
+{%- if dxh_py.use_whitenoise == 'n' %}
+COLLECTFASTA_STRATEGY = "collectfasta.strategies.gcloud.GoogleCloudStrategy"
+STATIC_URL = f"https://storage.googleapis.com/{GS_BUCKET_NAME}/static/"
+{%- endif %}
 {%- elif dxh_py.cloud_provider == 'Azure' %}
-DEFAULT_FILE_STORAGE = "{{dxh_py.project_slug}}.utils.storages.MediaRootAzureStorage"
 MEDIA_URL = f"https://{AZURE_ACCOUNT_NAME}.blob.core.windows.net/media/"
+{%- if dxh_py.use_whitenoise == 'n' %}
+STATIC_URL = f"https://{AZURE_ACCOUNT_NAME}.blob.core.windows.net/static/"
+{%- endif %}
 {%- endif %}
 
 # EMAIL
@@ -200,12 +274,12 @@ ANYMAIL = {
     "SENDGRID_API_KEY": env("SENDGRID_API_KEY"),
     "SENDGRID_API_URL": env("SENDGRID_API_URL", default="https://api.sendgrid.com/v3/"),
 }
-{%- elif dxh_py.mail_service == 'SendinBlue' %}
-# https://anymail.readthedocs.io/en/stable/esps/sendinblue/
-EMAIL_BACKEND = "anymail.backends.sendinblue.EmailBackend"
+{%- elif dxh_py.mail_service == 'Brevo' %}
+# https://anymail.readthedocs.io/en/stable/esps/brevo/
+EMAIL_BACKEND = "anymail.backends.brevo.EmailBackend"
 ANYMAIL = {
-    "SENDINBLUE_API_KEY": env("SENDINBLUE_API_KEY"),
-    "SENDINBLUE_API_URL": env("SENDINBLUE_API_URL", default="https://api.sendinblue.com/v3/"),
+    "BREVO_API_KEY": env("BREVO_API_KEY"),
+    "BREVO_API_URL": env("BREVO_API_URL", default="https://api.brevo.com/v3/"),
 }
 {%- elif dxh_py.mail_service == 'SparkPost' %}
 # https://anymail.readthedocs.io/en/stable/esps/sparkpost/
@@ -230,10 +304,11 @@ COMPRESS_ENABLED = env.bool("COMPRESS_ENABLED", default=True)
 COMPRESS_STORAGE = "compressor.storage.GzipCompressorFileStorage"
 {%- elif dxh_py.cloud_provider in ('AWS', 'GCP', 'Azure') and dxh_py.use_whitenoise == 'n' %}
 # https://django-compressor.readthedocs.io/en/latest/settings/#django.conf.settings.COMPRESS_STORAGE
-COMPRESS_STORAGE = STATICFILES_STORAGE
+COMPRESS_STORAGE = STORAGES["staticfiles"]["BACKEND"]
 {%- endif %}
 # https://django-compressor.readthedocs.io/en/latest/settings/#django.conf.settings.COMPRESS_URL
-COMPRESS_URL = STATIC_URL{%-if dxh_py.use_whitenoise == 'y' or dxh_py.cloud_provider == 'None' %}  # noqa: F405{%-endif %}
+COMPRESS_URL = STATIC_URL{%-if dxh_py.use_whitenoise == 'y' or dxh_py.cloud_provider == 'None' %}  # noqa: F405
+{%- endif %}
 {%- if dxh_py.use_whitenoise == 'y' %}
 # https://django-compressor.readthedocs.io/en/latest/settings/#django.conf.settings.COMPRESS_OFFLINE
 COMPRESS_OFFLINE = True  # Offline compression is required when using Whitenoise
@@ -248,10 +323,10 @@ COMPRESS_FILTERS = {
 }
 {%- endif %}
 {%- if dxh_py.use_whitenoise == 'n' %}
-# Collectfast
+# Collectfasta
 # ------------------------------------------------------------------------------
-# https://github.com/antonagestam/collectfast#installation
-INSTALLED_APPS = ["collectfast"] + INSTALLED_APPS  # noqa: F405
+# https://github.com/jasongi/collectfasta#installation
+INSTALLED_APPS = ["collectfasta", *INSTALLED_APPS]
 {%- endif %}
 # LOGGING
 # ------------------------------------------------------------------------------
@@ -311,7 +386,7 @@ LOGGING = {
             "level": "DEBUG",
             "class": "logging.StreamHandler",
             "formatter": "verbose",
-        }
+        },
     },
     "root": {"level": "INFO", "handlers": ["console"]},
     "loggers": {

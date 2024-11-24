@@ -51,7 +51,7 @@ def update_site_forward(apps, schema_editor):
         Site,
         schema_editor.connection,
         "{{dxh_py.domain_name}}",
-        "{{dxh_py.project_name}}",
+        "{{dxh_py.project_name[:50]}}",
     )
 
 

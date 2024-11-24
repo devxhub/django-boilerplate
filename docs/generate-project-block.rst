@@ -1,6 +1,6 @@
-Generate a new dxh_py-django project: ::
+Generate a new django-boilerplate project: ::
 
-    $ dxh_py gh:dxh_py/dxh_py-django
+    $ dxh_py https://github.com/devxhub/django-boilerplate.git
 
 For more information refer to
 :ref:`Project Generation Options <template-options>`.
