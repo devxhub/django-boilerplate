@@ -216,3 +216,56 @@ mv <name-of-the-app> <django_project_root>/
 Scattered throughout the Python and HTML of this project are places marked with "your stuff". This is where third-party libraries are to be integrated with your project.
 
 
+
+---
+
+### Running a Dockerized Django Project Locally Using Uvicorn
+
+Follow these steps to run your Dockerized Django project locally using Uvicorn:
+
+---
+
+#### **Step 1: Update the Configuration to Use `.env` Files**
+1. Open the `config/base.py` file in your project.
+2. Locate the following line:
+   ```python
+   READ_DOT_ENV_FILE = env.bool("READ_DOT_ENV_FILE", default=False)
+   ```
+3. Change the default value to `True`:
+   ```python
+   READ_DOT_ENV_FILE = env.bool("READ_DOT_ENV_FILE", default=True)
+   ```
+
+This ensures the project reads environment variables from a single `.env` file.
+
+---
+
+#### **Step 2: Generate the `.env` File**
+Use the provided utility scripts to merge existing environment files into a single `.env` file.
+
+1. For **local development**, run:
+   ```bash
+   python3 merge_local_dotenvs_in_dotenv.py
+   ```
+
+2. For **production**, create a `.env` file with production-specific values by running:
+   ```bash
+   python3 merge_production_dotenvs_in_dotenv.py
+   ```
+
+This will generate a `.env` file in project root. Review the file and update database credentials or other values if necessary.
+
+---
+
+#### **Step 3: Run the Project with Uvicorn**
+Start the project using Uvicorn:
+
+```bash
+uvicorn config.asgi:application --host 0.0.0.0 --reload --reload-include '*.html'
+```
+
+- **`--host 0.0.0.0`**: Makes the application accessible on all network interfaces.
+- **`--reload`**: Enables auto-reloading for code changes.
+- **`--reload-include '*.html'`**: Watches for changes in `.html` files for auto-reloading.
+
+---
