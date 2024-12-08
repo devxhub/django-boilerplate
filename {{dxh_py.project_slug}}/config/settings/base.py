@@ -46,7 +46,19 @@ LOCALE_PATHS = [str(BASE_DIR / "locale")]
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 {% if dxh_py.use_docker == "y" -%}
-DATABASES = {"default": env.db("DATABASE_URL")}
+if READ_DOT_ENV_FILE:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": env("POSTGRES_DB"),
+            "USER": env("POSTGRES_USER"),
+            "PASSWORD": env("POSTGRES_PASSWORD"),
+            "HOST": env("POSTGRES_HOST"),
+            "PORT": env("POSTGRES_PORT"),
+        }
+    }
+else:
+    DATABASES = {"default": env.db("DATABASE_URL")}
 {%- else %}
 {% if dxh_py.database_engine == 'postgresql' -%}
 DATABASES = {
