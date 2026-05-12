@@ -13,6 +13,7 @@ Welcome to {{ dxh_py.project_name }}'s documentation!
    howto{% if dxh_py.editor == 'pycharm' %}
    pycharm/configuration{% endif %}
    users
+   caching
 
 
 

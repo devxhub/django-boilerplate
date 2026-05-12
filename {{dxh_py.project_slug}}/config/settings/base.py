@@ -63,6 +63,24 @@ DATABASES = {
 {%- endif %}
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
+# CACHES
+# ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/en/dev/ref/settings/#caches
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": env("REDIS_URL", default="redis://127.0.0.1:6379/1"),
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            # Mimicing memcache behavior.
+            # http://niwinz.github.io/django-redis/latest/#_memcached_exceptions_behavior
+            "IGNORE_EXCEPTIONS": True,
+        },
+    }
+}
+CACHE_TTL = env.int("CACHE_TTL", default=60 * 60)  # Default 1 hour
+
+
 {% if dxh_py.database_engine == 'postgresql' -%}
 {% if dxh_py.use_tenants == 'y' -%}
 # django_tenants
